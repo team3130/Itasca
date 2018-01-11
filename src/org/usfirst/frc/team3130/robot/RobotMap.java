@@ -27,4 +27,6 @@ public class RobotMap {
 	//Motors-CAN
 	public static final int CAN_PNMMODULE = 1;
 	
+	public static final int BTN_SHIFTDOWN = 3;	//Joystick L
+	public static final int BTN_SHIFTUP = 2; //Joystick R
 }
