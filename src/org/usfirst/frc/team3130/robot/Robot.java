@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.subsystems.Chassis;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		Chassis.GetInstance();
 		OI.GetInstance();
 		//m_chooser.addDefault();
 		// chooser.addObject("My Auto", new MyAutoCommand());

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -34,7 +35,7 @@ public class Chassis extends PIDSubsystem {
 	private static Solenoid m_shifter;
 	private static AHRS m_navX;
 	
-    public Chassis() {
+    private Chassis() {
     	
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -45,7 +46,12 @@ public class Chassis extends PIDSubsystem {
     	m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
     	m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
     	m_rightMotorFront = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORFRONT);
-    	m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
+    	m_rightMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
+    	
+    	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
+    	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
+    	m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
+    	m_drive.setSafetyEnabled(false);
     	
     }
 
@@ -61,6 +67,11 @@ public class Chassis extends PIDSubsystem {
     public static void DriveTank(double moveL, double moveR)
     {
     	m_drive.tankDrive(moveL, moveR, false);
+    }
+    
+    public static void DriveArcade(double move, double turn, boolean squaredInputs)
+    {
+    	m_drive.arcadeDrive(move, turn, squaredInputs);
     }
     
     public static void DriveArcade(double move, double turn)
