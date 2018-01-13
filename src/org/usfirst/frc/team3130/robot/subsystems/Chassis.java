@@ -3,7 +3,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -89,5 +89,20 @@ public class Chassis extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
+    }
+    
+    public static void TalonsToCoast(boolean coast)
+    {
+    	if (coast){
+	    	m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
+			m_leftMotorRear.setNeutralMode(NeutralMode.Coast);
+			m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
+			m_rightMotorRear.setNeutralMode(NeutralMode.Coast);
+    	} else {
+    		m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+    		m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
+    		m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+    		m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
+    	}
     }
 }
