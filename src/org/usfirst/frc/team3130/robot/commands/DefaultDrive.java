@@ -27,7 +27,6 @@ public class DefaultDrive extends Command {
     	double turnSpeed = OI.stickR.getX();
     	double turnThrottle = (0.5 * OI.stickR.getRawAxis(3)) - 0.5;
     	Chassis.DriveArcade(moveSpeed, turnSpeed * turnThrottle, true);
-    	System.out.println("Drive");
     }
 
     // Make this return true when this Command no longer needs to run execute()

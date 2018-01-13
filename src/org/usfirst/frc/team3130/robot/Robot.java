@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,6 +27,9 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+	public static BasicTalonSRX btCubeIntakeLeft;
+	public static BasicTalonSRX btCubeIntakeRight;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,6 +37,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
+		btCubeIntakeLeft = new BasicTalonSRX(6, "Cube Intake", "Left");
+		btCubeIntakeRight = new BasicTalonSRX(7, "Cube Intake", "Right");
+		
 		Chassis.GetInstance();
 		OI.GetInstance();
 		//m_chooser.addDefault();

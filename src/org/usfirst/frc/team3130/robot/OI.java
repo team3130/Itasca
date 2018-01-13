@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -85,10 +87,10 @@ public class OI {
 	public static Joystick gamepad;
 	
 	//Buttons
-	public static JoystickButton example;
-	private static JoystickButton shiftUp;
-	private static JoystickButton shiftDown;
-	
+	public static JoystickButton cubeInL;
+	public static JoystickButton cubeInR;
+	public static JoystickButton cubeOutL;
+	public static JoystickButton cubeOutR;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -98,23 +100,16 @@ public class OI {
 		gamepad = new Joystick(2);
 		
 		//Create Joystick Buttons
-		shiftUp = new JoystickButton(gamepad, RobotMap.BTN_SHIFTUP);
-		shiftDown = new JoystickButton(gamepad, RobotMap.BTN_SHIFTUP);
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+		cubeInL = new JoystickButton(stickL, 1);
+		cubeInR = new JoystickButton(stickL, 1);
+		cubeOutL = new JoystickButton(stickR, 1);
+		cubeOutR = new JoystickButton(stickR, 1);
+		
+		//Bind buttons to commands
+		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, -0.5));
+		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, -0.5));
+		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, 0.5));
+		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, 0.5));
 	}
 }
 
