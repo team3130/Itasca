@@ -14,13 +14,13 @@ public class Waypoint {
 	private Waypoint(){
 		this.x = 0.0;
 		this.y = 0.0;
-		this.h = 0.0;
+		this.h = 360.0;
 	}
 	
 	private Waypoint(double x, double y){
 		this.x = x;
 		this.y = y;
-		this.h = 0.0;
+		this.h = 360.0;
 	}
 	
 	private Waypoint(double x, double y, double h){
@@ -44,11 +44,11 @@ public class Waypoint {
 	/**
 	 * Gives the Waypoint new values
 	 * 
-	 * @param x  x-coordinate
-	 * @param y  y-coordinate
-	 * @param h  heading
+	 * @param x  x-coordinate in inches
+	 * @param y  y-coordinate in inches
+	 * @param h  heading in radians
 	 */
-	public void transform(double x, double y, double h){
+	public void set(double x, double y, double h){
 		this.x = x;
 		this.y = y;
 		this.h = h;
