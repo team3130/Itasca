@@ -24,6 +24,10 @@ public class RobotMap {
 	// public static int rangefinderPort = 1;
 	// public static int rangefinderModule = 1;
 	
+	//Constant Ratios
+	//TODO find this actual number
+	public static final int RATIO_DRIVECODESPERREV = 0;
+	
 	//Motors-CAN
 	public static final int CAN_PNMMODULE = 1;
 	public static final int CAN_LEFTMOTORFRONT = 2;
