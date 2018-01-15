@@ -36,6 +36,7 @@ public class Chassis extends PIDSubsystem {
 	private static WPI_TalonSRX m_rightMotorRear;
 	private static Solenoid m_shifter;
 	private static AHRS m_navX;
+	private static boolean arcadeDrive;
 	
 	//Define an enum to control the direction to be turned
 		public static enum TurnDirection{kLeft, kRight, kStraight};
@@ -83,6 +84,7 @@ public class Chassis extends PIDSubsystem {
     	m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
     	m_drive.setSafetyEnabled(false);
     	
+    	arcadeDrive = true;
     }
 
     public void initDefaultCommand() {
@@ -147,6 +149,14 @@ public class Chassis extends PIDSubsystem {
     		m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
     		m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
     	}
+    }
+    
+    public static boolean getArcade(){
+    	return arcadeDrive;
+    }
+    
+    public static void setArcade(boolean a){
+    	arcadeDrive = a;
     }
     
     /**

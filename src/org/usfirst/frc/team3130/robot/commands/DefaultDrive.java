@@ -25,8 +25,15 @@ public class DefaultDrive extends Command {
     	//TODO: Do not invert inputs in commands, do it in subsystem if it's universal.
     	double moveSpeed = OI.stickL.getY();
     	double turnSpeed = OI.stickR.getX();
+    	double moveL = OI.stickL.getY();
+    	double moveR = OI.stickR.getY();
     	double turnThrottle = (0.5 * OI.stickR.getRawAxis(3)) - 0.5;
-    	Chassis.DriveArcade(moveSpeed, turnSpeed * turnThrottle, true);
+    	if (Chassis.GetInstance().getArcade()){
+    		Chassis.DriveArcade(moveSpeed, turnSpeed * turnThrottle, true);
+    	}
+    	else {
+    		Chassis.DriveTank(moveL, moveR);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

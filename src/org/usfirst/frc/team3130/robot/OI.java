@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
+import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -91,6 +92,7 @@ public class OI {
 	public static JoystickButton cubeInR;
 	public static JoystickButton cubeOutL;
 	public static JoystickButton cubeOutR;
+	public static JoystickButton changeDriveMode;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -105,11 +107,15 @@ public class OI {
 		cubeOutL = new JoystickButton(stickR, 1);
 		cubeOutR = new JoystickButton(stickR, 1);
 		
+		changeDriveMode = new JoystickButton(stickL, 12);
+		
 		//Bind buttons to commands
-		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, -0.5));
-		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, -0.5));
-		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, 0.5));
-		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, 0.5));
+		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, -1.0));
+		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, -1.0));
+		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, 1.0));
+		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, 1.0));
+		
+		changeDriveMode.whenPressed(new ChangeDriveMode());
 	}
 }
 
