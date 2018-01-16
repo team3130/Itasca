@@ -35,11 +35,19 @@ public class Path {
 		waypoints.add(w4);
 	}
 	
+	public ArrayList<Segment> getPath() {
+		return path;
+	}
+	
+	public boolean isFlipped() {
+		return isFlipped;
+	}
+	
 	/**
 	 * Calculates the length of the spline
 	 */
 	public void calculateLength() {
-		double xDistance = waypoints.get(waypoints.size()).getX() - waypoints.get(0).getX(); 
+		double xDistance = waypoints.get(waypoints.size() - 1).getX() - waypoints.get(0).getX(); 
 		double xStep = xDistance / numberSegments;
 		double currentX = waypoints.get(0).getX();
 		double length = 0; 
@@ -72,7 +80,7 @@ public class Path {
 		generatedSpline = SplineInterpolator.createMonotoneCubicSpline(waypointsX, waypointsY);
 		double[] slopes = spline.getSlopes();
 		for(int i = 0; i < waypoints.size(); i++) {
-			if (Math.abs(slopes[i] - (- Math.tan(waypointsH.get(i)))) > 0.1 && waypointsH.get(i) < 360.0){
+			if (Math.abs(slopes[i] - (- Math.tan(waypointsH.get(i)))) > 0.1 && waypointsH.get(i) < (2 * Math.PI)){
 				slopes[i] = - Math.tan(waypointsH.get(i));
 			}
 		}
@@ -81,10 +89,13 @@ public class Path {
 		spline = splineWithHeadings;
 	}
 	
+	/**
+	 * Creates an ArrayList of segments to create a path according to the generated spline
+	 */
 	public void generatePath() {
 		generateSpline();
 		calculateLength();
-		double xStep = (waypoints.get(waypoints.size()).getX() - waypoints.get(0).getX()) / numberSegments;
+		double xStep = (waypoints.get(waypoints.size() - 1).getX() - waypoints.get(0).getX()) / numberSegments;
 		double currentX = waypoints.get(0).getX();
 		for(int i = 0; i < numberSegments; i++){
 			double x = currentX;

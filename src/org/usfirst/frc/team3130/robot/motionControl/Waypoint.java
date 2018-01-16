@@ -2,7 +2,7 @@ package org.usfirst.frc.team3130.robot.motionControl;
 
 /**
  * Represents a point in space with an x-coordinate, y-coordinate, and
- * exit heading (angle the bot should exit the point with)
+ * exit heading (angle in radians the bot should exit the point with)
  * 
  * @author Ashley
  */
@@ -11,19 +11,33 @@ public class Waypoint {
 	//x-coordinate, y-coordinate, and heading
     double x, y, h;
 	
-	private Waypoint(){
+    /**
+     * Sets x and y to 0, sets h to 2pi radians
+     */
+	public Waypoint(){
 		this.x = 0.0;
 		this.y = 0.0;
-		this.h = 360.0;
+		this.h = 2 * Math.PI;
 	}
 	
-	private Waypoint(double x, double y){
+	/**
+	 * h set to 2pi radians by default
+	 * 
+	 * @param x  x-coordinate in inches
+	 * @param y  y-coordinate in inches
+	 */
+	public Waypoint(double x, double y){
 		this.x = x;
 		this.y = y;
-		this.h = 360.0;
+		this.h = 2 * Math.PI;
 	}
 	
-	private Waypoint(double x, double y, double h){
+	/**
+	 * @param x  x-coordinate in inches
+	 * @param y  y-coordinate in inches
+	 * @param h  heading in radians
+	 */
+	public Waypoint(double x, double y, double h){
 		this.x = x;
 		this.y = y;
 		this.h = h;
