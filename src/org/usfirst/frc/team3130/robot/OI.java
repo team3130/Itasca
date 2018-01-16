@@ -11,6 +11,7 @@ import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -110,10 +111,10 @@ public class OI {
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
 		//Bind buttons to commands
-		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, -1.0));
-		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, -1.0));
-		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, 1.0));
-		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, 1.0));
+		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake In L", -0.5)));
+		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
+		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
+		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
 		
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 	}
