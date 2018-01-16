@@ -7,8 +7,12 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
+import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
+import org.usfirst.frc.team3130.robot.vision.VisionServer;
+import org.usfirst.frc.team3130.robot.util.Looper;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,9 +31,15 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	VisionServer mVisionServer = VisionServer.getInstance();
 	
 	public static BasicTalonSRX btCubeIntakeLeft;
 	public static BasicTalonSRX btCubeIntakeRight;
+	
+	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
+    Looper mEnabledLooper = new Looper();
+    // Disabled looper is called at 10Hz whenever the robot is disabled
+    Looper mDisabledLooper = new Looper();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -43,6 +53,15 @@ public class Robot extends TimedRobot {
 		
 		Chassis.GetInstance();
 		OI.GetInstance();
+		
+		//Vision operation
+		AndroidInterface.GetInstance();
+		AndroidInterface.GetInstance().reset();
+		VisionServer.getInstance();
+		VisionServer.getInstance().requestAppStart();
+		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+        mEnabledLooper.register(VisionProcessor.getInstance());
+        
 		//m_chooser.addDefault();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -55,7 +74,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		mEnabledLooper.stop();
+        mDisabledLooper.start();
 	}
 
 	@Override
@@ -89,6 +109,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+        mDisabledLooper.stop();
+        mEnabledLooper.start();
 	}
 
 	/**
@@ -108,6 +130,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+        mDisabledLooper.stop();
+        mEnabledLooper.start();
 	}
 
 	/**
