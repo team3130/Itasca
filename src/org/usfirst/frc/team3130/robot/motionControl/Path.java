@@ -17,22 +17,25 @@ public class Path {
 	private SplineInterpolator spline;
 	private boolean isFlipped = false;
 	
-	public Path(Waypoint w1, Waypoint w2){
+	public Path(Waypoint w1, Waypoint w2, boolean isF){
 		waypoints.add(w1);
 		waypoints.add(w2);
+		isFlipped = isF;
 	}
 	
-	public Path(Waypoint w1, Waypoint w2, Waypoint w3){
+	public Path(Waypoint w1, Waypoint w2, Waypoint w3, boolean isF){
 		waypoints.add(w1);
 		waypoints.add(w2);
 		waypoints.add(w3);
+		isFlipped = isF;
 	}
 	
-	public Path(Waypoint w1, Waypoint w2, Waypoint w3, Waypoint w4){
+	public Path(Waypoint w1, Waypoint w2, Waypoint w3, Waypoint w4, boolean isF){
 		waypoints.add(w1);
 		waypoints.add(w2);
 		waypoints.add(w3);
 		waypoints.add(w4);
+		isFlipped = isF;
 	}
 	
 	public ArrayList<Segment> getPath() {
