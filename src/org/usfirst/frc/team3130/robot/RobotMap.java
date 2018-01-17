@@ -66,4 +66,7 @@ public class RobotMap {
 	public static final int LST_POV_W = 270;
 	public static final int LST_POV_NW = 315;
 	
+	//Cube Intake
+	public static final int BTN_CUBEACTUATE = 2; //Joystick R
+	public static final int PNM_CUBEACTUATE = 0;
 }

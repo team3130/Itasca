@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 
@@ -94,6 +95,7 @@ public class OI {
 	public static JoystickButton cubeOutL;
 	public static JoystickButton cubeOutR;
 	public static JoystickButton changeDriveMode;
+	public static JoystickButton cubeActuate;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -107,6 +109,7 @@ public class OI {
 		cubeInR = new JoystickButton(stickL, 1);
 		cubeOutL = new JoystickButton(stickR, 1);
 		cubeOutR = new JoystickButton(stickR, 1);
+		cubeActuate = new JoystickButton(stickR, RobotMap.BTN_CUBEACTUATE);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
@@ -115,7 +118,7 @@ public class OI {
 		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
 		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
 		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
-		
+		cubeActuate.whenPressed(new BasicActuate(Robot.bcCubeActuate));
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 	}
 }

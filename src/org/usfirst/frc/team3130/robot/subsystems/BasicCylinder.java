@@ -24,7 +24,7 @@ public class BasicCylinder extends Subsystem {
     public BasicCylinder(int PNM_port, String subsystem, String item)
     {
     	pnm_actuator = new Solenoid(RobotMap.CAN_PNMMODULE, PNM_port);
-    	LiveWindow.addActuator(subsystem, item, pnm_actuator);
+    	//LiveWindow.addActuator(subsystem, item, pnm_actuator);
     }
     
     /**

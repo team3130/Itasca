@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
+import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
 	
 	public static BasicTalonSRX btCubeIntakeLeft;
 	public static BasicTalonSRX btCubeIntakeRight;
+	public static BasicCylinder bcCubeActuate;
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
 		
 		btCubeIntakeLeft = new BasicTalonSRX(6, "Cube Intake", "Left");
 		btCubeIntakeRight = new BasicTalonSRX(7, "Cube Intake", "Right");
+		bcCubeActuate = new BasicCylinder(RobotMap.PNM_CUBEACTUATE, "Cube Intake", "Cube Actuate");
 		
 		Chassis.GetInstance();
 		OI.GetInstance();
