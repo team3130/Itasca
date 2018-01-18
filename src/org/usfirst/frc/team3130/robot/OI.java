@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
+import org.usfirst.frc.team3130.robot.commands.BasicActuateToggle;
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 
@@ -118,7 +119,7 @@ public class OI {
 		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
 		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
 		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
-		cubeActuate.whenPressed(new BasicActuate(Robot.bcCubeActuate));
+		cubeActuate.whenPressed(new BasicActuateToggle(Robot.bcCubeActuate));
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 	}
 }
