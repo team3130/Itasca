@@ -3,6 +3,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
+import org.usfirst.frc.team3130.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -39,14 +40,14 @@ public class Chassis extends PIDSubsystem {
 	private static boolean arcadeDrive;
 	
 	//Define an enum to control the direction to be turned
-		public static enum TurnDirection{kLeft, kRight, kStraight};
-		private static TurnDirection m_dir;
+	public static enum TurnDirection{kLeft, kRight, kStraight};
+	private static TurnDirection m_dir;
 	
 	//Create and define all standard data types needed
 	private static boolean m_bShiftedHigh;
 	private static boolean m_bNavXPresent;
 	
-	public static final double InchesPerRev = Preferences.getInstance().getDouble("Wheel Diameter", (3.678 + 3.676) / 2.0) * Math.PI;
+	public static final double InchesPerRev = ((Constants.kLWheelDiameter * Constants.kRWheelDiameter)/ 2.0) * Math.PI;
 	
 	//PID Preferences Defaults
 	private static final double SUBSYSTEM_CURVE_HIGH_P_DEFAULT = 0.075;
@@ -267,7 +268,7 @@ public class Chassis extends PIDSubsystem {
 			return -m_navX.getAngle();
 		}else {
 			//Means that angle use wants a driftless angle measure that lasts.
-			return ( GetDistanceR() - GetDistanceL() ) * 180 / (Preferences.getInstance().getDouble("ChassisWidth",28.55) * Math.PI);
+			return ( GetDistanceR() - GetDistanceL() ) * 180 / (Constants.kChassisWidth * Math.PI);
 			/*
 			 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 			 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
@@ -331,9 +332,9 @@ public class Chassis extends PIDSubsystem {
 				);
 			}else{
 				GetInstance().getPIDController().setPID(
-						Preferences.getInstance().getDouble("Chassis High Curve P",SUBSYSTEM_CURVE_HIGH_P_DEFAULT),
-						Preferences.getInstance().getDouble("Chassis High Curve I",SUBSYSTEM_CURVE_HIGH_I_DEFAULT),
-						Preferences.getInstance().getDouble("Chassis High Curve D",SUBSYSTEM_CURVE_HIGH_D_DEFAULT)
+					Preferences.getInstance().getDouble("Chassis High Curve P",SUBSYSTEM_CURVE_HIGH_P_DEFAULT),
+					Preferences.getInstance().getDouble("Chassis High Curve I",SUBSYSTEM_CURVE_HIGH_I_DEFAULT),
+					Preferences.getInstance().getDouble("Chassis High Curve D",SUBSYSTEM_CURVE_HIGH_D_DEFAULT)
 				);
 			}
 		}else{

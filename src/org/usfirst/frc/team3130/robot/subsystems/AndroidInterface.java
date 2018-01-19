@@ -33,7 +33,7 @@ public class AndroidInterface extends Subsystem {
   	 * with only a single copy of it existing in memory.
   	 * <p> It will return a reference to the class, which is shared amongst all callers of GetInstance()
   	 * 
-  	 * @return the reference to the class referred to in GetInstance. In this case, ShooterWheelsRight.
+  	 * @return the reference to the class referred to in GetInstance. In this case, AndroidInterface.
   	 */
   	public static AndroidInterface GetInstance()
   	{

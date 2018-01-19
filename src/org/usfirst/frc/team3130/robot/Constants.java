@@ -8,6 +8,11 @@ public class Constants extends ConstantsBase {
 	//Vision tracking centerpoint height on high efficiency boiler
     public static double kCenterOfTargetHeight = 86.0; //Correct 9/11/17, in inches
     
+    //Chassis constants
+    public static double kChassisWidth = 26.0; //Distance between the left and right middle wheels
+    public static double kLWheelDiameter = 6.0; //Center wheel
+    public static double kRWheelDiameter = 6.0;	//Center wheel
+    
     // Turret mechanical constants
     public static double kHardMaxTurretAngle = 97.0;
     public static double kHardMinTurretAngle = -98.0;
@@ -25,6 +30,13 @@ public class Constants extends ConstantsBase {
     public static int kTurretIZone = (int) (1023.0 / kTurretKp);
     public static double kTurretRampRate = 0;
     public static int kTurretAllowableError = 100;
+    
+    //USB camera offsets (in relation to robot center)
+    public static double kUSBCamXOffset= 1.0;
+    public static double kUSBCamYOffset= 1.0;
+    public static double kUSBCamZOffset= 1.0;
+    public static double kUSBCamYaw = 0.0; //in degrees
+    public static double kUSBCamPitch = 0.0; //in degrees
     
 	//Camera in relation to turret.
     public static double kCameraXOffset = -6.454;
