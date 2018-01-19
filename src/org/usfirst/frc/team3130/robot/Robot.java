@@ -34,10 +34,6 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 	VisionServer mVisionServer = VisionServer.getInstance();
 	
-	public static BasicTalonSRX btCubeIntakeLeft;
-	public static BasicTalonSRX btCubeIntakeRight;
-	public static BasicCylinder bcCubeActuate;
-	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 10Hz whenever the robot is disabled
@@ -49,10 +45,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		
-		btCubeIntakeLeft = new BasicTalonSRX(6, "Cube Intake", "Left");
-		btCubeIntakeRight = new BasicTalonSRX(7, "Cube Intake", "Right");
-		bcCubeActuate = new BasicCylinder(RobotMap.PNM_CUBEACTUATE, "Cube Intake", "Cube Actuate");
 		
 		Chassis.GetInstance();
 		OI.GetInstance();
