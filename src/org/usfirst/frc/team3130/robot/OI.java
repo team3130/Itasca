@@ -115,11 +115,11 @@ public class OI {
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
 		//Bind buttons to commands
-		cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake In L", -0.5)));
-		cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
-		cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
-		cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
-		cubeActuate.whenPressed(new BasicActuateToggle(Robot.bcCubeActuate));
+		//cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake In L", -0.5)));
+		//cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
+		//cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
+		//cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
+		//cubeActuate.whenPressed(new BasicActuateToggle(Robot.bcCubeActuate));
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 	}
 }

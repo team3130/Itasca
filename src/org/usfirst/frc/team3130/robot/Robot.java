@@ -11,6 +11,7 @@ import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
+import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
 import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Looper;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
 		
 		Chassis.GetInstance();
 		OI.GetInstance();
+		CubeIntake.GetInstance();
 		
 		//Vision operation
 		AndroidInterface.GetInstance();

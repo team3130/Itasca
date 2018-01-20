@@ -11,6 +11,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class CubeIntake extends Subsystem {
 
+	//Instance Handling
+		private static CubeIntake m_pInstance;
+		public static CubeIntake GetInstance()
+		{
+			if(m_pInstance == null) m_pInstance = new CubeIntake();
+			return m_pInstance;
+		}
+	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
