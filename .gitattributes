@@ -1,2 +1,18 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# These files are text and should be normalized (convert crlf =&gt; lf)
+*.java       text
+.classpath   text
+.gitignore   text
+*.properties text
+*.md         text
+
+# Images should be treated as binary
+# (binary is a macro for -text -diff)
+*.png     binary
+*.jepg    binary
+
+*.sdf     binary
+*.jar     binary
+
