@@ -12,7 +12,11 @@ import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
+<<<<<<< HEAD
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
+=======
+import org.usfirst.frc.team3130.robot.subsystems.UsbCameraInterface;
+>>>>>>> 33642f70a10301b9f0c613116c6635651dbac60d
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
 import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Looper;
@@ -48,12 +52,13 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		
-		Chassis.GetInstance();
 		OI.GetInstance();
+		Chassis.GetInstance();
 		CubeIntake.GetInstance();
 		Elevator.GetInstance();
 		
 		//Vision operation
+		UsbCameraInterface.GetInstance();
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();
