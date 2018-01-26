@@ -1,14 +1,18 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
+import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.RunElevator;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * This subsystem controls the power cube elevator of the robot
  */
 public class Elevator extends Subsystem {
 	
@@ -24,6 +28,13 @@ public class Elevator extends Subsystem {
 	
 	private Elevator() {
 		elevator = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR);
+		elevator.setNeutralMode(NeutralMode.Brake);
+		elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		elevator.set(ControlMode.Position, 0);
+		elevator.config_kP(0, Constants.kElevatorP, 0);
+		elevator.config_kI(0, Constants.kElevatorI, 0);
+		elevator.config_kD(0, Constants.kElevatorD, 0);
+		elevator.config_kF(0, Constants.kElevatorF, 0);
 	}
 
     public void initDefaultCommand() {
@@ -31,7 +42,16 @@ public class Elevator extends Subsystem {
     }
     
     public static void runElevator(double percent) {
-    	elevator.set(percent);
+    	elevator.set(ControlMode.PercentOutput, percent);
     }
+    public synchronized static void setHeight(double height_inches){
+    	elevator.set(ControlMode.Position, height_inches*Constants.kElevatorTicksPerInch);
+    }
+    
+    public synchronized static double getHeight(){
+    	return elevator.getSensorCollection().getQuadraturePosition() / Constants.kElevatorTicksPerInch; //Returns height in inches
+    }
+    
+    
 }
 
