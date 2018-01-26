@@ -3,7 +3,9 @@ package org.usfirst.frc.team3130.robot.subsystems;
 import org.usfirst.frc.team3130.robot.RobotMap;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -23,9 +25,10 @@ public class CubeIntake extends Subsystem {
     // here. Call these from Commands.
 
 	//creation of required objects
-	public static BasicTalonSRX btCubeIntakeLeft;
-	public static BasicTalonSRX btCubeIntakeRight;
-	public static BasicCylinder bcCubeActuate;
+	public static WPI_TalonSRX intakeLeft;
+	public static WPI_TalonSRX intakeRight;
+	public static Solenoid actuate;
+	public static boolean open;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -35,9 +38,21 @@ public class CubeIntake extends Subsystem {
     //constructor
     private CubeIntake()
     {
-    	btCubeIntakeLeft = new BasicTalonSRX(6, "Cube Intake", "Left");
-		btCubeIntakeRight = new BasicTalonSRX(7, "Cube Intake", "Right");
-		bcCubeActuate = new BasicCylinder(RobotMap.PNM_CUBEACTUATE, "Cube Intake", "Cube Actuate");
+    	intakeLeft = new WPI_TalonSRX(RobotMap.CAN_INTAKELEFT);
+		intakeRight = new WPI_TalonSRX(RobotMap.CAN_INTAKERIGHT);
+		actuate = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATE);
+		open = false;
+    }
+    
+    public static void runIntake(double left, double right){
+    	intakeLeft.set(left);
+    	intakeRight.set(right);
+    	System.out.println("Running cube intake...left: " + left + ", right: " + right);
+    }
+    
+    public static void toggleIntake(){
+    	open = !open;
+    	actuate.set(open);
     }
 }
 

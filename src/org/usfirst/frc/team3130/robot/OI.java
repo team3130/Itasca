@@ -11,6 +11,9 @@ import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.BasicActuateToggle;
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
+import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
@@ -91,10 +94,8 @@ public class OI {
 	public static Joystick gamepad;
 	
 	//Buttons
-	public static JoystickButton cubeInL;
-	public static JoystickButton cubeInR;
-	public static JoystickButton cubeOutL;
-	public static JoystickButton cubeOutR;
+	public static JoystickButton cubeIn;
+	public static JoystickButton cubeOut;
 	public static JoystickButton changeDriveMode;
 	public static JoystickButton cubeActuate;
 
@@ -106,21 +107,18 @@ public class OI {
 		gamepad = new Joystick(2);
 		
 		//Create Joystick Buttons
-		cubeInL = new JoystickButton(stickL, 1);
-		cubeInR = new JoystickButton(stickL, 1);
-		cubeOutL = new JoystickButton(stickR, 1);
-		cubeOutR = new JoystickButton(stickR, 1);
-		cubeActuate = new JoystickButton(stickR, RobotMap.BTN_CUBEACTUATE);
+		cubeIn = new JoystickButton(stickL, 1);
+		cubeOut = new JoystickButton(stickR, 1);
+		cubeActuate = new JoystickButton(stickR, 2);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
 		//Bind buttons to commands
-		//cubeInL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake In L", -0.5)));
-		//cubeInR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake In R", -0.5)));
-		//cubeOutL.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeLeft, Preferences.getInstance().getDouble("Cube Intake Out L", 0.5)));
-		//cubeOutR.whileHeld(new BasicSpinMotor(Robot.btCubeIntakeRight, Preferences.getInstance().getDouble("Cube Intake Out R", 0.5)));
-		//cubeActuate.whenPressed(new BasicActuateToggle(Robot.bcCubeActuate));
 		changeDriveMode.whenPressed(new ChangeDriveMode());
+		
+		cubeIn.whileHeld(new RunIntakeIn());
+		cubeOut.whileHeld(new RunIntakeOut());
+		cubeActuate.whenPressed(new IntakeToggle());
 	}
 }
 

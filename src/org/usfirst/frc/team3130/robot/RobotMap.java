@@ -34,6 +34,9 @@ public class RobotMap {
 	public static final int CAN_LEFTMOTORREAR = 3;
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
+	public static final int CAN_INTAKELEFT = 6;
+	public static final int CAN_INTAKERIGHT = 7;
+	public static final int CAN_ELEVATOR = 8;
 	
 	//Gamepad Button List
 	public static final int LST_BTN_A = 1;
