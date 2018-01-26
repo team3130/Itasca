@@ -12,13 +12,11 @@ import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
-<<<<<<< HEAD
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-=======
 import org.usfirst.frc.team3130.robot.subsystems.UsbCameraInterface;
->>>>>>> 33642f70a10301b9f0c613116c6635651dbac60d
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
 import org.usfirst.frc.team3130.robot.vision.VisionServer;
+import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -52,6 +50,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		
+		Logger.logMatchInfo();
+		Logger.logRobotStartup();
+		
 		OI.GetInstance();
 		Chassis.GetInstance();
 		CubeIntake.GetInstance();
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		Logger.logRobotDisabled();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
 	}
@@ -100,6 +102,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Logger.logAutonInit();
 		m_autonomousCommand = m_chooser.getSelected();
 
 		/*
@@ -127,6 +130,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Logger.logTeleopInit();
+		
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
