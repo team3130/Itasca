@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Elevator extends Subsystem {
 	
 	private static WPI_TalonSRX elevator;
+	private static WPI_TalonSRX elevator2;
 	
 	//Instance Handling
 	private static Elevator m_pInstance;
@@ -28,6 +29,7 @@ public class Elevator extends Subsystem {
 	
 	private Elevator() {
 		elevator = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR);
+		elevator2 = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 		elevator.setNeutralMode(NeutralMode.Brake);
 		elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevator.set(ControlMode.Position, 0);
@@ -35,6 +37,7 @@ public class Elevator extends Subsystem {
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);
+		elevator2.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR);
 	}
 
     public void initDefaultCommand() {

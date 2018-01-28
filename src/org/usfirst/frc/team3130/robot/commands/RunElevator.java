@@ -21,7 +21,7 @@ public class RunElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double moveSpeed = 0.5 * OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+    	double moveSpeed = 0.8 * OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
     	Elevator.runElevator(moveSpeed);
     	System.out.println("Running elevator at " + moveSpeed);
     }
