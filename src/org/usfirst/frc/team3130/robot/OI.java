@@ -12,6 +12,8 @@ import org.usfirst.frc.team3130.robot.commands.BasicActuateToggle;
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggleL;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggleR;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 
@@ -98,6 +100,8 @@ public class OI {
 	public static JoystickButton cubeOut;
 	public static JoystickButton changeDriveMode;
 	public static JoystickButton cubeActuate;
+	public static JoystickButton cubeActuateL;
+	public static JoystickButton cubeActuateR;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -109,7 +113,9 @@ public class OI {
 		//Create Joystick Buttons
 		cubeIn = new JoystickButton(stickL, 1);
 		cubeOut = new JoystickButton(stickR, 1);
-		cubeActuate = new JoystickButton(stickR, 2);
+		cubeActuate = new JoystickButton(stickR, 3);
+		cubeActuateL = new JoystickButton(stickL, 7);
+		cubeActuateR = new JoystickButton(stickR, 7);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
@@ -119,6 +125,8 @@ public class OI {
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
 		cubeActuate.whenPressed(new IntakeToggle());
+		//cubeActuateL.whenPressed(new IntakeToggleL());
+		//cubeActuateR.whenPressed(new IntakeToggleR());
 	}
 }
 
