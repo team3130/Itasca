@@ -31,6 +31,9 @@ public class UsbCameraInterface {
 		Mat source = new Mat();
 		cvSink.grabFrame(source);
 	}
+	public static double returnXPosition(){
+		return startX;
+	}
 }
 	
 	
