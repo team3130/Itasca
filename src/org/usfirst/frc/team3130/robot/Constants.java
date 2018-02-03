@@ -15,6 +15,9 @@ public class Constants extends ConstantsBase {
     
     //Elevator constants
     public static double kElevatorTicksPerInch = 1024.0;
+    //TODO: Get actual values 
+    public static int kElevatorSoftMax = 55; //in encoder ticks 
+    public static int kElevatorSoftMin = 55; //in encoder ticks
     
     //Elevator PID
     public static double kElevatorP = 1.0;
