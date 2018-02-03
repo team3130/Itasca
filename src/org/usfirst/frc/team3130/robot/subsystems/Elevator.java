@@ -35,13 +35,14 @@ public class Elevator extends Subsystem {
 		elevator.setNeutralMode(NeutralMode.Brake);
 		elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevator.set(ControlMode.Position, 0);
-		elevator.overrideLimitSwitchesEnable(true);
-		elevator.configForwardSoftLimitEnable(true, 0);
-		elevator.configReverseSoftLimitEnable(true, 0);
+		
+		elevator.overrideLimitSwitchesEnable(false);
+		elevator.overrideSoftLimitsEnable(false);
 		elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in tick
 		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in tick
+		
 		elevator.config_kP(0, Constants.kElevatorP, 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);

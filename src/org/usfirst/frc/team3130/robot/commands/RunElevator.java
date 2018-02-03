@@ -4,6 +4,7 @@ import org.usfirst.frc.team3130.robot.OI;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -21,7 +22,7 @@ public class RunElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double moveSpeed = 0.8 * OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+    	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
     	Elevator.runElevator(moveSpeed);
     	System.out.println("Running elevator at " + moveSpeed);
     }
