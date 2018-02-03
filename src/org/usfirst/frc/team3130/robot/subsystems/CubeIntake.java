@@ -27,8 +27,11 @@ public class CubeIntake extends Subsystem {
 	//creation of required objects
 	public static WPI_TalonSRX intakeLeft;
 	public static WPI_TalonSRX intakeRight;
-	public static Solenoid actuate;
+	public static Solenoid actuateL;
+	public static Solenoid actuateR;
 	public static boolean open;
+	public static boolean openL;
+	public static boolean openR;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -40,19 +43,32 @@ public class CubeIntake extends Subsystem {
     {
     	intakeLeft = new WPI_TalonSRX(RobotMap.CAN_INTAKELEFT);
 		intakeRight = new WPI_TalonSRX(RobotMap.CAN_INTAKERIGHT);
-		actuate = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATE);
+		actuateL = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATEL);
+		actuateR = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATER);
 		open = false;
+		openL = false;
+		openR = false;
     }
     
     public static void runIntake(double left, double right){
     	intakeLeft.set(left);
     	intakeRight.set(right);
-    	System.out.println("Running cube intake...left: " + left + ", right: " + right);
     }
     
     public static void toggleIntake(){
     	open = !open;
-    	actuate.set(open);
+    	actuateL.set(!open);
+    	actuateR.set(open);
+    }
+    
+    public static void toggleIntakeL(){
+    	openL = !openL;
+    	actuateL.set(openL);
+    }
+    
+    public static void toggleIntakeR(){
+    	openR = !openR;
+    	actuateR.set(openR);
     }
 }
 

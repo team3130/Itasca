@@ -72,5 +72,6 @@ public class RobotMap {
 	
 	//Cube Intake
 	public static final int BTN_CUBEACTUATE = 2; //Joystick R
-	public static final int PNM_CUBEACTUATE = 0;
+	public static final int PNM_CUBEACTUATEL = 0;
+	public static final int PNM_CUBEACTUATER = 1;
 }
