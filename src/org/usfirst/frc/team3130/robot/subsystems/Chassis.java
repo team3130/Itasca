@@ -167,7 +167,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedL()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_leftMotorFront.get() * InchesPerRev / RobotMap.RATIO_DRIVECODESPERREV;
+    	return 10.0 * m_leftMotorFront.get() * InchesPerRev / Constants.kDriveCodesPerRev;
     }
     
     /**
@@ -177,7 +177,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedR()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_rightMotorFront.get() * InchesPerRev / RobotMap.RATIO_DRIVECODESPERREV;	
+    	return 10.0 * m_rightMotorFront.get() * InchesPerRev / Constants.kDriveCodesPerRev;	
     }
     
     /**
@@ -339,11 +339,11 @@ public class Chassis extends PIDSubsystem {
 			}
 		}else{
 			if(m_dir.equals(TurnDirection.kStraight)){
-				/*GetInstance().getPIDController().setPID(
+				GetInstance().getPIDController().setPID(
 					Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
-					GetI(angle),
+					Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
 					Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
-				);*/
+				);
 			}else{
 				GetInstance().getPIDController().setPID(
 					Preferences.getInstance().getDouble("Chassis Low Curve P",SUBSYSTEM_CURVE_LOW_P_DEFAULT),

@@ -58,7 +58,7 @@ public class Elevator extends Subsystem {
     	elevator.set(ControlMode.PercentOutput, percent);
     }
     public synchronized static void setHeight(double height_inches){
-    	elevator.set(ControlMode.Position, height_inches*Constants.kElevatorTicksPerInch);
+    	elevator.set(ControlMode.Position, height_inches * Constants.kElevatorTicksPerInch);
     }
     
     public synchronized static double getHeight(){

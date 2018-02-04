@@ -2,7 +2,6 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;

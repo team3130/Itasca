@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.commands.HoldElevator;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
 		Chassis.GetInstance();
 		CubeIntake.GetInstance();
 		Elevator.GetInstance();
+		HoldElevator.getInstance();
 		
 		//Vision operation
 		UsbCameraInterface.GetInstance();
@@ -65,6 +67,8 @@ public class Robot extends TimedRobot {
 		VisionServer.getInstance();
 		VisionServer.getInstance().requestAppStart();
 		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+		
+		mEnabledLooper.register(HoldElevator.getInstance());
         mEnabledLooper.register(VisionProcessor.getInstance());
         
 		//m_chooser.addDefault();
