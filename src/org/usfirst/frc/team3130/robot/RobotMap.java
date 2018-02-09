@@ -71,4 +71,8 @@ public class RobotMap {
 	public static final int BTN_CUBEACTUATE = 2; //Joystick R
 	public static final int PNM_CUBEACTUATEL = 0;
 	public static final int PNM_CUBEACTUATER = 1;
+
+	//Climber
+	public static final int LST_AXS_CLIMB1 = 3130; //TODO: replace with actual
+	public static final int LST_AXS_CLIMB2 = 3130; //TODO: replace with actual
 }
