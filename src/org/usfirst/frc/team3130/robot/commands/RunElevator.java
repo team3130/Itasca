@@ -18,6 +18,7 @@ public class RunElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	HoldElevator.enableHold = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,6 +36,8 @@ public class RunElevator extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Elevator.runElevator(0.0);
+    	/*HoldElevator.enableHold = true;
+    	HoldElevator.holdHeight = Elevator.getHeight();*/
     }
 
     // Called when another command which requires one or more of the same
