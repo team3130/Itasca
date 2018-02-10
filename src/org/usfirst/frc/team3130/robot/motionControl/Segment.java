@@ -1,11 +1,12 @@
 package org.usfirst.frc.team3130.robot.motionControl;
 
+
 public class Segment {
 
-	 private double dt, x, y, h, pos, vel, acc;
+	 private double t, x, y, h, pos, vel, acc;
 
-     public Segment(double dt, double x, double y, double h, double pos, double vel, double acc) {
-         this.dt = dt;
+     public Segment(double t, double x, double y, double h, double pos, double vel, double acc) {
+         this.t = t;
          this.x = x;
          this.y = y;
          this.h = h;
@@ -15,7 +16,7 @@ public class Segment {
      }
 	
      public Segment(double x, double y, double h) {
-         this.dt = 0.0;
+         this.t = 0.0;
          this.x = x;
          this.y = y;
          this.h = h;
@@ -24,14 +25,29 @@ public class Segment {
          this.acc = 0.0;
      }
      
+     public Segment(double x){
+    	 this.t = 0.0;
+    	 this.x = x;
+    	 this.y = 0.0;
+    	 this.h = 0.0;
+    	 this.pos = 0.0;
+    	 this.vel = 0.0;
+    	 this.acc = 0.0;
+     }
+     
      public Segment() {
-         this.dt = 0.0;
+         this.t = 0.0;
          this.x = 0.0;
          this.y = 0.0;
          this.h = 0.0;
          this.pos = 0.0;
          this.vel = 0.0;
          this.acc = 0.0;
+     }
+     
+     @Override
+     public String toString(){
+    	 return "x: " + x + ", y: " + y + ", h: " + h + ", vel: " + vel + ", acc: " + acc;
      }
      
      public double getX(){
@@ -58,12 +74,12 @@ public class Segment {
     	 this.h = h; 
      }
      
-     public double getDt(){
-    	 return dt;
+     public double getT(){
+    	 return t;
      }
      
-     public void setDt(double dt){
-    	 this.dt = dt; 
+     public void setT(double t){
+    	 this.t = t; 
      }
      
      public double getPos(){

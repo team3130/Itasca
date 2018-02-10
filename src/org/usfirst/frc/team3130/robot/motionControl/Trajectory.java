@@ -8,30 +8,30 @@ import java.util.ArrayList;
  */
 public class Trajectory {
 	
-	private Path path;
+	private Curve path;
 	private ArrayList<Segment> segments;
-	private double maxVel;
-	private double maxAcc;
-	private double maxJerk;
+	private double maxVel = 240;
+	private double maxAcc = 40;
+	private double maxJerk = 40;
 	private double startVel;
 	private double endVel;
 	
-	public Trajectory(Path p) {
+	public Trajectory(Curve p) {
 		path = p;
 		segments = path.getPath();
 		startVel = 0.0;
 		endVel = 0.0;
 	}
 	
-	public Trajectory(Path p, double startV, double endV) {
+	public Trajectory(Curve p, double startV, double endV) {
 		path = p;
 		segments = path.getPath();
 		startVel = startV;
 		endVel = endV;
 	}
 	
-	public Trajectory getTrajectory() {
-		return this;
+	public ArrayList<Segment> getTrajectory() {
+		return segments;
 	}
 	
 	public double getHConstant(double changeInH){
@@ -40,7 +40,7 @@ public class Trajectory {
 	
 	public void genInitTrajectory() {
 		segments.get(0).setVel(startVel);
-		segments.get(0).setDt(0);
+		segments.get(0).setT(0);
 		segments.get(0).setAcc(maxAcc * getHConstant(segments.get(0).getH()));
 		for(int i = 1; i < segments.size(); i++){
 			double changeInHeading = segments.get(i).getH() - segments.get(i - 1).getH();
@@ -56,7 +56,7 @@ public class Trajectory {
 			double maxV1 = segments.get(i - 1).getVel() + (maxA * dt);
 			double maxV2 = maxVel * getHConstant(changeInHeading);
 			double maxV = Math.min(maxV1, maxV2);
-			segments.get(i).setDt(dt);
+			segments.get(i).setT(dt);
 			segments.get(i).setVel(maxV);
 			segments.get(i).setAcc(maxA);
 		}
@@ -65,7 +65,7 @@ public class Trajectory {
 	public double calcTotalTime(){
 		double time = 0;
 		for(int i = 0; i < segments.size(); i++){
-			time += segments.get(i).getDt();
+			time += segments.get(i).getT();
 		}
 		return time;
 	}
@@ -75,7 +75,7 @@ public class Trajectory {
 	 */
 	public void decelCorrect(){
 		segments.get(segments.size() - 1).setVel(endVel);
-		segments.get(segments.size() - 1).setDt(0);
+		segments.get(segments.size() - 1).setT(0);
 		segments.get(segments.size() - 1).setAcc(maxAcc * getHConstant(segments.get(0).getH()));
 		for(int i = segments.size() - 2; i > 0; i--){
 			double changeInHeading = segments.get(i - 1).getH() - segments.get(i).getH();
@@ -91,7 +91,7 @@ public class Trajectory {
 			double maxV1 = segments.get(i).getVel() + (maxA * dt);
 			double maxV2 = maxVel * getHConstant(changeInHeading);
 			double maxV = Math.min(maxV1, maxV2);
-			segments.get(i).setDt(dt);
+			segments.get(i).setT(dt);
 			segments.get(i).setVel(maxV);
 			segments.get(i).setAcc(maxA);
 		}

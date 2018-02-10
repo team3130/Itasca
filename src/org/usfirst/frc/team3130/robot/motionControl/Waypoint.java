@@ -9,7 +9,7 @@ package org.usfirst.frc.team3130.robot.motionControl;
 public class Waypoint {
 
 	//x-coordinate, y-coordinate, and heading
-    double x, y, h;
+    double x, y; //h;
 	
     /**
      * Sets x and y to 0, sets h to 2pi radians
@@ -17,7 +17,7 @@ public class Waypoint {
 	public Waypoint(){
 		this.x = 0.0;
 		this.y = 0.0;
-		this.h = 2 * Math.PI;
+		//this.h = 2 * Math.PI;
 	}
 	
 	/**
@@ -29,7 +29,7 @@ public class Waypoint {
 	public Waypoint(double x, double y){
 		this.x = x;
 		this.y = y;
-		this.h = 2 * Math.PI;
+		//this.h = 2 * Math.PI;
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class Waypoint {
 	public Waypoint(double x, double y, double h){
 		this.x = x;
 		this.y = y;
-		this.h = h;
+		//this.h = h;
 	}
 	
 	public double getX() {
@@ -50,11 +50,11 @@ public class Waypoint {
 	public double getY() {
 		return y;
 	}
-	
+	/*
 	public double getH() {
 		return h;
 	}
-	
+	*/
 	/**
 	 * Gives the Waypoint new values
 	 * 
@@ -65,11 +65,11 @@ public class Waypoint {
 	public void set(double x, double y, double h){
 		this.x = x;
 		this.y = y;
-		this.h = h;
+		//this.h = h;
 	}
 	
 	@Override
 	public String toString(){
-		return "X: " + this.x + ", Y: " + this.y + ", H: " + this.h;
+		return "X: " + this.x + ", Y: " + this.y ;//+ ", H: " + this.h;
 	}
 }
