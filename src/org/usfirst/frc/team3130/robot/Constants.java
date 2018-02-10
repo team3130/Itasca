@@ -15,7 +15,7 @@ public class Constants extends ConstantsBase {
     public static double kRWheelDiameter = 6.0;	//Center wheel
     
     //Elevator constants
-    public static double kElevatorTicksPerInch = 1024.0;
+    public static double kElevatorTicksPerInch = 1024.0 / (4.0 * Math.PI);
     //TODO: Get actual values 
     public static int kElevatorSoftMax = 55; //in encoder ticks 
     public static int kElevatorSoftMin = 55; //in encoder ticks
@@ -24,7 +24,7 @@ public class Constants extends ConstantsBase {
     public static double kElevatorP = 1.0;
     public static double kElevatorI = 0.0;
     public static double kElevatorD = 0.0;
-    public static double kElevatorF = Preferences.getInstance().getDouble("ElevatorF", 1.0/(1024.0*100.0));
+    public static double kElevatorF = 0.0;
     
     //Turret mechanical constants
     public static double kHardMaxTurretAngle = 97.0;

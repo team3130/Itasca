@@ -40,8 +40,8 @@ public class Elevator extends Subsystem {
 		elevator.overrideSoftLimitsEnable(false);
 		elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-		elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in tick
-		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in tick
+		elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
+		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 		
 		elevator.config_kP(0, Constants.kElevatorP, 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
@@ -62,7 +62,7 @@ public class Elevator extends Subsystem {
     }
     
     public synchronized static double getHeight(){
-    	return elevator.getSensorCollection().getQuadraturePosition() / Constants.kElevatorTicksPerInch; //Returns height in inches
+    	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
     }
     
     
