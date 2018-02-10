@@ -14,26 +14,34 @@ public class HeightSetter {
 	}
 	
 	public void increaseHeight() {
-		if (acc <= 5){
+		if (acc <= 4){
 			acc += 1;
-			if(acc == 0){
-				HoldElevator.holdHeight = 0.0;
-			}
-			if(acc == 1){
-				HoldElevator.holdHeight = 0.0;
-			}
+			setHeight();
 		}
 		
 	}
 	public void decreaseHeight(){
 		if(acc >= 0){
 			acc = acc - 1;
-			if(acc == 0){
-				HoldElevator.holdHeight = 0.0;
-			}
-			if(acc == 1){
-				HoldElevator.holdHeight = 0.0;
-			}
+			setHeight();
+		}
+	}
+	
+	public void setHeight() {
+		if(acc == 0){
+			HoldElevator.holdHeight = 0.0;
+		}
+		if(acc == 1){
+			HoldElevator.holdHeight = 10.0;
+		}
+		if(acc == 2){
+			HoldElevator.holdHeight = 57.0;
+		}
+		if(acc == 3){
+			HoldElevator.holdHeight = 67.0;
+		}
+		if(acc == 4){
+			HoldElevator.holdHeight = 78.0;
 		}
 	}
 	

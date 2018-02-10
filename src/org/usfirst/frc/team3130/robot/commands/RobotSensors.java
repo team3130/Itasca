@@ -32,6 +32,8 @@ public class RobotSensors extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+    	//Elevator
+    	Elevator.outputToSmartDashboard();
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());

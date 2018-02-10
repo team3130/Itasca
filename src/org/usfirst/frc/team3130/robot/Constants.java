@@ -9,7 +9,7 @@ public class Constants extends ConstantsBase {
     public static double kCenterOfTargetHeight = 86.0; //Correct 9/11/17, in inches
     
     //Chassis constants
-    public static double kDriveCodesPerRev = 2048;
+    public static double kDriveCodesPerRev = 2048.0;
     public static double kChassisWidth = 26.0; //Distance between the left and right middle wheels
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
