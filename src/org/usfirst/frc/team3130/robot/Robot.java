@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.commands.HoldElevator;
+import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 	
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	RobotSensors robotSensors;
 	VisionServer mVisionServer = VisionServer.getInstance();
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
@@ -51,6 +53,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		robotSensors = new RobotSensors();
+		robotSensors.start();
 		
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
@@ -61,6 +65,7 @@ public class Robot extends TimedRobot {
 		Elevator.GetInstance();
 		HoldElevator.getInstance();
 		Climber.GetInstance();
+		
 		
 		//Vision operation
 		UsbCameraInterface.GetInstance();

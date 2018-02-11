@@ -21,12 +21,13 @@ public class RobotSensors extends Command {
 	
 	
     public RobotSensors() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	this.setRunWhenDisabled(true);
+    	this.setInterruptible(false);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	timer.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run

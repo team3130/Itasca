@@ -99,8 +99,8 @@ public class OI {
 	public static Joystick gamepad;
 	
 	//Buttons
-	public static JoystickButton elevatorUp;
-	public static JoystickButton elevatorDown;
+	public static POVTrigger elevatorUp;
+	public static POVTrigger elevatorDown;
 	public static JoystickButton cubeIn;
 	public static JoystickButton cubeOut;
 	public static JoystickButton changeDriveMode;
@@ -121,16 +121,16 @@ public class OI {
 		cubeActuate = new JoystickButton(stickR, 3);
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
-		elevatorUp = new JoystickButton(stickR, 0);
-		elevatorDown = new JoystickButton(stickR, 180);
+		elevatorUp = new POVTrigger(stickR, 0);
+		elevatorDown = new POVTrigger(stickR, 180);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		
-		elevatorUp.whenPressed(new ElevatorUp());
-		elevatorDown.whenPressed(new ElevatorDown());
+		elevatorUp.whenActive(new ElevatorUp());
+		elevatorDown.whenActive(new ElevatorDown());
 		
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
