@@ -15,7 +15,7 @@ public class Constants extends ConstantsBase {
     public static double kRWheelDiameter = 6.0;	//Center wheel
     
     //Elevator constants
-    public static double kElevatorTicksPerInch = 1024.0 / (4.0 * Math.PI);
+    public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
     //TODO: Get actual values 
     public static int kElevatorSoftMax = 55; //in encoder ticks 
     public static int kElevatorSoftMin = 55; //in encoder ticks
