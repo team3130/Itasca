@@ -37,7 +37,7 @@ public class Elevator extends Subsystem {
 		elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevator.set(ControlMode.Position, 0);
 		
-		elevator.overrideLimitSwitchesEnable(false);
+		elevator.overrideLimitSwitchesEnable(true);
 		elevator.overrideSoftLimitsEnable(false);
 		elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
@@ -68,6 +68,8 @@ public class Elevator extends Subsystem {
     
     public static void outputToSmartDashboard() {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
+    	SmartDashboard.putNumber("elev_m1volt", elevator.getMotorOutputVoltage() );
+    	SmartDashboard.putNumber("elev_m2volt", elevator2.getMotorOutputVoltage() );
     }
 }
 
