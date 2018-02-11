@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.Robot;
+import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -35,6 +36,8 @@ public class RobotSensors extends Command {
     	
     	//Elevator
     	Elevator.outputToSmartDashboard();
+
+    	SmartDashboard.putNumber("Lidar range", Rangefinder.getDistance());
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());
