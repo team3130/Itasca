@@ -16,8 +16,7 @@ public class RunIntakeOut extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	CubeIntake.runIntake(Preferences.getInstance().getDouble("Cube Intake Out L", -0.5),
-    						 Preferences.getInstance().getDouble("Cube Intake Out R", -0.5));
+    	CubeIntake.runIntake(Preferences.getInstance().getDouble("Cube Intake Out L", -0.5));
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,7 +30,7 @@ public class RunIntakeOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	CubeIntake.runIntake(0,0);
+    	CubeIntake.runIntake(0);
     }
 
     // Called when another command which requires one or more of the same

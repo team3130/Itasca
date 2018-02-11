@@ -24,8 +24,8 @@ public class CubeIntake extends Subsystem {
     // here. Call these from Commands.
 
 	//creation of required objects
-	public static WPI_TalonSRX intakeLeft;
-	public static WPI_TalonSRX intakeRight;
+	public static WPI_TalonSRX intake;
+
 	public static Solenoid actuateL;
 	public static Solenoid actuateR;
 	public static boolean open;
@@ -40,8 +40,8 @@ public class CubeIntake extends Subsystem {
     //constructor
     private CubeIntake()
     {
-    	intakeLeft = new WPI_TalonSRX(RobotMap.CAN_INTAKELEFT);
-		intakeRight = new WPI_TalonSRX(RobotMap.CAN_INTAKERIGHT);
+    	intake = new WPI_TalonSRX(RobotMap.CAN_INTAKE);
+
 		actuateL = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATEL);
 		actuateR = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATER);
 		open = false;
@@ -49,9 +49,8 @@ public class CubeIntake extends Subsystem {
 		openR = false;
     }
     
-    public static void runIntake(double left, double right){
-    	intakeLeft.set(left);
-    	intakeRight.set(right);
+    public static void runIntake(double speed){
+    	intake.set(speed);
     }
     
     public static void toggleIntake(){
