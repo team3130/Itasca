@@ -1,12 +1,6 @@
 package org.usfirst.frc.team3130.robot.sensors;
 
-import java.util.TimerTask;
-
-import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.I2C.Port;
 
 /**
  *
@@ -15,7 +9,7 @@ public class Rangefinder {
 	
     private I2C i2c;
 	
-	private final int LIDAR_ADDR = 0x52;
+	private final int LIDAR_ADDR = 0x52>>1;
 
 	//Instance Handling
 	private static Rangefinder m_pInstance;
@@ -59,6 +53,21 @@ public class Rangefinder {
 		i2c.write(0x01a7, 0x1f);
 		i2c.write(0x0030, 0x00);
 
+		// Recommended : Public registers - See data sheet for more detail
+		 // Enables polling for ‘New Sample ready’ when measurement completes
+		i2c.write (0x0011 , 0x10);
+		 // Set the averaging sample period
+		 // (compromise between lower noise and increased execution time)
+		i2c.write (0x010a , 0x30);
+		 // Sets the light and dark gain (upper nibble). Dark gain should not be changed.
+		i2c.write (0x003f , 0x46);
+		 // sets the # of range measurements after which auto calibration of system is performed   
+		i2c.write (0x0031 , 0xFF);
+		 // Set ALS integration time to 100ms
+		i2c.write (0x0040 , 0x63);
+		 // perform a single temperature calibration of the ranging sensor 
+		i2c.write (0x002e , 0x01);
+
 		 //Start Continuous Ranging
 		i2c.write(0x0018, 0x03);
 	}
@@ -67,7 +76,7 @@ public class Rangefinder {
 	public static int getDistance() {
 		Rangefinder instance = GetInstance();
 		byte[] buffer = new byte[1];
-		if( instance.i2c.read(0x62, 1, buffer) ) {
+		if( !instance.i2c.read(0x62, 1, buffer) ) {
 			return buffer[0];
 		}
 		else {
