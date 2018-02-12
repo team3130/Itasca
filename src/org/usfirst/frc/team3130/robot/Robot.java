@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		Logger.logRobotDisabled();
+		CubeIntake.reset();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
 	}

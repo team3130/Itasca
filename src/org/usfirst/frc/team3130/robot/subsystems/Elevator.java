@@ -70,6 +70,8 @@ public class Elevator extends Subsystem {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
     	SmartDashboard.putNumber("elev_m1volt", elevator.getMotorOutputVoltage() );
     	SmartDashboard.putNumber("elev_m2volt", elevator2.getMotorOutputVoltage() );
+    	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
     }
 }
 
