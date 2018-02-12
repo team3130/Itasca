@@ -25,7 +25,19 @@ public class Rangefinder {
 		System.out.println("LIDAR Init Started");
 		writeByte(0x0207, 0x01);
 		System.out.println("LIDAR Complete 1 Byte Transfer");
+		
+		int reset = readByte(0x016);
+		if(reset == 1 || reset ==-1) {
+			initialize();
+		}
+		else {
+			System.out.println("LIDAR Already Initialized! Skipping I2C Writes!");
+		}
 
+		System.out.println("LIDAR Init complete");
+	}
+
+	public void initialize() {
 		writeByte(0x0208, 0x01);
 		writeByte(0x0096, 0x00);
 		writeByte(0x0097, 0xfd);
@@ -71,9 +83,9 @@ public class Rangefinder {
 		 // perform a single temperature calibration of the ranging sensor 
 		writeByte (0x002e , 0x01);
 
-		 //Start Continuous Ranging
+		//Start Single Shot Ranging
 		writeByte(0x0018, 0x01);
-		System.out.println("LIDAR Init complete");
+		writeByte(0x0016, 0x00);
 	}
 
 	// Distance in mm
@@ -81,10 +93,6 @@ public class Rangefinder {
 		Rangefinder instance = GetInstance();
 		int reg = 0x0062;
 		byte[] buffer = new byte[1];
-		/*
-		if (!instance.getDistanceReady()) {
-			return -1;
-		}*/
 		
 		byte[] wbuffer = new byte[2];
 		
@@ -111,40 +119,40 @@ public class Rangefinder {
 	}
 	
 	// RESULT_RANGE_STATUS register
-		public int getDistanceStatus() {
-			byte[] buffer = new byte[1];
-			if( !i2c.read(0x4D, 1, buffer) ) {
-				int num = (buffer[0]>>4)&0x0F;
-				return num;
+	public int getDistanceStatus() {
+		byte[] buffer = new byte[1];
+		if( !i2c.read(0x4D, 1, buffer) ) {
+			int num = (buffer[0]>>4)&0x0F;
+			return num;
+		}
+		else {
+			return -1;
+		}
+	}
+		
+	// Range Ready register
+	public boolean getDistanceReady() {
+		int reg = 0x004F;
+		byte[] buffer = new byte[1];
+		
+		byte[] wbuffer = new byte[2];
+		wbuffer[0] = (byte) ( (reg>>8) &0xFF);
+		wbuffer[1] = (byte) (reg &0xFF);
+
+		if(!i2c.writeBulk(wbuffer)) {
+			if( !i2c.readOnly(buffer, 1)) {
+				int num = buffer[0]&0x04;
+				return num > 0;
 			}
 			else {
-				return -1;
+				return false;
 			}
 		}
-		
-		// Range Ready register
-			public boolean getDistanceReady() {
-				int reg = 0x004F;
-				byte[] buffer = new byte[1];
-				
-				byte[] wbuffer = new byte[2];
-				wbuffer[0] = (byte) ( (reg>>8) &0xFF);
-				wbuffer[1] = (byte) (reg &0xFF);
+		else {
+			return false;
+		}
+	}	
 
-				if(!i2c.writeBulk(wbuffer)) {
-					if( !i2c.readOnly(buffer, 1)) {
-						int num = buffer[0]&0x04;
-						return num > 0;
-					}
-					else {
-						return false;
-					}
-				}
-				else {
-					System.out.println("Failed to Write Bulk in get Distance Ready");
-					return false;
-				}
-			}	
 	private boolean writeByte(int reg, int data) {
 		byte[] buffer = new byte[3];
 		
@@ -165,6 +173,30 @@ public class Rangefinder {
 			
 		}
 		return false;
+	}
+	
+	private int readByte(int reg) {
+		
+		byte[] buffer = new byte[1];
+		
+		byte[] wbuffer = new byte[2];
+		wbuffer[0] = (byte) ( (reg>>8) &0xFF);
+		wbuffer[1] = (byte) (reg &0xFF);
+
+		if(!i2c.writeBulk(wbuffer)) {
+			if( !i2c.readOnly(buffer, 1)) {
+				int num = buffer[0];
+				if(num < 0) {
+					num = num&127 + 128;
+				}
+				
+				return num;
+			}
+			else {
+				return -1;
+			}
+		}
+		return -1;
 	}
 }
 
