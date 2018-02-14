@@ -1,6 +1,9 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+
+import org.usfirst.frc.team3130.robot.Constants;
+
 import edu.wpi.first.wpilibj.*;
 
 /**
@@ -24,8 +27,23 @@ public class BlinkinInterface extends Subsystem {
     public static void defaultPattern(){
     	blinkin1.set(0.67);
     }
+    
     public static void setPattern(double pattern){
     	blinkin1.set(pattern);
+    }
+    
+    public static void gotCube(){
+    	for (int i = 0; i < Constants.kBlinkNumber; i++){
+    		blinkin1.set(0.77);
+	    	try{
+	    		Thread.sleep(300);
+	    	}catch(Exception e){}
+	    	blinkin1.set(0.99);
+	    	try{
+	    		Thread.sleep(300);
+	    	}catch(Exception e){}
+    	}
+    	defaultPattern();
     }
     
     

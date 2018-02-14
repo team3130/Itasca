@@ -9,6 +9,7 @@ import org.usfirst.frc.team3130.robot.util.Loop;
  */
 public class HoldElevator implements Loop {
 	static HoldElevator instance = new HoldElevator();
+	public static double oldHeight = 0.0;
 	public static double holdHeight = 0.0;
 	public static boolean enableHold = false; //TODO: change to true when elevator gets encoder
 	
@@ -17,30 +18,29 @@ public class HoldElevator implements Loop {
 	}
     public HoldElevator() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	
     }
 
 
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void onLoop() {
-		System.out.println("HoldElevator Running..........................");
-		if (enableHold == true){
+		if (enableHold == true && holdHeight != oldHeight) {
 			Elevator.GetInstance();
 			Elevator.setHeight(holdHeight);
+			oldHeight = holdHeight;
 		}
 		
 	}
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }
