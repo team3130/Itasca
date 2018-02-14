@@ -9,6 +9,7 @@ package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.commands.HoldElevator;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
+import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
@@ -17,7 +18,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-import org.usfirst.frc.team3130.robot.subsystems.UsbCameraInterface;
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
 import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
 		
 		
 		//Vision operation
-		UsbCameraInterface.GetInstance();
+		LocationCamera.GetInstance();
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();

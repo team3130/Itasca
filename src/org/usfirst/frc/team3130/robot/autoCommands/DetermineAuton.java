@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.subsystems.UsbCameraInterface;
+import org.opencv.core.Point3;
+import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,7 +25,8 @@ public class DetermineAuton extends Command {
     	String fieldInfo;
     	fieldInfo = st.toString();    	
     	//find robot starting pose
-    	if (UsbCameraInterface.returnXPosition() >= 0.0){
+    	Point3 position = LocationCamera.getPosition();
+    	if ( position.x >= 0.0){
     		//Start on right
     		if(fieldInfo == "LL"){
     			
