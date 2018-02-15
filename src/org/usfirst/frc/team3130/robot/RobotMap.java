@@ -32,7 +32,7 @@ public class RobotMap {
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
 	public static final int CAN_INTAKE = 8;
-	public static final int CAN_ELEVATOR = 6;
+	public static final int CAN_ELEVATOR1 = 6;
 	public static final int CAN_ELEVATOR2 = 7;
 	public static final int CAN_WINCH1 = 3130; //TODO: find actual
 	public static final int CAN_WINCH2 = 3130; //TODO: find actual

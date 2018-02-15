@@ -10,7 +10,7 @@ public class Constants extends ConstantsBase {
     
     //Chassis constants
     public static double kDriveCodesPerRev = 2048.0;
-    public static double kChassisWidth = 26.0; //Distance between the left and right middle wheels
+    public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
     
