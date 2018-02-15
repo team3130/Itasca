@@ -81,4 +81,7 @@ public class RobotMap {
 	//Hook Deploy
 	public static final int PNM_HOOKACTUATE = 3130; //TODO: replace with actual
 	public static final int BTN_HOOKACTUATE = 3130; //TODO: replace with actual
+	
+	//Wings
+	public static final int PNM_WINGSDEPLOY = 3130; //TODO: replace with actual
 }

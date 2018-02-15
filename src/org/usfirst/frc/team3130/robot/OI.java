@@ -110,6 +110,8 @@ public class OI {
 	public static JoystickButton cubeActuateR;
 	
 	public static JoystickButton hookActuate;
+	
+	public static JoystickButton wingsDeploy;
 
 	public static JoystickButton changeDriveMode;
 	
@@ -148,6 +150,8 @@ public class OI {
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		
 		hookActuate.whenPressed(new HookToggle());
+		
+		wingsDeploy.whileHeld(new BasicActuate(Robot.bcWingsDeploy));
 	}
 }
 

@@ -48,6 +48,8 @@ public class Robot extends TimedRobot {
     Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 10Hz whenever the robot is disabled
     Looper mDisabledLooper = new Looper();
+    
+    public static BasicCylinder bcWingsDeploy;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -60,6 +62,8 @@ public class Robot extends TimedRobot {
 		
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
+		
+		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
 		OI.GetInstance();
 		Chassis.GetInstance();
