@@ -34,8 +34,9 @@ public class RobotMap {
 	public static final int CAN_INTAKE = 8;
 	public static final int CAN_ELEVATOR1 = 6;
 	public static final int CAN_ELEVATOR2 = 7;
-	public static final int CAN_WINCH1 = 3130; //TODO: find actual
-	public static final int CAN_WINCH2 = 3130; //TODO: find actual
+	public static final int CAN_EVWINCH1 = 3130; //TODO: find actual
+	public static final int CAN_EVWINCH2 = 3130; //TODO: find actual
+	public static final int CAN_HDWINCH = 3130; //TODO: find actual
 	
 	//Gamepad Button List
 	public static final int LST_BTN_A = 1;
@@ -76,4 +77,8 @@ public class RobotMap {
 	//Climber
 	public static final int LST_AXS_CLIMB1 = 3130; //TODO: replace with actual
 	public static final int LST_AXS_CLIMB2 = 3130; //TODO: replace with actual
+	
+	//Hook Deploy
+	public static final int PNM_HOOKACTUATE = 3130; //TODO: replace with actual
+	public static final int BTN_HOOKACTUATE = 3130; //TODO: replace with actual
 }

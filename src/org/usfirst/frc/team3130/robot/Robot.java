@@ -18,6 +18,7 @@ import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
+import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
 import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
 import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
@@ -67,7 +68,7 @@ public class Robot extends TimedRobot {
 		HoldElevator.getInstance();
 		Climber.GetInstance();
 		BlinkinInterface.GetInstance();
-		
+		HookDeploy.GetInstance();
 		
 		//Vision operation
 		LocationCamera.GetInstance();

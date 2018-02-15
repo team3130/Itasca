@@ -14,6 +14,7 @@ import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.ElevatorDown;
 import org.usfirst.frc.team3130.robot.commands.ElevatorUp;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
+import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggleL;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggleR;
@@ -101,12 +102,17 @@ public class OI {
 	//Buttons
 	public static POVTrigger elevatorUp;
 	public static POVTrigger elevatorDown;
+	
 	public static JoystickButton cubeIn;
 	public static JoystickButton cubeOut;
-	public static JoystickButton changeDriveMode;
 	public static JoystickButton cubeActuate;
 	public static JoystickButton cubeActuateL;
 	public static JoystickButton cubeActuateR;
+	
+	public static JoystickButton hookActuate;
+
+	public static JoystickButton changeDriveMode;
+	
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -121,8 +127,11 @@ public class OI {
 		cubeActuate = new JoystickButton(stickR, 3);
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
+		
 		elevatorUp = new POVTrigger(stickR, 0);
 		elevatorDown = new POVTrigger(stickR, 180);
+		
+		hookActuate = new JoystickButton(gamepad, RobotMap.BTN_HOOKACTUATE);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
 		
@@ -137,6 +146,8 @@ public class OI {
 		cubeActuate.whenPressed(new IntakeToggle());
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
+		
+		hookActuate.whenPressed(new HookToggle());
 	}
 }
 
