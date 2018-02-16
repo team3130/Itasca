@@ -37,9 +37,9 @@ public class LocationCamera {
 	private static LocationCamera m_pInstance;
 	public static LocationCamera GetInstance()
 	{
-		synchronized (m_pInstance) {
+//		synchronized (m_pInstance) {
 			if(m_pInstance == null) m_pInstance = new LocationCamera();
-		}
+//		}
 		return m_pInstance;
 	}
 
@@ -57,13 +57,15 @@ public class LocationCamera {
 		// Run this thing as a thread so the heavy vision processing won't block the main (robot's) thread.
 		new Thread(() -> 
 		{
-			camera = CameraServer.getInstance().startAutomaticCapture(cameraName, 0);
+			camera = new UsbCamera(cameraName, 0);
 			camera.setResolution(1280, 720);
-			camera.setBrightness(0);
-			camera.setWhiteBalanceManual(0);
-            
+//			camera.setResolution(640, 360);
+//			camera.setResolution(960, 540);
+			camera.setExposureManual(60);
+			CameraServer.getInstance().startAutomaticCapture(camera);
+
 			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo(cameraName, 1280, 720);
+			CvSource outputStream = CameraServer.getInstance().putVideo(cameraName, 240, 135);
 
 			Mat frame = new Mat();
                         
@@ -91,7 +93,9 @@ public class LocationCamera {
 					location = safeLocation;
 				}
             	
-				outputStream.putFrame(frame);
+//				Imgproc.resize(frame, frame, new Size(240,135));
+				Mat outFrame = new Mat(frame,new Rect(new Point(640-120, 360-135), new Size(240, 135)));
+				outputStream.putFrame(outFrame);
 				
 			}
 		}).start();
@@ -118,9 +122,10 @@ public class LocationCamera {
 
 		Rect roiRect = new Rect(new Point(0, imageHeight/5), new Size(imageWidth, imageHeight/3));
 		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0));
-		roiRect = new Rect(new Point(0, 2*imageHeight/3), new Size(imageWidth, 4*imageHeight/5));
+		roiRect = new Rect(new Point(0, 2*imageHeight/3), new Size(imageWidth, imageHeight/3));
 		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0));
 
+		Imgproc.putText(frame, "Res "+imageWidth+"x"+imageHeight, new Point(imageWidth/2-100,imageHeight/2-20), 1, 1, new Scalar(0,200,200));
 		// TODO Implement finding robot's position
 		return new Point3(0,0,0);
 	}
