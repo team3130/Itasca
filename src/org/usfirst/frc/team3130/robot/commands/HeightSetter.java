@@ -38,10 +38,10 @@ public class HeightSetter {
 			HoldElevator.holdHeight = 57.0;
 		}
 		if(acc == 3){
-			HoldElevator.holdHeight = 67.0;
+			HoldElevator.holdHeight = 65.0;
 		}
 		if(acc == 4){
-			HoldElevator.holdHeight = 78.0;
+			HoldElevator.holdHeight = 75.0;
 		}
 	}
 	

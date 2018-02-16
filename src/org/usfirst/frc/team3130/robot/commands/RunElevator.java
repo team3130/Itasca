@@ -36,8 +36,8 @@ public class RunElevator extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Elevator.runElevator(0.0);
-    	/*HoldElevator.enableHold = true;
-    	HoldElevator.holdHeight = Elevator.getHeight();*/
+    	HoldElevator.enableHold = true;
+    	HoldElevator.holdHeight = Elevator.getHeight();
     }
 
     // Called when another command which requires one or more of the same

@@ -11,7 +11,7 @@ public class HoldElevator implements Loop {
 	static HoldElevator instance = new HoldElevator();
 	public static double oldHeight = 0.0;
 	public static double holdHeight = 0.0;
-	public static boolean enableHold = false; //TODO: change to true when elevator gets encoder
+	public static boolean enableHold = true; 
 	
 	public static HoldElevator getInstance(){
 		return instance;
