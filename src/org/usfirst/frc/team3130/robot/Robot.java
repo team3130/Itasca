@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-		//LocationCamera.GetInstance();
+		LocationCamera.enable();
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();
