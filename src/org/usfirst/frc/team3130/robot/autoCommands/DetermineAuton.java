@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Determine which auton to run at the start of the match depending on the positioning of the switch/scale
  */
 public class DetermineAuton extends Command {
 
@@ -28,7 +28,8 @@ public class DetermineAuton extends Command {
     	NetworkTableInstance offSeasonNetworkTable = NetworkTableInstance.create();
    		offSeasonNetworkTable.startClient("10.0.100.5");
    		gameData = offSeasonNetworkTable.getTable("OffseasonFMSInfo")
-    							  .getEntry("GameData").getString("defaultValue");
+    			   .getEntry("GameData").getString("defaultValue");
+   		
     	StringBuilder st = new StringBuilder(gameData);
     	st.deleteCharAt(2);
     	String fieldInfo;

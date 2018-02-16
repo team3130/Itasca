@@ -4,13 +4,11 @@ package org.usfirst.frc.team3130.robot.autoCommands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team3130.robot.Constants;
-import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 
-
 /**
- *
+ *  Drive a curve given a radius and an angle using the PID system in Chassis
  */
 public class AutoDriveCurve extends Command {
 
@@ -41,7 +39,7 @@ public class AutoDriveCurve extends Command {
     	m_shiftLow = shiftLow;
     	
     	if(radius > 0) m_turnLeft = true;
-    	m_radiusFar = Math.abs(radius) + RobotMap.DIM_ROBOTWHEELTOWHEEL/2;
+    	m_radiusFar = Math.abs(radius) + (Constants.kChassisWidth)/2;
     }
     
     /**
