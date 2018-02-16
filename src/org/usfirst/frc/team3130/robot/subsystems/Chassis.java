@@ -46,8 +46,11 @@ public class Chassis extends PIDSubsystem {
 	//Create and define all standard data types needed
 	private static boolean m_bShiftedHigh;
 	private static boolean m_bNavXPresent;
+
+	private static double prevSpeedLimit;
 	
 	public static final double InchesPerRev = ((Constants.kLWheelDiameter * Constants.kRWheelDiameter)/ 2.0) * Math.PI;
+	public static double moveSpeed;
 	
 	//PID Preferences Defaults
 	private static final double SUBSYSTEM_CURVE_HIGH_P_DEFAULT = 0.075;
@@ -66,6 +69,23 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 7.0E-7;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_ZERO = 0.002;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.125;
+	
+	//PID Preferences Defaults
+		private static final double TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT = 0.1;
+		private static final double TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT = 0.0;
+		private static final double TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT = 0.0;
+		
+		private static final double TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT = 0.1;
+		private static final double TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT = 0.0;
+		private static final double TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT = 0.0;
+		
+		private static final double TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT = 0.1;
+		private static final double TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT = 0.0;
+		private static final double TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT = 0.0;
+		
+		private static final double TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT = 0.1;
+		private static final double TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT = 0.0;
+		private static final double TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT = 0.0;
 	
     private Chassis() {
     	
@@ -86,6 +106,7 @@ public class Chassis extends PIDSubsystem {
     	m_drive.setSafetyEnabled(false);
     	
     	arcadeDrive = true;
+    	moveSpeed = 0;
     }
 
     public void initDefaultCommand() {
@@ -126,15 +147,24 @@ public class Chassis extends PIDSubsystem {
     public static boolean GetShiftedDown(){return m_bShiftedHigh;}
     
     protected double returnPIDInput() {
-        // Return your input value for the PID loop
-        // e.g. a sensor, like a potentiometer:
-        // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return 0.0;
+    	if(m_dir.equals(TurnDirection.kStraight))return GetAngle();
+		return GetRate();
     }
 
-    protected void usePIDOutput(double output) {
-        // Use output to drive your system, like a motor
-        // e.g. yourMotor.set(output);
+    protected void usePIDOutput(double bias) {
+    	//TODO: Replace this with a system that works under the curve drive, currently implemented under the else
+    	if(m_dir.equals(TurnDirection.kStraight)){	//Maintnance of the Old Drive Straight Angle control.
+    		//Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
+    		final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
+   			if (bias >  speedLimit) bias = speedLimit;
+   			if (bias < -speedLimit) bias = -speedLimit;
+   			double speed_L = moveSpeed-bias;
+   			double speed_R = moveSpeed+bias;
+			DriveTank(speed_L, speed_R); 
+    		prevSpeedLimit = Math.abs(speedLimit);
+    		}else{
+    			setSpeedTalon(bias);
+   			}
     }
     
     public static void TalonsToCoast(boolean coast)
@@ -256,6 +286,29 @@ public class Chassis extends PIDSubsystem {
     }
     
     /**
+	 * Calls the .set() function on the Speed talon
+	 * <p>
+	 * Sets the appropriate output on the talon, depending on the mode.
+	 * </p>
+	 * 
+	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
+	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
+	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
+	 * <br/><b>In Speed mode, outputValue is in position change / 10ms.</b> 
+	 * <br/>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</p>
+	 * 
+	 * @param set - The setpoint value, as described above.
+	 */
+	public static void setSpeedTalon(double set)
+	{
+		if(m_dir.equals(TurnDirection.kRight))
+			m_rightMotorFront.set(set);
+		else
+		if(m_dir.equals(TurnDirection.kLeft))
+			m_leftMotorFront.set(set);
+	}
+    
+    /**
 	 * Returns the current angle of the robot, usually from the navX
 	 * @return current angle of the robot
 	 */
@@ -288,6 +341,24 @@ public class Chassis extends PIDSubsystem {
 	{
 		if(m_bNavXPresent) return m_navX.getRate();
 		return -1;
+	}
+	
+	/**
+	 * Returns the current error of the system (how far away the robot is from where we want it to be)
+	 * @return Current PID error of the system
+	 */
+	public static double GetPIDError()
+	{
+		return GetInstance().getSetpoint() - GetInstance().getPosition();
+	}
+	
+	public static void ReleaseAngle()
+	{
+		GetInstance().getPIDController().disable();
+		GetInstance().getPIDController().reset();
+		prevSpeedLimit = 0;
+		m_leftMotorFront.set(ControlMode.PercentOutput, RobotMap.CAN_LEFTMOTORFRONT);
+		m_rightMotorFront.set(ControlMode.PercentOutput, RobotMap.CAN_RIGHTMOTORFRONT);
 	}
 	
 	/**
@@ -377,6 +448,112 @@ public class Chassis extends PIDSubsystem {
 	}
 	
 	/**
+	 * Sets the control modes and switches the mode of the subsystem for turning
+	 * 
+	 * <p>
+	 * Sets the PID for both talons, changes the control mode for the subsystem, and changes the control mode of the talons.
+	 * @param dir the direction that the robot will be turning
+	 */
+	public static void setTurnDir(TurnDirection dir)
+	{
+		m_dir = dir;
+		if(dir.equals(TurnDirection.kLeft)){
+			m_leftMotorFront.set(ControlMode.Velocity, RobotMap.CAN_LEFTMOTORFRONT);
+			m_rightMotorFront.set(ControlMode.Position, RobotMap.CAN_RIGHTMOTORFRONT);
+		}else if(dir.equals(TurnDirection.kRight)){
+			m_rightMotorFront.set(ControlMode.Velocity, RobotMap.CAN_RIGHTMOTORFRONT);
+			m_leftMotorFront.set(ControlMode.Position, RobotMap.CAN_LEFTMOTORFRONT);
+		}else{
+			//TODO: Rethink this area, it was done on a whim to make a pseudo functioning system
+			m_leftMotorFront.set(ControlMode.Velocity, RobotMap.CAN_LEFTMOTORFRONT);
+			m_rightMotorFront.set(ControlMode.Velocity, RobotMap.CAN_RIGHTMOTORFRONT);
+		}
+		setTalonPID();
+	}
+	
+	/**
+	 * Calls the .set() function on the Position talon
+	 * <p>
+	 * Sets the appropriate output on the talon, depending on the mode.
+	 * </p>
+	 * 
+	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
+	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
+	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
+	 * <br/>In Speed mode, outputValue is in position change / 10ms. 
+	 * <br/><b>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</b></p>
+	 * 
+	 * @param set - The setpoint value, as described above.
+	 */
+	public static void setPositionTalon(double set)
+	{
+		if(m_dir.equals(TurnDirection.kRight))
+			m_leftMotorFront.set(set);
+		else
+		if(m_dir.equals(TurnDirection.kLeft))
+			m_rightMotorFront.set(set);
+	}
+	
+	
+	/**
+	 * Calls the .set() function on the Speed talon
+	 * <p>
+	 * Sets the appropriate output on the talon, depending on the mode.
+	 * </p>
+	 * 
+	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
+	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
+	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
+	 * <br/><b>In Speed mode, outputValue is in position change / 10ms.</b> 
+	 * <br/>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</p>
+	 * 
+	 * @param set - The setpoint value, as described above.
+	 */
+	public static void setSpeedTalon(double set)
+	{
+		if(m_dir.equals(TurnDirection.kRight))
+			m_rightMotorFront.set(set);
+		else
+		if(m_dir.equals(TurnDirection.kLeft))
+			m_leftMotorFront.set(set);
+	}
+	
+	/**
+	 * Returns the difference between the setpoint and the current position
+	 * @return the error on the position talon returns negative 1 in in straight
+	 */
+	public static double getPositionTalonError()
+	{
+		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getError();
+		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getError();
+		return -1;
+	}
+	
+	/**
+	 * Returns the difference between the setpoint and the current position
+	 * @return the error on the speed talon, returns negative 1 if in straight mode
+	 */
+	public static double getSpeedTalonError()
+	{
+		if(m_dir.equals(TurnDirection.kRight)) return m_rightMotorFront.getError();
+		else if(m_dir.equals(TurnDirection.kLeft))return m_leftMotorFront.getError();
+		return -1;
+	}
+	
+	/**
+	 * Returns the current speed of the postion talon
+	 * 
+	 * Determines which side is being driven in position mode, and returns the speed of that side. Returns -1 if in kStraight mode
+	 * @return the speed of the position talon
+	 */
+	public static double getPositionTalonSpeed()
+	{
+		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getSpeed();
+		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getSpeed();
+		return -1;
+	}
+	
+	/**
 	 * Sets the PID Values of both talons
 	 * <p>The PID Values to be used can be defined in Preferences, and have defaults set in the constants at the top of Chassis.
 	 * The PID Values can differ for high and low gear, as well as for if the talons are in speed or position mode, determined by 
@@ -384,7 +561,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	private static void setTalonPID()
 	{
-		/*if(m_bShiftedHigh){
+		if(m_bShiftedHigh){
 			switch(m_dir){
 			case kLeft:
 				m_rightMotorFront.setPID(
@@ -442,8 +619,9 @@ public class Chassis extends PIDSubsystem {
 			default:
 				break;
 			}
-		}*/
+		}
 	}
 	
+	public static void DriveStraight(double move) { moveSpeed = move; }
 	
 }
