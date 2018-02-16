@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
+import org.usfirst.frc.team3130.robot.commands.RunHookWinch;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -33,8 +34,7 @@ public class HookDeploy extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new RunHookWinch());
     }
     
     public static void toggleActuation(){

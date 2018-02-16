@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
 		
-		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
+		//bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
 		OI.GetInstance();
 		Chassis.GetInstance();
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-		LocationCamera.GetInstance();
+		//LocationCamera.GetInstance();
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();

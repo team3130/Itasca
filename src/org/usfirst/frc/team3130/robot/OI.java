@@ -151,7 +151,8 @@ public class OI {
 		
 		hookActuate.whenPressed(new HookToggle());
 		
-		wingsDeploy.whileHeld(new BasicActuate(Robot.bcWingsDeploy));
+		
+		//wingsDeploy.whileHeld(new BasicActuate(Robot.bcWingsDeploy));
 	}
 }
 
