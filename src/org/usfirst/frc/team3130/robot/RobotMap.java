@@ -34,8 +34,8 @@ public class RobotMap {
 	public static final int CAN_INTAKE = 8;
 	public static final int CAN_ELEVATOR1 = 6;
 	public static final int CAN_ELEVATOR2 = 7;
-	public static final int CAN_EVWINCH1 = 3130; //TODO: find actual
-	public static final int CAN_EVWINCH2 = 3130; //TODO: find actual
+	public static final int CAN_CLIMBWINCH1 = 3130; //TODO: find actual
+	public static final int CAN_CLIMBWINCH2 = 3130; //TODO: find actual
 	public static final int CAN_HDWINCH = 12; //TODO: find actual
 	
 	//Gamepad Button List

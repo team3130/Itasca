@@ -286,29 +286,6 @@ public class Chassis extends PIDSubsystem {
     }
     
     /**
-	 * Calls the .set() function on the Speed talon
-	 * <p>
-	 * Sets the appropriate output on the talon, depending on the mode.
-	 * </p>
-	 * 
-	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
-	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
-	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
-	 * <br/><b>In Speed mode, outputValue is in position change / 10ms.</b> 
-	 * <br/>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</p>
-	 * 
-	 * @param set - The setpoint value, as described above.
-	 */
-	public static void setSpeedTalon(double set)
-	{
-		if(m_dir.equals(TurnDirection.kRight))
-			m_rightMotorFront.set(set);
-		else
-		if(m_dir.equals(TurnDirection.kLeft))
-			m_leftMotorFront.set(set);
-	}
-    
-    /**
 	 * Returns the current angle of the robot, usually from the navX
 	 * @return current angle of the robot
 	 */
@@ -524,8 +501,8 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double getPositionTalonError()
 	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getError();
-		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getError();
+		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getClosedLoopError(0);
+		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getClosedLoopError(0);
 		return -1;
 	}
 	
@@ -535,8 +512,8 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double getSpeedTalonError()
 	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_rightMotorFront.getError();
-		else if(m_dir.equals(TurnDirection.kLeft))return m_leftMotorFront.getError();
+		if(m_dir.equals(TurnDirection.kRight)) return m_rightMotorFront.getClosedLoopError(0);
+		else if(m_dir.equals(TurnDirection.kLeft))return m_leftMotorFront.getClosedLoopError(0);
 		return -1;
 	}
 	
@@ -548,8 +525,8 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double getPositionTalonSpeed()
 	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getSpeed();
-		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getSpeed();
+		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getSelectedSensorVelocity(0);
+		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getSelectedSensorVelocity(0);
 		return -1;
 	}
 	
@@ -564,28 +541,32 @@ public class Chassis extends PIDSubsystem {
 		if(m_bShiftedHigh){
 			switch(m_dir){
 			case kLeft:
-				m_rightMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive Low Position P", TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive Low Position I", TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive Low Position D", TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT)
-				);
-				m_leftMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive Low Speed P", TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive Low Speed I", TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive Low Speed D", TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT)
-				);
+				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 100);
+				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT), 100);
+				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT), 100);
+				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 100);
+				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT), 100);
+				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT), 100);
 				break;
 			case kRight:
-				m_leftMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive Low Position P", TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive Low Position I", TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive Low Position D", TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT)
-				);
-				m_rightMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive Low Speed P", TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive Low Speed I", TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive Low Speed D", TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT)
-				);
+				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 100);
+				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT), 100);
+				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT), 100);
+				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 100);
+				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT), 100);
+				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT), 100);
 				break;
 			default:
 				break;
@@ -593,28 +574,32 @@ public class Chassis extends PIDSubsystem {
 		}else{
 			switch(m_dir){
 			case kLeft:
-				m_rightMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive High Position P", TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive High Position I", TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive High Position D", TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT)
-				);
-				m_leftMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive High Speed P", TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive High Speed I", TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive High Speed D", TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT)
-				);
+				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 100);
+				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT), 100);
+				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT), 100);
+				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 100);
+				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT), 100);
+				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT), 100);
 				break;
 			case kRight:
-				m_leftMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive High Position P", TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive High Position I", TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive High Position D", TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT)
-				);
-				m_rightMotorFront.setPID(
-						Preferences.getInstance().getDouble("CurveDrive High Speed P", TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 
-						Preferences.getInstance().getDouble("CurveDrive High Speed I", TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT),
-						Preferences.getInstance().getDouble("CurveDrive High Speed D", TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT)
-				);
+				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 100);
+				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT), 100);
+				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT), 100);
+				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
+						TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 100);
+				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
+						TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT), 100);
+				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
+						TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT), 100);
 				break;
 			default:
 				break;

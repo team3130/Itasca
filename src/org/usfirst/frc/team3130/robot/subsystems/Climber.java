@@ -24,8 +24,8 @@ public class Climber extends Subsystem {
 	}
 	
 	private Climber(){
-		winch1 = new WPI_TalonSRX(RobotMap.CAN_EVWINCH1);
-		winch2 = new WPI_TalonSRX(RobotMap.CAN_EVWINCH2);
+		winch1 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCH1);
+		winch2 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCH2);
 		winch1.setNeutralMode(NeutralMode.Brake);
 		winch2.setNeutralMode(NeutralMode.Brake);
 	}
