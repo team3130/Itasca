@@ -11,6 +11,8 @@ import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.BasicActuateToggle;
 import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
+import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
+import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team3130.robot.commands.ElevatorDown;
 import org.usfirst.frc.team3130.robot.commands.ElevatorUp;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
@@ -100,6 +102,9 @@ public class OI {
 	public static Joystick gamepad;
 	
 	//Buttons
+	private static JoystickButton shiftUp;
+	private static JoystickButton shiftDown;
+	
 	public static POVTrigger elevatorUp;
 	public static POVTrigger elevatorDown;
 	
@@ -136,9 +141,13 @@ public class OI {
 		hookActuate = new JoystickButton(gamepad, RobotMap.BTN_HOOKACTUATE);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
+		shiftUp = new JoystickButton(stickR, RobotMap.BTN_SHIFTUP);
+		shiftDown = new JoystickButton(stickL, RobotMap.BTN_SHIFTDOWN);
 		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
+		shiftUp.whenPressed(new DriveShiftUp());
+		shiftDown.whenPressed(new DriveShiftDown());
 		
 		elevatorUp.whenActive(new ElevatorUp());
 		elevatorDown.whenActive(new ElevatorDown());

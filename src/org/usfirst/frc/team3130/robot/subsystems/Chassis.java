@@ -5,10 +5,12 @@ import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 import org.usfirst.frc.team3130.robot.Constants;
 
+import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -99,6 +101,9 @@ public class Chassis extends PIDSubsystem {
     	m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
     	m_rightMotorFront = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORFRONT);
     	m_rightMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
+    	
+    	m_leftMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
@@ -609,4 +614,7 @@ public class Chassis extends PIDSubsystem {
 	
 	public static void DriveStraight(double move) { moveSpeed = move; }
 	
+	public static void toMotionProfileMode(){
+		
+	}
 }
