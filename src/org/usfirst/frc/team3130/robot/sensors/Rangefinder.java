@@ -22,9 +22,7 @@ public class Rangefinder {
 	public Rangefinder() {
 		i2c = new I2C(I2C.Port.kOnboard, LIDAR_ADDR);
 		// Mandatory : private registers
-		System.out.println("LIDAR Init Started");
 		writeByte(0x0207, 0x01);
-		System.out.println("LIDAR Complete 1 Byte Transfer");
 		
 		int reset = readByte(0x016);
 		if(reset == 1 || reset ==-1) {
@@ -169,8 +167,6 @@ public class Rangefinder {
 				count ++;
 			}
 			System.out.println("LIDAR Write Byte Failed " + count + " times.");
-
-			
 		}
 		return false;
 	}

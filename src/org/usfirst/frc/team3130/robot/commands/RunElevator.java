@@ -25,7 +25,6 @@ public class RunElevator extends Command {
     protected void execute() {
     	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
     	Elevator.runElevator(moveSpeed);
-    	System.out.println("Running elevator at " + moveSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
