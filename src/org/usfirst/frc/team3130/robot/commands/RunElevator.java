@@ -11,20 +11,30 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RunElevator extends Command {
-
+	private static boolean changeHeight = false;
     public RunElevator() {
         requires(Elevator.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	HoldElevator.enableHold = false;
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
-    	Elevator.runElevator(moveSpeed);
+    	if (OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY) >= 0.04 || OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)<= -0.04){
+    		HoldElevator.enableHold = false;
+	    	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+	    	Elevator.runElevator(moveSpeed);
+	    	changeHeight = true;
+    	} else {
+    		if (changeHeight == true){
+    			HoldElevator.enableHold = true;
+    			HoldElevator.holdHeight = Elevator.getHeight();
+    			changeHeight = false;
+    		}
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,8 +45,7 @@ public class RunElevator extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Elevator.runElevator(0.0);
-    	HoldElevator.enableHold = true;
-    	HoldElevator.holdHeight = Elevator.getHeight();
+    	
     }
 
     // Called when another command which requires one or more of the same
