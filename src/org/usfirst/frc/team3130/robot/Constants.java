@@ -13,6 +13,8 @@ public class Constants extends ConstantsBase {
     public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
+    public static double kMaxVelocity = 20.0; //in/s TODO:find
+    public static double kMaxAcceleration = 20.0; //in/s^2 TODO:find
     
     //Elevator constants
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);

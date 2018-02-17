@@ -148,7 +148,7 @@ public class Chassis extends PIDSubsystem {
      * Returns the current shift of the robot
      * @return Current shift of the robot
      */
-    public static boolean GetShiftedDown(){return m_bShiftedHigh;}
+    public static boolean GetShiftedUp(){return m_bShiftedHigh;}
     
     protected double returnPIDInput() {
     	if(m_dir.equals(TurnDirection.kStraight))return GetAngle();

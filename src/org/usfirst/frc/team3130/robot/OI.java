@@ -22,6 +22,7 @@ import org.usfirst.frc.team3130.robot.commands.IntakeToggleL;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggleR;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
+import org.usfirst.frc.team3130.robot.commands.Shift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
@@ -104,6 +105,7 @@ public class OI {
 	//Buttons
 	private static JoystickButton shiftUp;
 	private static JoystickButton shiftDown;
+	private static JoystickButton shift;
 	
 	public static POVTrigger elevatorUp;
 	public static POVTrigger elevatorDown;
@@ -143,9 +145,11 @@ public class OI {
 		changeDriveMode = new JoystickButton(stickL, 12);
 		shiftUp = new JoystickButton(stickR, RobotMap.BTN_SHIFTUP);
 		shiftDown = new JoystickButton(stickL, RobotMap.BTN_SHIFTDOWN);
+		shift = new JoystickButton(stickL, RobotMap.BTN_SHIFT);
 		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
+		shift.whenPressed(new Shift());
 		shiftUp.whenPressed(new DriveShiftUp());
 		shiftDown.whenPressed(new DriveShiftDown());
 		
@@ -161,7 +165,7 @@ public class OI {
 		hookActuate.whenPressed(new HookToggle());
 		
 		
-		//wingsDeploy.whileHeld(new BasicActuate(Robot.bcWingsDeploy));
+		wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
 	}
 }
 
