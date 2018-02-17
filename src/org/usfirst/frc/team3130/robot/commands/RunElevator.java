@@ -23,9 +23,14 @@ public class RunElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY) >= 0.04 || OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)<= -0.04){
+    	if (OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY) >= 0.04 ){
     		HoldElevator.enableHold = false;
-	    	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.6)- 0.4) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+	    	Elevator.runElevator(moveSpeed);
+	    	changeHeight = true;
+    	} else if(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)<= -0.04){
+    		HoldElevator.enableHold = false;
+	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.6)) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
 	    	Elevator.runElevator(moveSpeed);
 	    	changeHeight = true;
     	} else {
