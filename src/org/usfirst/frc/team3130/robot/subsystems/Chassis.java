@@ -5,7 +5,6 @@ import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 import org.usfirst.frc.team3130.robot.Constants;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
