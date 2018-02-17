@@ -12,7 +12,6 @@ import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
-import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.Climber;
@@ -75,7 +74,6 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-		LocationCamera.enable();
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();
@@ -83,8 +81,8 @@ public class Robot extends TimedRobot {
 		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
 		
 		mEnabledLooper.register(HoldElevator.getInstance());
-        mEnabledLooper.register(VisionProcessor.getInstance());
-        
+		mEnabledLooper.register(VisionProcessor.getInstance());
+
 		//m_chooser.addDefault();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -101,6 +99,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
+		LocationCamera.set(LocationCamera.Mode.kLocation);
 	}
 
 	@Override
@@ -122,6 +121,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
+		LocationCamera.set(LocationCamera.Mode.kDisabled);
 		m_autonomousCommand = m_chooser.getSelected();
 
 		/*
@@ -150,7 +150,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.logTeleopInit();
-		
+		LocationCamera.set(LocationCamera.Mode.kView);
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove

@@ -21,6 +21,11 @@ import edu.wpi.first.wpilibj.DriverStation;
  *
  */
 public class LocationCamera {
+	public enum Mode {
+		kDisabled,
+		kView,
+		kLocation
+	}
 
 	public static String cameraName = "StartCam";
 
@@ -44,7 +49,9 @@ public class LocationCamera {
 	}
 
 	private UsbCamera camera;
-	private boolean isEnabled = false;
+	CvSink cvSink;
+	CvSource outputStream;
+	private Mode mode = Mode.kDisabled;
 	private Point3 location = new Point3();
 
 	public LocationCamera()
@@ -62,59 +69,49 @@ public class LocationCamera {
 //			camera.setResolution(640, 360);
 //			camera.setResolution(960, 540);
 			camera.setExposureManual(60);
-			CameraServer.getInstance().startAutomaticCapture(camera);
 
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo(cameraName, 240, 135);
+			// Actually putVideo does startAutomaticCapture()
+//			CameraServer.getInstance().startAutomaticCapture(camera);
 
-			Mat frame = new Mat();
+			outputStream = CameraServer.getInstance().putVideo(cameraName, 240, 135);
+			cvSink = CameraServer.getInstance().getVideo(cameraName);
+
                         
 			while(!Thread.interrupted()) 
 			{
-				if(!isEnabled) {
+				Mode safeMode;
+				synchronized(mode) {
+					safeMode = mode;
+				}
+				switch(safeMode) {
+				case kLocation:
+					doLocation();
+					break;
+				case kView:
+					doView();
+					break;
+				default:
 					try {
 						Thread.sleep(20);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						break;
 					}
-					continue;
 				}
-				if(cvSink.grabFrame(frame) == 0) {
-					DriverStation.reportError(cvSink.getError(), false);
-					continue;
-				}
-				Point3 safeLocation = findPosition(frame);
-
-				// Location is a shared object between the threads so synchronize before accessing
-				synchronized(location)
-				{
-					location = safeLocation;
-				}
-            	
-//				Imgproc.resize(frame, frame, new Size(240,135));
-				Mat outFrame = new Mat(frame,new Rect(new Point(640-120, 360-135), new Size(240, 135)));
-				outputStream.putFrame(outFrame);
-				
 			}
-		}).start();
+		}).start(); // Thread
 	}
 
-	public static void enable() { GetInstance().isEnabled = true; }
-	public static void disable() { GetInstance().isEnabled = false; }
+	void doView() {
+		
+	}
 
-	public static Point3 getPosition() {
-		LocationCamera instance = GetInstance();
-		Point3 safeLocation;
-		// Location is a shared object between the threads so synchronize before accessing
-		synchronized (instance.location) {
-			safeLocation = instance.location;
+	void doLocation() {
+		Mat frame = new Mat();
+		if(cvSink.grabFrame(frame) == 0) {
+			DriverStation.reportError(cvSink.getError(), false);
+			return;
 		}
-		return safeLocation;
-	}
-
-	public Point3 findPosition(Mat frame) {
 		double imageHeight = frame.height();
 		double imageWidth = frame.width();
 
@@ -126,10 +123,38 @@ public class LocationCamera {
 		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0));
 
 		Imgproc.putText(frame, "Res "+imageWidth+"x"+imageHeight, new Point(imageWidth/2-100,imageHeight/2-20), 1, 1, new Scalar(0,200,200));
+
 		// TODO Implement finding robot's position
-		return new Point3(0,0,0);
+		Point3 safeLocation = new Point3(0,0,0);
+
+		// Location is a shared object between the threads so synchronize before accessing
+		synchronized(location)
+		{
+			location = safeLocation;
+		}
+    	
+//		Imgproc.resize(frame, frame, new Size(240,135));
+		Mat outFrame = new Mat(frame,new Rect(new Point(640-120, 360-135), new Size(240, 135)));
+		outputStream.putFrame(outFrame);
+		
 	}
 
+	public void setMode(Mode m) {
+		synchronized (mode) {
+			mode = m;
+		}
+	}
+	public static void set(Mode m) { GetInstance().setMode(m); }
+
+	public static Point3 getPosition() {
+		LocationCamera instance = GetInstance();
+		Point3 safeLocation;
+		// Location is a shared object between the threads so synchronize before accessing
+		synchronized (instance.location) {
+			safeLocation = instance.location;
+		}
+		return safeLocation;
+	}
 }
 	
 	
