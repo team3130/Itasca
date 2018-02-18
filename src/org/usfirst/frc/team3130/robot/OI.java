@@ -10,6 +10,8 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
+import org.usfirst.frc.team3130.robot.commands.HeightSetter;
+import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
@@ -96,7 +98,10 @@ public class OI {
 	private static JoystickButton shiftUp;
 	private static JoystickButton shiftDown;
 	private static JoystickButton shift;
-	
+
+	public static POVTrigger elevatorUp;
+	public static POVTrigger elevatorDown;
+
 	public static JoystickButton cubeIn;
 	public static JoystickButton cubeOut;
 	public static JoystickButton cubeActuate;
@@ -136,7 +141,10 @@ public class OI {
 		shift.whenPressed(new Shift());
 		shiftUp.whenPressed(new DriveShiftUp());
 		shiftDown.whenPressed(new DriveShiftDown());
-		
+
+		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
+		elevatorDown.whenActive(new HeightSetter(Direction.kDown));
+
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
 		cubeActuate.whenPressed(new IntakeToggle());
