@@ -8,12 +8,9 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
-import org.usfirst.frc.team3130.robot.commands.HoldElevator;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
-import org.usfirst.frc.team3130.robot.subsystems.BasicTalonSRX;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.Climber;
@@ -70,7 +67,6 @@ public class Robot extends TimedRobot {
 		Chassis.GetInstance();
 		CubeIntake.GetInstance();
 		Elevator.GetInstance();
-		HoldElevator.getInstance();
 		Climber.GetInstance();
 		BlinkinInterface.GetInstance();
 		HookDeploy.GetInstance();
@@ -83,9 +79,6 @@ public class Robot extends TimedRobot {
 		VisionServer.getInstance().requestAppStart();
 		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
 		
-		mEnabledLooper.register(HoldElevator.getInstance());
-        mEnabledLooper.register(VisionProcessor.getInstance());
-        
 		chooser.addDefault("No Auton", "No Auto");
 		chooser.addObject("Test MP", "Run MP");
 		SmartDashboard.putData("Auto mode", chooser);

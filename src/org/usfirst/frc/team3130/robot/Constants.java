@@ -23,7 +23,7 @@ public class Constants extends ConstantsBase {
     public static int kElevatorSoftMin = 55; //in encoder ticks
     
     //Elevator PID
-    public static double kElevatorP = Preferences.getInstance().getDouble("ElevatorP",1.0);
+    public static double kElevatorP = Preferences.getInstance().getDouble("ElevatorP",0.2);
     public static double kElevatorI = 0.0;
     public static double kElevatorD = 0.0;
     public static double kElevatorF = 0.0;

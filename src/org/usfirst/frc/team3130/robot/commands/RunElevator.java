@@ -11,34 +11,27 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RunElevator extends Command {
-	private static boolean changeHeight = false;
-    public RunElevator() {
+	private boolean changeHeight = false;
+
+	public RunElevator() {
         requires(Elevator.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	changeHeight = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY) >= 0.04 ){
-    		HoldElevator.enableHold = false;
-	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.6)- 0.4) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+    	double stick = OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+    	if (Math.abs(stick) >= 0.04 ){
+	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.6)) * -stick;
 	    	Elevator.runElevator(moveSpeed);
 	    	changeHeight = true;
-    	} else if(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)<= -0.04){
-    		HoldElevator.enableHold = false;
-	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.6)) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
-	    	Elevator.runElevator(moveSpeed);
-	    	changeHeight = true;
-    	} else {
-    		if (changeHeight == true){
-    			HoldElevator.enableHold = true;
-    			HoldElevator.holdHeight = Elevator.getHeight();
+    	} else if (changeHeight){
+    			Elevator.setHeight(Elevator.getHeight());
     			changeHeight = false;
-    		}
     	}
     }
 
