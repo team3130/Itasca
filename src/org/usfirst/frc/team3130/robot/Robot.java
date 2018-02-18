@@ -74,7 +74,6 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-		LocationCamera.set(LocationCamera.Mode.kView);
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();
@@ -100,7 +99,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
-		LocationCamera.set(LocationCamera.Mode.kView);
+		LocationCamera.set(LocationCamera.Mode.kLocation);
 	}
 
 	@Override
@@ -151,7 +150,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.logTeleopInit();
-		LocationCamera.set(LocationCamera.Mode.kView);
+		LocationCamera.set(LocationCamera.Mode.kDisabled);
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to

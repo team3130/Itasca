@@ -17,6 +17,7 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -31,6 +32,8 @@ public class LocationCamera {
 	}
 
 	public static String cameraName = "StartCam";
+	static final int NTwidth = 384;
+	static final int NTheight = 240;
 
 	// Camera intrinsics, obtained by "camera calibration" (see [google] tutorial_interactive_calibration.html)
 	// These numbers are for the MS Lifecam HD3000 #1 at 1280x720 mode
@@ -43,21 +46,22 @@ public class LocationCamera {
 
 
 	private static LocationCamera m_pInstance;
-	public static LocationCamera GetInstance()
+	public static synchronized LocationCamera GetInstance()
 	{
-//		synchronized (m_pInstance) {
-			if(m_pInstance == null) m_pInstance = new LocationCamera();
-//		}
+		if(m_pInstance == null) m_pInstance = new LocationCamera();
 		return m_pInstance;
 	}
 
-	VideoCapture capture = new VideoCapture();
-//	private UsbCamera camera = new UsbCamera("CamZero", 0);
-	CvSink cvSink;
-	CvSource outputStream;
+	private UsbCamera camera = new UsbCamera("CamZero", 0);
+	CvSink cvSink = CameraServer.getInstance().getVideo(camera);
+	CvSource outputStream = CameraServer.getInstance().putVideo(cameraName, NTwidth, NTheight);
 	private Mode mode = Mode.kDisabled;
 	private boolean modeChanged = true;
 	private Point3 location = new Point3();
+
+	// Image matrixes are big so let's reuse them
+	private Mat frame = new Mat();
+	private Mat display = new Mat();
 
 	public LocationCamera()
 	{
@@ -76,54 +80,19 @@ public class LocationCamera {
 			// Run this thing as a thread so the heavy vision processing won't block the main (robot's) thread.
 			new Thread(() -> 
 			{
-				//open the video stream and make sure it's opened
-				//We specify desired frame size and fps in constructor
-				//Camera must be able to support specified framesize and frames per second
-				//or this will set camera to defaults
-				int count=1;
-				while (!capture.open(0) /*CAPTURE_PORT, CAPTURE_COLS, CAPTURE_ROWS, CAPTURE_FPS)*/)
-				{
-					System.err.println("Error connecting to camera stream, retrying "+ count);
-					count++;
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						break;
-					}
-				}
-
-				//After Opening Camera we need to configure the returned image setting
-				//all opencv v4l2 camera controls scale from 0.0 to 1.0
-				capture.set(Videoio.CAP_PROP_EXPOSURE, 10);
-				capture.set(Videoio.CAP_PROP_BRIGHTNESS, 30);
 				
+				// Done in implicit constructor
+				//outputStream = CameraServer.getInstance().putVideo(cameraName, 640, 400);
 				
-				outputStream = CameraServer.getInstance().putVideo(cameraName, 640, 400);
-				
-				
-				
-				
-				
-/*				
-				
-				camera.setResolution(1280, 720);
+				/* Done later when mode is selected
+				camera.setResolution(1280, 800);
 				// HD-3000 min exposure is 5, Tested: 5, 10, 20, 39, 78, 156, 312, 625...
 				camera.setExposureManual(10);
 				camera.setWhiteBalanceManual(4500);
 				camera.setBrightness(30);
 				camera.setFPS(3);
+				*/
 
-				// Actually putVideo does startAutomaticCapture() -- TODO: optimize
-//				CameraServer.getInstance().startAutomaticCapture(camera);
-
-//				outputStream = new CvSource(cameraName, VideoMode.PixelFormat.kMJPEG, 640, 400, 30);
-				cvSink = CameraServer.getInstance().getVideo(camera);
-//				CameraServer.getInstance().addServer(cvSink);
-				System.out.println("LocationCamera init: "+ outputStream + ", "+ cvSink);
-*/
-	                        
 				while(!Thread.interrupted()) 
 				{
 					Mode safeMode;
@@ -135,8 +104,8 @@ public class LocationCamera {
 						doLocation();
 						break;
 					case kView:
-						doView();
-						break;
+//						doView();
+//						break;
 					default:
 						try {
 							Thread.sleep(20);
@@ -155,38 +124,45 @@ public class LocationCamera {
 	void doView() {
 		if(modeChanged) {
 			modeChanged = false;
-/*			cvSink.free();
-			camera.setResolution(424,240);
+//			cvSink.setEnabled(false);
+			camera.setResolution(NTwidth, NTheight);
 			camera.setExposureManual(78);
 			camera.setWhiteBalanceManual(4500);
 			camera.setBrightness(30);
-			camera.setFPS(30);
-*/			System.out.println("LocationCamera switched to View mode");
+			camera.setFPS(10);
+//			cvSink.setEnabled(true);
+			
+//			server.setSource(camera);
+			System.out.println("LocationCamera switched to View mode.");
 		}
-		Mat frame = new Mat();
-		if(!capture.read(frame)) {
+/*		Mat frame = new Mat();
+		if(cvSink.grabFrame(frame, 1.0) == 0) {
 			DriverStation.reportError("Error reading from capture", false);
 			return;
 		}
-		outputStream.putFrame(frame);
+		outputStream.putFrame(frame);*/
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	void doLocation() {
 		if(modeChanged) {
 			modeChanged = false;
-			/*
+
 			camera.setResolution(1280, 720);
 			// HD-3000 min exposure is 5, Tested: 5, 10, 20, 39, 78, 156, 312, 625...
 			camera.setExposureManual(10);
 			camera.setWhiteBalanceManual(4500);
 			camera.setBrightness(30);
-			camera.setFPS(3);
-//			CameraServer.getInstance().getServer().setSource(outputStream);
- */
+			camera.setFPS(2);
+
 			System.out.println("LocationCamera switched to Location mode");
 		}
-		Mat frame = new Mat();
-		if(cvSink.grabFrame(frame) == 0) {
+		if(cvSink.grabFrame(frame, 1.0) == 0) {
 			DriverStation.reportError(cvSink.getError(), false);
 			return;
 		}
@@ -195,10 +171,10 @@ public class LocationCamera {
 
 		MatOfPoint2f imagePoints = new MatOfPoint2f();
 
-		Rect roiRect = new Rect(new Point(0, imageHeight/5), new Size(imageWidth, imageHeight/3));
-		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0));
-		roiRect = new Rect(new Point(0, 2*imageHeight/3), new Size(imageWidth, imageHeight/3));
-		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0));
+		Rect roiRect = new Rect(new Point(imageWidth/8, imageHeight/6), new Size(6*imageWidth/8, imageHeight/4));
+		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0), 4);
+		roiRect = new Rect(new Point(imageWidth/8, 2*imageHeight/3), new Size(6*imageWidth/8, imageHeight/4));
+		Imgproc.rectangle(frame, roiRect.tl(), roiRect.br(), new Scalar(0,255,0), 4);
 
 		Imgproc.putText(frame, "Res "+imageWidth+"x"+imageHeight, new Point(imageWidth/2-100,imageHeight/2-20), 1, 1, new Scalar(0,200,200));
 
@@ -210,11 +186,10 @@ public class LocationCamera {
 		{
 			location = safeLocation;
 		}
-    	
-		Imgproc.resize(frame, frame, new Size(640,400));
+
+		Imgproc.resize(frame, display, new Size(NTwidth,NTheight));
 //		Mat outFrame = new Mat(frame,new Rect(new Point(640-120, 360-135), new Size(240, 135)));
-		outputStream.putFrame(frame);
-		
+		outputStream.putFrame(display);
 	}
 
 	public void setMode(Mode m) {
