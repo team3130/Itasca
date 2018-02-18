@@ -137,6 +137,14 @@ public class Chassis extends PIDSubsystem {
     	m_drive.arcadeDrive(move, turn, false);
     }
     
+    public static WPI_TalonSRX getFrontL(){
+    	return m_leftMotorFront;
+    }
+    
+    public static WPI_TalonSRX getFrontR(){
+    	return m_rightMotorFront;
+    }
+    
   //shifts the robot either into high or low gear
     public static void Shift(boolean shiftUp)
     {

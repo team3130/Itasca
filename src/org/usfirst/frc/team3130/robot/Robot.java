@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.commands.HoldElevator;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
@@ -39,8 +40,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
 	
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	Command autonomousCommand;
+	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotSensors robotSensors;
 	VisionServer mVisionServer = VisionServer.getInstance();
 	
@@ -85,9 +86,9 @@ public class Robot extends TimedRobot {
 		mEnabledLooper.register(HoldElevator.getInstance());
         mEnabledLooper.register(VisionProcessor.getInstance());
         
-		//m_chooser.addDefault();
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		chooser.addDefault("No Auton", "No Auto");
+		chooser.addObject("Test MP", "Run MP");
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -122,18 +123,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
-		m_autonomousCommand = m_chooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
+		switch(chooser.getSelected()){
+		case "Run MP":
+			autonomousCommand = new RunMotionProfiles();
+			break;
+		case "No Auto":
+			autonomousCommand = null;
+			break;
+		default:
+			autonomousCommand = null;
+		}
+			
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
         mDisabledLooper.stop();
         mEnabledLooper.start();
@@ -155,8 +159,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
         mDisabledLooper.stop();
         mEnabledLooper.start();

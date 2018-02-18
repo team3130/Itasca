@@ -162,10 +162,10 @@ public class OI {
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		
-		hookActuate.whenPressed(new HookToggle());
+		//hookActuate.whenPressed(new HookToggle());
 		
 		
-		wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
+		//wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
 	}
 }
 

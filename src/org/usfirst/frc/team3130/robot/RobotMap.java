@@ -79,11 +79,11 @@ public class RobotMap {
 	public static final int LST_AXS_CLIMB2 = LST_AXS_RTRIGGER; 
 	
 	//Hook Deploy
-	public static final int PNM_HOOKACTUATE = 8; //TODO: replace with actual
+	public static final int PNM_HOOKACTUATE = 7; //TODO: replace with actual
 	public static final int BTN_HOOKACTUATE = LST_BTN_Y; //TODO: replace with actual
 	
 	//Wings
-	public static final int PNM_WINGSDEPLOY = 8; //TODO: replace with actual
+	public static final int PNM_WINGSDEPLOY = 7; //TODO: replace with actual
 	public static final int BTN_WINGSDEPLOY = LST_BTN_RBUMPER;
 	
 	//Chassis
