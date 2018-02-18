@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Generates a trapezoidal motion profile and trajectory for a linear motion
  * @author Ashley
  */
-public class LinearTrapTraj {
+public class TrapezoidalTrajectory {
 
 	/**
 	 * total distance the trajectory will travel (inches)
@@ -58,7 +58,7 @@ public class LinearTrapTraj {
 	 * @param amax   top acceleration of the system in in/s^2
 	 * @param tStep  step size to create segments in ms
 	 */
-	public LinearTrapTraj(double d, double v0, double vf, double vmax, double amax, int tStep){
+	public TrapezoidalTrajectory(double d, double v0, double vf, double vmax, double amax, int tStep){
 		this.distance = d;
 		this.v0 = v0;
 		this.vf = vf;
@@ -68,12 +68,23 @@ public class LinearTrapTraj {
 		this.tv = 0;
 		this.td = 0;
 		this.tStep = tStep/1000.0;
+		System.out.println("TT created");
 	}
 	
 	public ArrayList<Segment> getSeg() {
 		return segments;
 	}
 	
+	/**
+	 * @return  the trajectory points' duration in ms
+	 */
+	public int getPointDuration(){
+		return (int)(1000.0*tStep);
+	}
+	
+	/**
+	 * Generate the times for the three phases of the profile: acceleration, cruise, and deceleration
+	 */
 	public void findTimes(){
 		if(v0 == vf){
 			//try with systems' mechanical maximums
@@ -142,8 +153,12 @@ public class LinearTrapTraj {
 		System.out.println("Tstep: " + tStep);
 		*/
 	}
-
+	
+	/**
+	 * Create segments to represent the system's state over time
+	 */
 	public void generateSegments(){
+		//set first segment
 		Segment first = new Segment();
 		first.setAcc(amax);
 		first.setVel(v0);
@@ -152,10 +167,12 @@ public class LinearTrapTraj {
 		segments.add(first);
 		int i = 0;
 		double time = 0;
+		//add up times of phases for total time
 		if(v0 == vf)	
 			time = ta + tv + ta;
 		else    
 			time = ta + tv + td;
+		//iterate through the movement time, creating segments to capture the state of the system at different times
 		for(double t = tStep; t < time; t+=tStep){
 			segments.add(new Segment());
 			i++;
@@ -183,30 +200,27 @@ public class LinearTrapTraj {
 		}	
 	}
 	
-	public void generate(){
-		findTimes();
-		generateSegments();
+	/**
+	 * Convert our segments into rotational units to feed to the talons
+	 * @param wheelDiameter  diameter of wheel(s) in inches
+	 */
+	public void convertToRotational(double wheelDiameter){
+		for(int i = 0; i < segments.size(); i++){
+			double rpos = segments.get(i).getX() / (Math.PI * wheelDiameter);
+			double rvel = segments.get(i).getVel() / (Math.PI * wheelDiameter);
+			segments.get(i).setPos(rpos);
+			segments.get(i).setrVel(rvel);
+			//System.out.println("Segement #" + (i+1) + " : rotations - " + rpos + " , rvel: " + rvel);
+		}
 	}
 	
-	public void calculateTime(){
-		double totalTime = 0;
-		for(int i = 0; i < segments.size()-1; i++){
-			segments.get(i).setT(totalTime);
-			double v0 = segments.get(i).getVel();
-			double vf = segments.get(i+1).getVel();
-			double deltaX = Math.abs(segments.get(i+1).getX() - segments.get(i).getX());
-			double a = ((vf*vf) - (v0*v0)) / (4*deltaX);
-			double t = 0;
-			if(a != 0){
-				double b = v0;
-				double c = -deltaX;
-				t = (-b + Math.sqrt((b * b) - (4 * a * c))) / (2 * a);
-			}
-			else{
-				t = deltaX / v0;
-			}
-			totalTime += t;
-		}
-		segments.get(segments.size()-1).setT(totalTime);
+	/**
+	 * Create the trajectory with all the needed parts
+	 * @param wd  wheel diameter in inches
+	 */
+	public void generate(double wd){
+		findTimes();
+		generateSegments();
+		convertToRotational(wd);
 	}
 }

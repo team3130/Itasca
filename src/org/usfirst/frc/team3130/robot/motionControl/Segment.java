@@ -3,7 +3,7 @@ package org.usfirst.frc.team3130.robot.motionControl;
 
 public class Segment {
 
-	 private double t, x, y, h, pos, vel, acc;
+	 private double t, x, y, h, vel, acc, pos, rvel;
 
      public Segment(double t, double x, double y, double h, double pos, double vel, double acc) {
          this.t = t;
@@ -23,6 +23,7 @@ public class Segment {
          this.pos = 0.0;
          this.vel = 0.0;
          this.acc = 0.0;
+         this.rvel = 0.0;
      }
      
      public Segment(double x){
@@ -33,6 +34,7 @@ public class Segment {
     	 this.pos = 0.0;
     	 this.vel = 0.0;
     	 this.acc = 0.0;
+         this.rvel = 0.0;
      }
      
      public Segment() {
@@ -43,6 +45,7 @@ public class Segment {
          this.pos = 0.0;
          this.vel = 0.0;
          this.acc = 0.0;
+         this.rvel = 0.0;
      }
      
      @Override
@@ -96,6 +99,14 @@ public class Segment {
      
      public void setVel(double vel){
     	 this.vel = vel; 
+     }
+     
+     public double getrVel(){
+    	 return rvel;
+     }
+     
+     public void setrVel(double r){
+    	 this.rvel = r;
      }
      
      public double getAcc(){
