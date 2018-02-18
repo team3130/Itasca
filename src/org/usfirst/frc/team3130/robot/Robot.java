@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
+		LocationCamera.set(LocationCamera.Mode.kView);
 		AndroidInterface.GetInstance();
 		AndroidInterface.GetInstance().reset();
 		VisionServer.getInstance();
@@ -99,7 +100,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
-		LocationCamera.set(LocationCamera.Mode.kLocation);
+		LocationCamera.set(LocationCamera.Mode.kView);
 	}
 
 	@Override
