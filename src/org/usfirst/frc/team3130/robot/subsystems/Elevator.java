@@ -59,7 +59,18 @@ public class Elevator extends Subsystem {
     }
 
     public static void runElevator(double percent) {
+    	boolean goingDown = percent < 0;
+
+    	// Offset the power by a bias to counteract the gravity
     	percent += Preferences.getInstance().getDouble("ElevatorBias", -0.2);
+
+    	// At the bottom (if the height is lower than the safety zone) throttle down the power
+    	double height = getHeight();
+    	double zone = Preferences.getInstance().getDouble("ElevatorZone", 16);
+    	if(goingDown && height < zone) {
+    		percent *= Math.abs(height / zone);
+    	}
+
     	elevator.set(ControlMode.PercentOutput, percent);
     }
 
