@@ -136,6 +136,9 @@ public class OI {
 		shiftDown = new JoystickButton(stickL, RobotMap.BTN_SHIFTDOWN);
 		shift = new JoystickButton(stickL, RobotMap.BTN_SHIFT);
 		
+		elevatorUp = new POVTrigger(gamepad, RobotMap.LST_POV_N);
+		elevatorDown = new POVTrigger(gamepad, RobotMap.LST_POV_S);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
