@@ -79,6 +79,8 @@ public class Robot extends TimedRobot {
 		VisionServer.getInstance().requestAppStart();
 		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
 		
+		mEnabledLooper.register(VisionProcessor.getInstance());
+		
 		chooser.addDefault("No Auton", "No Auto");
 		chooser.addObject("Test MP", "Run MP");
 		SmartDashboard.putData("Auto mode", chooser);

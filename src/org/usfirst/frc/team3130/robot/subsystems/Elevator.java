@@ -62,11 +62,11 @@ public class Elevator extends Subsystem {
     	boolean goingDown = percent < 0;
 
     	// Offset the power by a bias to counteract the gravity
-    	percent += Preferences.getInstance().getDouble("ElevatorBias", -0.2);
+    	percent += Constants.kElevatorBias;
 
     	// At the bottom (if the height is lower than the safety zone) throttle down the power
     	double height = getHeight();
-    	double zone = Preferences.getInstance().getDouble("ElevatorZone", 16);
+    	double zone = Constants.kElevatorZone;
     	if(goingDown && height < zone) {
     		percent *= Math.abs(height / zone);
     	}
@@ -84,8 +84,6 @@ public class Elevator extends Subsystem {
 
     public static void outputToSmartDashboard() {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
-    	SmartDashboard.putNumber("elev_m1volt", elevator.getMotorOutputVoltage() );
-    	SmartDashboard.putNumber("elev_m2volt", elevator2.getMotorOutputVoltage() );
     	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
     	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
     }
