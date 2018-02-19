@@ -21,14 +21,19 @@ public class Climb extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	c.stop();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double winch1Speed = OI.gamepad.getRawAxis(RobotMap.CAN_CLIMBWINCH1);
-    	double winch2Speed = OI.gamepad.getRawAxis(RobotMap.CAN_CLIMBWINCH2);
-    	Climber.climb(winch1Speed, winch2Speed);
+    	double winchLSpeed = OI.gamepad.getRawAxis(RobotMap.CAN_CLIMBWINCHL1);
+    	double winchRSpeed = OI.gamepad.getRawAxis(RobotMap.CAN_CLIMBWINCHR1);
+    	if(winchLSpeed > 0 || winchRSpeed > 0){
+    		//c.stop();
+    	}
+    	else{
+    		//c.start();
+    	}
+    	Climber.climb(winchLSpeed, winchRSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,7 +44,6 @@ public class Climb extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Climber.climb(0,0);
-    	c.start();
     }
 
     // Called when another command which requires one or more of the same
