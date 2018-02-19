@@ -221,7 +221,7 @@ public class DetectLED
 		return this;
 	}
 
-	MatOfPoint2f getCorners() {
+	public MatOfPoint2f getCorners() {
 		if(chains.size() > 0) {
 			List<Point2> tmpNodes = chains.get(0).nodes;
 			tmpNodes.sort(new Comparator<Point2>() {
