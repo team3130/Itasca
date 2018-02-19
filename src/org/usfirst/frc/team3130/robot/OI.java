@@ -7,25 +7,17 @@
 
 package org.usfirst.frc.team3130.robot;
 
-import org.usfirst.frc.team3130.robot.commands.BasicActuate;
-import org.usfirst.frc.team3130.robot.commands.BasicActuateToggle;
-import org.usfirst.frc.team3130.robot.commands.BasicSpinMotor;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
-import org.usfirst.frc.team3130.robot.commands.ElevatorDown;
-import org.usfirst.frc.team3130.robot.commands.ElevatorUp;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HookToggle;
+import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
-import org.usfirst.frc.team3130.robot.commands.IntakeToggleL;
-import org.usfirst.frc.team3130.robot.commands.IntakeToggleR;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -106,10 +98,10 @@ public class OI {
 	private static JoystickButton shiftUp;
 	private static JoystickButton shiftDown;
 	private static JoystickButton shift;
-	
+
 	public static POVTrigger elevatorUp;
 	public static POVTrigger elevatorDown;
-	
+
 	public static JoystickButton cubeIn;
 	public static JoystickButton cubeOut;
 	public static JoystickButton cubeActuate;
@@ -137,9 +129,6 @@ public class OI {
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
 		
-		elevatorUp = new POVTrigger(stickR, 0);
-		elevatorDown = new POVTrigger(stickR, 180);
-		
 		hookActuate = new JoystickButton(gamepad, RobotMap.BTN_HOOKACTUATE);
 		
 		changeDriveMode = new JoystickButton(stickL, 12);
@@ -152,10 +141,10 @@ public class OI {
 		shift.whenPressed(new Shift());
 		shiftUp.whenPressed(new DriveShiftUp());
 		shiftDown.whenPressed(new DriveShiftDown());
-		
-		elevatorUp.whenActive(new ElevatorUp());
-		elevatorDown.whenActive(new ElevatorDown());
-		
+
+		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
+		elevatorDown.whenActive(new HeightSetter(Direction.kDown));
+
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
 		cubeActuate.whenPressed(new IntakeToggle());
