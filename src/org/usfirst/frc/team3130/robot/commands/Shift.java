@@ -41,7 +41,6 @@ public class Shift extends Command {
     		timer.reset();
     		timer.start();
     	}
-    	System.out.println("Shifting...");
     }
 
     // Make this return true when this Command no longer needs to run execute()

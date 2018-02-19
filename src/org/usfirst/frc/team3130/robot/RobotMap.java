@@ -90,7 +90,7 @@ public class RobotMap {
 	public static final int BTN_WINGSDEPLOY = LST_BTN_RBUMPER;
 	
 	//Chassis
-	public static final int PNM_SHIFT = 3;
+	public static final int PNM_SHIFT = 4;
 	public static final int BTN_SHIFT = 4; //Joystick L
 	public static final int BTN_SHIFTDOWN = 5;	//Joystick L
 	public static final int BTN_SHIFTUP = 6;	//Joystick L
