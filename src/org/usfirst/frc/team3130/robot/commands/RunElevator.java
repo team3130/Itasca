@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3130.robot.commands;
 
+import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.OI;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
@@ -11,20 +12,28 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class RunElevator extends Command {
+	private boolean changeHeight = false;
 
-    public RunElevator() {
+	public RunElevator() {
         requires(Elevator.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	HoldElevator.enableHold = false;
+    	changeHeight = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double moveSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6) * -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
-    	Elevator.runElevator(moveSpeed);
+    	double stick = OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+    	if (Math.abs(stick) >= 0.04 ){
+	    	double moveSpeed = (Constants.kElevatorSpeed) * -stick;
+	    	Elevator.runElevator(moveSpeed);
+	    	changeHeight = true;
+    	} else if (changeHeight){
+    			Elevator.setHeight(Elevator.getHeight());
+    			changeHeight = false;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,8 +44,7 @@ public class RunElevator extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Elevator.runElevator(0.0);
-    	HoldElevator.enableHold = true;
-    	HoldElevator.holdHeight = Elevator.getHeight();
+    	
     }
 
     // Called when another command which requires one or more of the same

@@ -13,22 +13,27 @@ public class Constants extends ConstantsBase {
     public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
+    public static double kMaxVelocity = 20.0; //in/s TODO:find
+    public static double kMaxAcceleration = 20.0; //in/s^2 TODO:find
     
     //Elevator constants
+    public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
+    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", -0.2);
+    public static double kElevatorZone = Preferences.getInstance().getDouble("ElevatorZone", 16);
     //TODO: Get actual values 
     public static int kElevatorSoftMax = 55; //in encoder ticks 
     public static int kElevatorSoftMin = 55; //in encoder ticks
     
     //Elevator PID
-    public static double kElevatorP = 1.0;
+    public static double kElevatorP = Preferences.getInstance().getDouble("ElevatorP",0.2);
     public static double kElevatorI = 0.0;
     public static double kElevatorD = 0.0;
     public static double kElevatorF = 0.0;
     
     //Rangefinder constants
     public static double kCubeInRange = 80.0;//TODO: Get actual range
-    public static int kBlinkNumber = 4;
+    public static int kBlinkNumber = 3;
 
     //Turret PID
     // Units: error is 4096 counts/rev. Max output is +/- 1023 units.

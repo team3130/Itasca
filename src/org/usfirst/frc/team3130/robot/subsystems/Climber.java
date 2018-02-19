@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
+import org.usfirst.frc.team3130.robot.commands.Climb;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -12,8 +14,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Climber extends Subsystem {
 	
-	private static WPI_TalonSRX winch1;
-	private static WPI_TalonSRX winch2;
+	private static WPI_TalonSRX winchL1;
+	private static WPI_TalonSRX winchL2;
+	private static WPI_TalonSRX winchR1;
+	private static WPI_TalonSRX winchR2;
 	
 	//Instance Handling
 	private static Climber m_pInstance;
@@ -24,20 +28,28 @@ public class Climber extends Subsystem {
 	}
 	
 	private Climber(){
-		winch1 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCH1);
-		winch2 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCH2);
-		winch1.setNeutralMode(NeutralMode.Brake);
-		winch2.setNeutralMode(NeutralMode.Brake);
+		winchL1 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCHL1);
+		winchL2 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCHL2);
+		winchR1 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCHR1);
+		winchR2 = new WPI_TalonSRX(RobotMap.CAN_CLIMBWINCHR2);
+		winchL1.setNeutralMode(NeutralMode.Brake);
+		winchL2.setNeutralMode(NeutralMode.Brake);
+		winchR1.setNeutralMode(NeutralMode.Brake);
+		winchR2.setNeutralMode(NeutralMode.Brake);
+		winchL2.set(ControlMode.Follower, RobotMap.CAN_CLIMBWINCHL1);
+    	winchR2.set(ControlMode.Follower, RobotMap.CAN_CLIMBWINCHR1);
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new Climb());
     }
     
     public static void climb(double w1, double w2){
-    	winch1.set(w1);
-    	winch2.set(w2);
+    	winchL1.set(w1);
+    	winchR1.set(w2);
+    	//System.out.println("Running L winch at: " + w1);
+    	//System.out.println("Running R winch at: " + w2);
     }
 }
 

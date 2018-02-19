@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -99,6 +100,10 @@ public class Chassis extends PIDSubsystem {
     	m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
     	m_rightMotorFront = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORFRONT);
     	m_rightMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
+    	m_shifter = new Solenoid(RobotMap.PNM_SHIFT);
+    	
+    	m_leftMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
@@ -133,6 +138,14 @@ public class Chassis extends PIDSubsystem {
     	m_drive.arcadeDrive(move, turn, false);
     }
     
+    public static WPI_TalonSRX getFrontL(){
+    	return m_leftMotorFront;
+    }
+    
+    public static WPI_TalonSRX getFrontR(){
+    	return m_rightMotorFront;
+    }
+    
   //shifts the robot either into high or low gear
     public static void Shift(boolean shiftUp)
     {
@@ -144,7 +157,7 @@ public class Chassis extends PIDSubsystem {
      * Returns the current shift of the robot
      * @return Current shift of the robot
      */
-    public static boolean GetShiftedDown(){return m_bShiftedHigh;}
+    public static boolean GetShiftedUp(){return m_bShiftedHigh;}
     
     protected double returnPIDInput() {
     	if(m_dir.equals(TurnDirection.kStraight))return GetAngle();
@@ -609,4 +622,7 @@ public class Chassis extends PIDSubsystem {
 	
 	public static void DriveStraight(double move) { moveSpeed = move; }
 	
+	public static void toMotionProfileMode(){
+		
+	}
 }
