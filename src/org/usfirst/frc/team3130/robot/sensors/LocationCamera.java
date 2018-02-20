@@ -52,7 +52,8 @@ public class LocationCamera {
 		    1.8601846077358326e+00};
 	private Mat cameraMatrix = new Mat(3, 3, CvType.CV_32F);
 	private MatOfDouble distCoeffs = new MatOfDouble(distortionDoubles);
-	static MatOfPoint3f objectPoints;
+	private MatOfPoint3f objectPointsL = new MatOfPoint3f();
+	private MatOfPoint3f objectPointsR = new MatOfPoint3f();
 
 
 	private static LocationCamera m_pInstance;
@@ -67,6 +68,7 @@ public class LocationCamera {
 	CvSource outputStream = CameraServer.getInstance().putVideo(cameraName, NTwidth, NTheight);
 	private Mode mode = Mode.kDisabled;
 	private boolean modeChanged = true;
+	private double initialPosition = 1.0;
 	private Location location = new Location();
 
 	// Image matrixes are big so let's reuse them
@@ -80,13 +82,20 @@ public class LocationCamera {
 			for(int j=0; j<3; j++)
 				cameraMatrix.put(i, j, cameraDoubles[3*i+j]);
 
-		objectPoints = new MatOfPoint3f();
-		List<Point3> objectReal = new ArrayList<Point3>();
-		objectReal.add(new Point3(55.09, -57, 300));
-		objectReal.add(new Point3(89.44, -57, 300));
-		objectReal.add(new Point3(36.91, -8, 146));
-		objectReal.add(new Point3(71.02, -10, 146));
-		objectPoints.fromList(objectReal);
+		List<Point3> objectLeft = new ArrayList<Point3>();
+		List<Point3> objectRight = new ArrayList<Point3>();
+		// Left side
+		objectLeft.add(new Point3(-89.44, -57, 300));
+		objectLeft.add(new Point3(-55.09, -57, 300));
+		objectLeft.add(new Point3(-71.02, -10, 146));
+		objectLeft.add(new Point3(-36.91, -8, 146));
+		// Right side
+		objectRight.add(new Point3(55.09, -57, 300));
+		objectRight.add(new Point3(89.44, -57, 300));
+		objectRight.add(new Point3(36.91, -8, 146));
+		objectRight.add(new Point3(71.02, -10, 146));
+		objectPointsL.fromList(objectLeft);
+		objectPointsR.fromList(objectRight);
 
 		if(true /*|| camera.isConnected()*/) {
 			// Run this thing as a thread so the heavy vision processing won't block the main (robot's) thread.
@@ -188,21 +197,35 @@ public class LocationCamera {
 
 	private boolean processFrame(Mat image) {
 		MatOfPoint2f imagePoints = new MatOfPoint2f();
+		MatOfPoint3f objectPoints;
+		Rect topROI, bottomROI;
+		if(initialPosition < 0) {
+			objectPoints = objectPointsL;
+			topROI = new Rect(
+					new Point(0.2*image.width(), 0.14*image.height()),
+					new Size(0.6*image.width(), 0.24*image.height()));
+			bottomROI = new Rect(
+					new Point(0.0*image.width(), 0.6*image.height()),
+					new Size(1.0*image.width(), 0.22*image.height()));
+		}
+		else {
+			objectPoints = objectPointsR;
+			topROI = new Rect(
+					new Point(0.2*image.width(), 0.14*image.height()),
+					new Size(0.6*image.width(), 0.24*image.height()));
+			bottomROI = new Rect(
+					new Point(0.05*image.width(), 0.6*image.height()),
+					new Size(0.9*image.width(), 0.22*image.height()));
+		}
 
-		Rect topROI = new Rect(
-				new Point(image.width()/10, image.height()/8),
-				new Size(8*image.width()/10, image.height()/3));
-		Rect bottomROI = new Rect(
-				new Point(image.width()/10, 5*image.height()/8),
-				new Size(8*image.width()/10, image.height()/3));
 		Imgproc.rectangle(image, topROI.tl(),    topROI.br(),    new Scalar(64,64,64), 3);
 		Imgproc.rectangle(image, bottomROI.tl(), bottomROI.br(), new Scalar(64,64,64), 3);
 
 
 		DetectLED detector = new DetectLED()
 				.withThresh(60)
-				.withMinArea(image.width()*image.height()/10000)
-				.withMaxArea(image.width()*image.height()/100)
+				.withMinArea(image.size().area()/10000)
+				.withMaxArea(image.size().area()/100)
 				.withMaxSegment(image.width()/20);
 
 		detector.findLEDs(image, topROI)
@@ -308,5 +331,20 @@ public class LocationCamera {
 			safeLocation = instance.location;
 		}
 		return safeLocation;
+	}
+
+	/**
+	 * @return the initialPosition
+	 */
+	public double getInitialPosition() {
+		return initialPosition;
+	}
+
+	/**
+	 * @param initialPosition the initialPosition of the robot relative to the center line.
+	 * Positive direction is to the right. The value can be very approximate.
+	 */
+	public void setInitialPosition(double initialPosition) {
+		this.initialPosition = initialPosition;
 	}
 }
