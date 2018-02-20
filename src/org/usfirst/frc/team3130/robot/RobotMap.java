@@ -31,7 +31,7 @@ public class RobotMap {
 	public static final int CAN_LEFTMOTORREAR = 3;
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
-	public static final int CAN_INTAKE = 8;
+	public static final int CAN_INTAKE_L = 8;
 	public static final int CAN_ELEVATOR1 = 6;
 	public static final int CAN_ELEVATOR2 = 7;
 	public static final int CAN_CLIMBWINCHL1 = 9; 
@@ -39,6 +39,7 @@ public class RobotMap {
 	public static final int CAN_CLIMBWINCHR1 = 11; 
 	public static final int CAN_CLIMBWINCHR2 = 12; 
 	public static final int CAN_HDWINCH = 13;
+	public static final int CAN_INTAKE_R = 14;
 	//TODO: change these to comp bot numbers
 	
 	//Gamepad Button List
@@ -82,7 +83,7 @@ public class RobotMap {
 	public static final int LST_AXS_CLIMB2 = LST_AXS_RTRIGGER; 
 	
 	//Hook Deploy
-	public static final int PNM_HOOKACTUATE = 7; //TODO: replace with actual
+	public static final int PNM_HOOKACTUATE = 4;
 	public static final int BTN_HOOKACTUATE = LST_BTN_Y;
 	public static final int LST_AXS_HOOKDEPLOY = LST_AXS_LJOYSTICKY;
 	

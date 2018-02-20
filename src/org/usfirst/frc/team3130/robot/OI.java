@@ -12,6 +12,7 @@ import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
+import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
@@ -142,8 +143,8 @@ public class OI {
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
-		//shiftUp.whenPressed(new DriveShiftUp());
-		//shiftDown.whenPressed(new DriveShiftDown());
+		shiftUp.whenPressed(new DriveShiftUp());
+		shiftDown.whenPressed(new DriveShiftDown());
 
 		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
 		elevatorDown.whenActive(new HeightSetter(Direction.kDown));
@@ -154,7 +155,7 @@ public class OI {
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		
-		//hookActuate.whenPressed(new HookToggle());
+		hookActuate.whenPressed(new HookToggle());
 		
 		
 		//wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));

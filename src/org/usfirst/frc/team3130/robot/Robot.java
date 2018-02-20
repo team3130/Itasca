@@ -75,13 +75,13 @@ public class Robot extends TimedRobot {
 		
 		//Vision operation
 		//LocationCamera.enable();
-		AndroidInterface.GetInstance();
-		AndroidInterface.GetInstance().reset();
-		VisionServer.getInstance();
-		VisionServer.getInstance().requestAppStart();
-		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+//		AndroidInterface.GetInstance();
+//		AndroidInterface.GetInstance().reset();
+//		VisionServer.getInstance();
+//		VisionServer.getInstance().requestAppStart();
+//		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
 		
-		mEnabledLooper.register(VisionProcessor.getInstance());
+//		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		chooser.addDefault("No Auton", "No Auto");
 		chooser.addObject("Test MP", "Run MP");
