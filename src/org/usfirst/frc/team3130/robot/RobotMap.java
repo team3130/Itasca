@@ -38,7 +38,8 @@ public class RobotMap {
 	public static final int CAN_CLIMBWINCHL2 = 10; 
 	public static final int CAN_CLIMBWINCHR1 = 11; 
 	public static final int CAN_CLIMBWINCHR2 = 12; 
-	public static final int CAN_HDWINCH = 13; 
+	public static final int CAN_HDWINCH = 13;
+	//TODO: change these to comp bot numbers
 	
 	//Gamepad Button List
 	public static final int LST_BTN_A = 1;

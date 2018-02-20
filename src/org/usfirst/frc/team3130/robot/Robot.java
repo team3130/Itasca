@@ -22,6 +22,7 @@ import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
     Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
+	public static Compressor c = new Compressor();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -57,9 +59,9 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotSensors = new RobotSensors();
 		robotSensors.start();
-		
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
+		c.start();
 		
 		//bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
