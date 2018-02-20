@@ -3,6 +3,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team3130.robot.Constants;
+import org.usfirst.frc.team3130.robot.commands.LEDtest;
 
 import edu.wpi.first.wpilibj.*;
 
@@ -49,7 +50,7 @@ public class BlinkinInterface extends Subsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new LEDtest());
     }
 }
 
