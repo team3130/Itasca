@@ -103,6 +103,8 @@ public class Chassis extends PIDSubsystem {
     	
     	m_leftMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	m_leftMotorFront.config_kF(0, Constants.kChassisF, 0);
+    	m_rightMotorFront.config_kF(0, Constants.kChassisF, 0);
     	
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);

@@ -62,34 +62,34 @@ public class Instrumentation {
 				count = 8;
 				/* every 8 loops, print our columns */
 
-				System.out.format("%-9s\t", "outEn");
-				System.out.format("%-9s\t", "topCnt");
-				System.out.format("%-9s\t", "topRem");
-				System.out.format("%-9s\t", "btmCnt");
-				System.out.format("%-9s\t", "IsValid");
-				System.out.format("%-9s\t", "HasUnder");
-				System.out.format("%-9s\t", "IsUnder");
-				System.out.format("%-9s\t", "IsLast");
-				System.out.format("%-9s\t", "targPos");
-				System.out.format("%-9s\t", "targVel");
-				System.out.format("%-9s\t", "SlotSel0");
-				System.out.format("%-9s\t", "timeDurMs");
+				System.out.format("%-12s\t", "outEn");
+				System.out.format("%-12s\t", "topCnt");
+				System.out.format("%-12s\t", "topRem");
+				System.out.format("%-12s\t", "btmCnt");
+				System.out.format("%-12s\t", "IsValid");
+				System.out.format("%-12s\t", "HasUnder");
+				System.out.format("%-12s\t", "IsUnder");
+				System.out.format("%-12s\t", "IsLast");
+				System.out.format("%-12s\t", "targPos");
+				System.out.format("%-12s\t", "targVel");
+				System.out.format("%-12s\t", "SlotSel0");
+				System.out.format("%-12s\t", "timeDurMs");
 
 				System.out.format("\n");
 			}
 			/* every loop, print our values */
-			System.out.format("%-9s\t", StrOutputEnable(status.outputEnable));
-			System.out.format("%-9s\t", status.topBufferCnt);
-			System.out.format("%-9s\t", status.topBufferRem);
-			System.out.format("%-9s\t", status.btmBufferCnt);
-			System.out.format("%-9s\t", (status.activePointValid ? "1" : ""));
-			System.out.format("%-9s\t", (status.hasUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status.isUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status.isLast ? "1" : ""));
-			System.out.format("%-9s\t", pos);
-			System.out.format("%-9s\t", vel);
-			System.out.format("%-9s\t", status.profileSlotSelect);
-			System.out.format("%-9s\t", status.timeDurMs);
+			System.out.format("%-12s\t", StrOutputEnable(status.outputEnable));
+			System.out.format("%-12s\t", status.topBufferCnt);
+			System.out.format("%-12s\t", status.topBufferRem);
+			System.out.format("%-12s\t", status.btmBufferCnt);
+			System.out.format("%-12s\t", (status.activePointValid ? "1" : "0"));
+			System.out.format("%-12s\t", (status.hasUnderrun ? "1" : "0"));
+			System.out.format("%-12s\t", (status.isUnderrun ? "1" : "0"));
+			System.out.format("%-12s\t", (status.isLast ? "1" : "0"));
+			System.out.format("%-12s\t", pos);
+			System.out.format("%-12s\t", vel);
+			System.out.format("%-12s\t", status.profileSlotSelect);
+			System.out.format("%-12s\t", status.timeDurMs);
 
 			System.out.format("\n");
 		}

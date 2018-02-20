@@ -50,7 +50,7 @@ public class Segment {
      
      @Override
      public String toString(){
-    	 return "x: " + x + ", y: " + y + ", h: " + h + ", vel: " + vel + ", acc: " + acc;
+    	 return "x: " + x + ", vel: " + vel + ", acc: " + acc + ", rpos: " + pos + ", rvel" + rvel;
      }
      
      public double getX(){

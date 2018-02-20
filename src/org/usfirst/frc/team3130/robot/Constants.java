@@ -15,6 +15,7 @@ public class Constants extends ConstantsBase {
     public static double kRWheelDiameter = 6.0;	//Center wheel
     public static double kMaxVelocity = 20.0; //in/s TODO:find
     public static double kMaxAcceleration = 20.0; //in/s^2 TODO:find
+    public static double kChassisF = 0.3140; //currently an estimate, need to measure
     
     //Elevator constants
     public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
