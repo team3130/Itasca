@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
-	public static Compressor c = new Compressor();
+	public static Compressor compressor = new Compressor(1);
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 		robotSensors.start();
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
-		c.start();
+		compressor.start();
 		
 		//bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
