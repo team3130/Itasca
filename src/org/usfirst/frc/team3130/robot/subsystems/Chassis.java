@@ -111,7 +111,7 @@ public class Chassis extends PIDSubsystem {
     	m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
     	m_drive.setSafetyEnabled(false);
     	
-    	m_shifter = new Solenoid(RobotMap.PNM_SHIFT);
+    	m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
     	m_bShiftedHigh = false;
     	
     	arcadeDrive = true;

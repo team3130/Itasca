@@ -31,16 +31,15 @@ public class RobotMap {
 	public static final int CAN_LEFTMOTORREAR = 3;
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
-	public static final int CAN_INTAKE_L = 8;
 	public static final int CAN_ELEVATOR1 = 6;
 	public static final int CAN_ELEVATOR2 = 7;
+	public static final int CAN_INTAKE_L = 8;
 	public static final int CAN_CLIMBWINCHL1 = 9; 
 	public static final int CAN_CLIMBWINCHL2 = 10; 
 	public static final int CAN_CLIMBWINCHR1 = 11; 
 	public static final int CAN_CLIMBWINCHR2 = 12; 
 	public static final int CAN_HDWINCH = 13;
 	public static final int CAN_INTAKE_R = 14;
-	//TODO: change these to comp bot numbers
 	
 	//Gamepad Button List
 	public static final int LST_BTN_A = 1;
@@ -88,11 +87,11 @@ public class RobotMap {
 	public static final int LST_AXS_HOOKDEPLOY = LST_AXS_LJOYSTICKY;
 	
 	//Wings
-	public static final int PNM_WINGSDEPLOY = 7; //TODO: replace with actual
+	public static final int PNM_WINGSDEPLOY = 3; //TODO: replace with actual
 	public static final int BTN_WINGSDEPLOY = LST_BTN_RBUMPER;
 	
 	//Chassis
-	public static final int PNM_SHIFT = 4;
+	public static final int PNM_SHIFT = 2;
 	public static final int BTN_SHIFT = 4; //Joystick L
 	public static final int BTN_SHIFTDOWN = 5;	//Joystick L
 	public static final int BTN_SHIFTUP = 6;	//Joystick L

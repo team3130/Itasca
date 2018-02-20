@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
@@ -140,6 +141,8 @@ public class OI {
 		elevatorUp = new POVTrigger(gamepad, RobotMap.LST_POV_N);
 		elevatorDown = new POVTrigger(gamepad, RobotMap.LST_POV_S);
 		
+		wingsDeploy = new JoystickButton(gamepad, RobotMap.BTN_WINGSDEPLOY);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
@@ -157,8 +160,7 @@ public class OI {
 		
 		hookActuate.whenPressed(new HookToggle());
 		
-		
-		//wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
+		wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
 	}
 }
 

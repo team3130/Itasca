@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 	Command autonomousCommand;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotSensors robotSensors;
-	VisionServer mVisionServer = VisionServer.getInstance();
+	//VisionServer mVisionServer = VisionServer.getInstance();
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
     Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
-	public static Compressor compressor = new Compressor(1);
+	//public static Compressor compressor = new Compressor(1);
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,9 +61,9 @@ public class Robot extends TimedRobot {
 		robotSensors.start();
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
-		compressor.start();
+		//compressor.start();
 		
-		//bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
+		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
 		OI.GetInstance();
 		Chassis.GetInstance();
