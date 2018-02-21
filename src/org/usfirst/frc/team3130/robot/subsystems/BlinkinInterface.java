@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.*;
  *
  */
 public class BlinkinInterface extends Subsystem {
-	private static Spark blinkin1;
+	private Spark blinkin1;
 	
 	
     private static BlinkinInterface m_pInstance;
@@ -25,28 +25,41 @@ public class BlinkinInterface extends Subsystem {
     	blinkin1.set(0.67);
     }
     
-    public static void defaultPattern(){
-    	blinkin1.set(0.67);
+    public void defaultPattern(){
+    	GetInstance().blinkin1.set(0.67);
     }
     
-    public static void setPattern(double pattern){
+    public void setPattern(double pattern){
     	blinkin1.set(pattern);
     }
     
+    public static void showRange(double range) {
+    	if (range > 200) {
+    		GetInstance().defaultPattern();
+    	}
+    	else if (range > 160) {
+    		GetInstance().setPattern(0.77);
+    	}
+    	else {
+    		GetInstance().setPattern(0.61);
+    	}
+    }
+
+    /*
     public static void gotCube(){
     	for (int i = 0; i < Constants.kBlinkNumber; i++){
-    		blinkin1.set(0.77);
+    		GetInstance().blinkin1.set(0.77);
 	    	try{
 	    		Thread.sleep(300);
 	    	}catch(Exception e){}
-	    	blinkin1.set(0.99);
+	    	GetInstance().blinkin1.set(0.99);
 	    	try{
 	    		Thread.sleep(300);
 	    	}catch(Exception e){}
     	}
     	defaultPattern();
     }
-    
+    */
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

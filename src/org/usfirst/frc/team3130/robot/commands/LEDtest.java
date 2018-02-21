@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3130.robot.commands;
 
+import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -22,8 +23,11 @@ public class LEDtest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double color = Preferences.getInstance().getDouble("LEDcolor",0.77);
-    	BlinkinInterface.setPattern(color);
+    	Rangefinder rf = Rangefinder.GetInstance();
+    	int distance = Rangefinder.getDistance();
+    	if(distance>=0) {
+    		BlinkinInterface.showRange(distance);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
