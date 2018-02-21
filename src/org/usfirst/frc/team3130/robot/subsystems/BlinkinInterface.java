@@ -26,7 +26,7 @@ public class BlinkinInterface extends Subsystem {
     }
     
     public void defaultPattern(){
-    	GetInstance().blinkin1.set(0.19);
+    	GetInstance().blinkin1.set(Preferences.getInstance().getDouble("LEDtest", 0.19));
     }
     
     public void setPattern(double pattern){
