@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -44,11 +45,15 @@ public class CubeIntake extends Subsystem {
     	intakeL = new WPI_TalonSRX(RobotMap.CAN_INTAKE_L);
     	intakeR = new WPI_TalonSRX(RobotMap.CAN_INTAKE_R);
 
+		intakeL.setNeutralMode(NeutralMode.Brake);
+		intakeR.setNeutralMode(NeutralMode.Brake);
+		
 		actuateL = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATEL);
 		actuateR = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CUBEACTUATER);
 		open = false;
 		openL = false;
 		openR = false;
+		
     }
     
     public static void runIntake(double speed){
