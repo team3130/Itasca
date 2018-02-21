@@ -25,9 +25,7 @@ public class LEDtest extends Command {
     protected void execute() {
     	Rangefinder rf = Rangefinder.GetInstance();
     	int distance = Rangefinder.getDistance();
-    	if(distance>=0) {
-    		BlinkinInterface.showRange(distance);
-    	}
+    	BlinkinInterface.showRange(distance);
     }
 
     // Make this return true when this Command no longer needs to run execute()

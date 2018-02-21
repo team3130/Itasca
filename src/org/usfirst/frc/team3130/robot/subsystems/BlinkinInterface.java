@@ -26,7 +26,7 @@ public class BlinkinInterface extends Subsystem {
     }
     
     public void defaultPattern(){
-    	GetInstance().blinkin1.set(Preferences.getInstance().getDouble("LEDtest", 0.19));
+    	GetInstance().blinkin1.set(0.97/*Preferences.getInstance().getDouble("LEDtest", 0.19)*/);
     }
     
     public void setPattern(double pattern){
@@ -34,7 +34,10 @@ public class BlinkinInterface extends Subsystem {
     }
     
     public static void showRange(double range) {
-    	if (range > 200) {
+    	if (range < 0) {
+    		GetInstance().setPattern(-0.97);
+    	}
+    	else if (range > 200) {
     		GetInstance().defaultPattern();
     	}
     	else if (range > 160) {
