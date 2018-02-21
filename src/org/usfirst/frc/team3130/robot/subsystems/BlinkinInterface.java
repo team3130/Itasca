@@ -26,7 +26,7 @@ public class BlinkinInterface extends Subsystem {
     }
     
     public void defaultPattern(){
-    	GetInstance().blinkin1.set(0.67);
+    	GetInstance().blinkin1.set(0.19);
     }
     
     public void setPattern(double pattern){
@@ -38,10 +38,10 @@ public class BlinkinInterface extends Subsystem {
     		GetInstance().defaultPattern();
     	}
     	else if (range > 160) {
-    		GetInstance().setPattern(0.77);
+    		GetInstance().setPattern(0.61);
     	}
     	else {
-    		GetInstance().setPattern(0.61);
+    		GetInstance().setPattern(0.77);
     	}
     }
 
