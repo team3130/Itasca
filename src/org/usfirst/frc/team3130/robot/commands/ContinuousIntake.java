@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import java.util.prefs.PreferenceChangeEvent;
-
+import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -20,12 +19,14 @@ public class ContinuousIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	CubeIntake.runIntake(Preferences.getInstance().getDouble("Idle Intake", 0.2));
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	if(Rangefinder.getDistance() < 200) {
+    		CubeIntake.runIntake(Preferences.getInstance().getDouble("Idle Intake", 0.2));
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
