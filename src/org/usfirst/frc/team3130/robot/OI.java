@@ -125,8 +125,8 @@ public class OI {
 		gamepad = new Joystick(2);
 		
 		//Create Joystick Buttons
-		cubeIn = new JoystickButton(stickL, 1);
-		cubeOut = new JoystickButton(stickR, 1);
+		cubeIn = new JoystickButton(stickR, 1);
+		cubeOut = new JoystickButton(stickL, 1);
 		cubeActuate = new JoystickButton(stickR, 3);
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
