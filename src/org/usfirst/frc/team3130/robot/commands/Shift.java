@@ -33,6 +33,7 @@ public class Shift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	currentShift = Chassis.GetShiftedUp();
     	//Execute the shift only once, and only at a certain delay after the motors have been stopped
     	if(!m_bShifted && timer.get() > Preferences.getInstance().getDouble("Shift Dead Time Start", 0.125)){
     		Chassis.Shift(!currentShift);

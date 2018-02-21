@@ -146,8 +146,8 @@ public class OI {
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
-		shiftUp.whenPressed(new DriveShiftUp());
-		shiftDown.whenPressed(new DriveShiftDown());
+		//shiftUp.whenPressed(new DriveShiftUp());
+		//shiftDown.whenPressed(new DriveShiftDown());
 
 		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
 		elevatorDown.whenActive(new HeightSetter(Direction.kDown));

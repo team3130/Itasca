@@ -103,8 +103,10 @@ public class Chassis extends PIDSubsystem {
     	
     	m_leftMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    	m_leftMotorFront.config_kF(0, Constants.kChassisF, 0);
-    	m_rightMotorFront.config_kF(0, Constants.kChassisF, 0);
+    	m_leftMotorFront.setSensorPhase(true);
+    	m_rightMotorFront.setSensorPhase(false);
+    	m_leftMotorFront.config_kF(0, Constants.kChassisLowGearF, 0);
+    	m_rightMotorFront.config_kF(0, Constants.kChassisLowGearF, 0);
     	
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
@@ -121,7 +123,6 @@ public class Chassis extends PIDSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new DefaultDrive());
-    	
         //setDefaultCommand(new MySpecialCommand());
     }
 
@@ -209,22 +210,22 @@ public class Chassis extends PIDSubsystem {
     
     /**
      * Returns the current speed of the front left motor
-     * @return Current speed of the front left motor (unknown units)
+     * @return Current speed of the front left motor (RPS)
      */
     public static double GetSpeedL()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_leftMotorFront.get() * InchesPerRev / Constants.kDriveCodesPerRev;
+    	return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;
     }
     
     /**
      * Returns the current speed of the front right motor
-     * @return Current speed of the front right motor (unknown units)
+     * @return Current speed of the front right motor (RPS)
      */
     public static double GetSpeedR()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_rightMotorFront.get() * InchesPerRev / Constants.kDriveCodesPerRev;	
+    	return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;	
     }
     
     /**
