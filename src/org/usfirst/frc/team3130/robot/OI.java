@@ -15,6 +15,7 @@ import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
@@ -116,6 +117,8 @@ public class OI {
 
 	public static JoystickButton changeDriveMode;
 	
+	public static JoystickButton revClimb;
+	
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -143,6 +146,8 @@ public class OI {
 		
 		wingsDeploy = new JoystickButton(gamepad, RobotMap.BTN_WINGSDEPLOY);
 		
+		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
@@ -161,6 +166,8 @@ public class OI {
 		hookActuate.whenPressed(new HookToggle());
 		
 		wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
+		
+		revClimb.whenPressed(new ReverseClimb());
 	}
 }
 

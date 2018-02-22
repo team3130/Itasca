@@ -80,6 +80,7 @@ public class RobotMap {
 	//Climber
 	public static final int LST_AXS_CLIMB1 = LST_AXS_LTRIGGER; 
 	public static final int LST_AXS_CLIMB2 = LST_AXS_RTRIGGER; 
+	public static final int BTN_REV_CLIMB = 8; //Joystick L
 	
 	//Hook Deploy
 	public static final int PNM_HOOKACTUATE = 4;

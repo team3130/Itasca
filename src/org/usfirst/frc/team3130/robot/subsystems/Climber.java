@@ -18,6 +18,7 @@ public class Climber extends Subsystem {
 	private static WPI_TalonSRX winchL2;
 	private static WPI_TalonSRX winchR1;
 	private static WPI_TalonSRX winchR2;
+	private static double climbDirection;
 	
 	//Instance Handling
 	private static Climber m_pInstance;
@@ -38,6 +39,7 @@ public class Climber extends Subsystem {
 		winchR2.setNeutralMode(NeutralMode.Brake);
 		winchL2.set(ControlMode.Follower, RobotMap.CAN_CLIMBWINCHL1);
     	winchR2.set(ControlMode.Follower, RobotMap.CAN_CLIMBWINCHR1);
+    	climbDirection = 1;
 	}
 
     public void initDefaultCommand() {
@@ -46,10 +48,14 @@ public class Climber extends Subsystem {
     }
     
     public static void climb(double w1, double w2){
-    	winchL1.set(w1);
-    	winchR1.set(w2);
+    	winchL1.set(climbDirection * w1);
+    	winchR1.set(climbDirection * w2);
     	//System.out.println("Running L winch at: " + w1);
     	//System.out.println("Running R winch at: " + w2);
+    }
+    
+    public static void reverseDir(){
+    	climbDirection = -climbDirection;
     }
 }
 
