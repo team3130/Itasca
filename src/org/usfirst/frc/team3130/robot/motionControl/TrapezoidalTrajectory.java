@@ -58,7 +58,7 @@ public class TrapezoidalTrajectory {
 	 * @param amax   top acceleration of the system in in/s^2
 	 * @param tStep  step size to create segments in ms
 	 */
-	public TrapezoidalTrajectory(double d, double v0, double vf, double vmax, double amax, int tStep){
+	public TrapezoidalTrajectory(double d, double v0, double vf, double vmax, double amax, double tStep){
 		this.distance = d;
 		this.v0 = v0;
 		this.vf = vf;

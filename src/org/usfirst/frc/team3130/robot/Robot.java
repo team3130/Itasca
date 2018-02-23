@@ -23,6 +23,7 @@ import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
 	Command autonomousCommand;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotSensors robotSensors;
-	VisionServer mVisionServer = VisionServer.getInstance();
+	//VisionServer mVisionServer = VisionServer.getInstance();
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
+	//public static Compressor compressor = new Compressor(1);
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -58,11 +60,11 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotSensors = new RobotSensors();
 		robotSensors.start();
-		
 		Logger.logMatchInfo();
 		Logger.logRobotStartup();
+		//compressor.start();
 		
-		//bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
+		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
 		
 		OI.GetInstance();
 		Chassis.GetInstance();
@@ -73,13 +75,15 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-		AndroidInterface.GetInstance();
-		AndroidInterface.GetInstance().reset();
-		VisionServer.getInstance();
-		VisionServer.getInstance().requestAppStart();
-		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
+
+		//LocationCamera.enable();
+//		AndroidInterface.GetInstance();
+//		AndroidInterface.GetInstance().reset();
+//		VisionServer.getInstance();
+//		VisionServer.getInstance().requestAppStart();
+//		mVisionServer.addVisionUpdateReceiver(VisionProcessor.getInstance());
 		
-		mEnabledLooper.register(VisionProcessor.getInstance());
+//		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		chooser.addDefault("No Auton", "No Auto");
 		chooser.addObject("Test MP", "Run MP");

@@ -7,12 +7,15 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
+import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
@@ -114,6 +117,8 @@ public class OI {
 
 	public static JoystickButton changeDriveMode;
 	
+	public static JoystickButton revClimb;
+	
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -123,8 +128,8 @@ public class OI {
 		gamepad = new Joystick(2);
 		
 		//Create Joystick Buttons
-		cubeIn = new JoystickButton(stickL, 1);
-		cubeOut = new JoystickButton(stickR, 1);
+		cubeIn = new JoystickButton(stickR, 1);
+		cubeOut = new JoystickButton(stickL, 1);
 		cubeActuate = new JoystickButton(stickR, 3);
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
@@ -139,11 +144,15 @@ public class OI {
 		elevatorUp = new POVTrigger(gamepad, RobotMap.LST_POV_N);
 		elevatorDown = new POVTrigger(gamepad, RobotMap.LST_POV_S);
 		
+		wingsDeploy = new JoystickButton(gamepad, RobotMap.BTN_WINGSDEPLOY);
+		
+		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
-		shiftUp.whenPressed(new DriveShiftUp());
-		shiftDown.whenPressed(new DriveShiftDown());
+		//shiftUp.whenPressed(new DriveShiftUp());
+		//shiftDown.whenPressed(new DriveShiftDown());
 
 		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
 		elevatorDown.whenActive(new HeightSetter(Direction.kDown));
@@ -154,10 +163,11 @@ public class OI {
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		
-		//hookActuate.whenPressed(new HookToggle());
+		hookActuate.whenPressed(new HookToggle());
 		
+		wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
 		
-		//wingsDeploy.whenPressed(new BasicActuate(Robot.bcWingsDeploy));
+		revClimb.whenPressed(new ReverseClimb());
 	}
 }
 

@@ -21,6 +21,7 @@ public class RunMotionProfiles extends Command {
 	
 	//a test run; real ones will need parameters
 	public RunMotionProfiles(){
+		requires(Chassis.GetInstance());
 		talonL = Chassis.getFrontL();
 		talonR = Chassis.getFrontR();
 		TrapezoidalTrajectory traj = new TrapezoidalTrajectory(12, 0, 0, 
@@ -41,8 +42,6 @@ public class RunMotionProfiles extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	talonL.configMotionProfileTrajectoryPeriod(10, 20);
-    	talonR.configMotionProfileTrajectoryPeriod(10, 20);
     	runMotion = new MotionProfileExample(talonL, trajL, talonR, trajR);
     	SetValueMotionProfile setOutput = runMotion.getSetValue();
 		talonL.set(ControlMode.MotionProfile, setOutput.value);
@@ -54,9 +53,6 @@ public class RunMotionProfiles extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	runMotion.control();
-    	SetValueMotionProfile setOutput = runMotion.getSetValue();
-		talonL.set(ControlMode.MotionProfile, setOutput.value);
-		talonR.set(ControlMode.MotionProfile, setOutput.value);
     }
 
     // Make this return true when this Command no longer needs to run execute()
