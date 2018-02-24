@@ -27,6 +27,14 @@ public class AutoDriveStraightToPoint extends PIDCommand {
         requires(Chassis.GetInstance());
     }
 
+    /**
+     * Sets the command's parameters
+     * 
+     * @param setpoint    distance to travel (inches)
+     * @param threshold   how many inches within the setpoint 
+     * @param speed		  percentVBus to drive at
+     * @param shiftHigh	  whether the bot is in high gear or not
+     */
     public void SetParam(double setpoint, double threshold, double speed, boolean shiftHigh){
     	m_distance = setpoint;
     	m_threshold = threshold;
@@ -39,15 +47,13 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     	getPIDController().reset();
     	
     	Chassis.Shift(m_shiftHigh);
-	Chassis.setTurnDir(TurnDirection.kStraight);
+    	Chassis.setTurnDir(TurnDirection.kStraight);
     	Chassis.HoldAngle(0);
     	
     	getPIDController().setSetpoint(m_distance + Chassis.GetDistance());
     	getPIDController().setAbsoluteTolerance(m_threshold);
     	setPID();
         Chassis.TalonsToCoast(false);
-
-
     	
     	timer.reset();
     	timer.start();
@@ -87,7 +93,7 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 		if(output > m_speed) output = m_speed;
 		else if(output < -m_speed) output = -m_speed;
 		
-		Chassis.DriveStraight(-output);
+		Chassis.DriveStraight(output);
 	}
 	
 	private void setPID()
