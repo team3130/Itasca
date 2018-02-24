@@ -73,7 +73,7 @@ public class RobotMap {
 	public static final int LST_POV_NW = 315;
 	
 	//Cube Intake
-	public static final int BTN_CUBEACTUATE = 2; //Joystick R
+	public static final int BTN_CUBEACTUATE = 3; //Joystick R
 	public static final int PNM_CUBEACTUATEL = 0;
 	public static final int PNM_CUBEACTUATER = 1;
 
@@ -88,7 +88,7 @@ public class RobotMap {
 	public static final int LST_AXS_HOOKDEPLOY = LST_AXS_LJOYSTICKY;
 	
 	//Wings
-	public static final int PNM_WINGSDEPLOY = 3; //TODO: replace with actual
+	public static final int PNM_WINGSDEPLOY = 3; 
 	public static final int BTN_WINGSDEPLOY = LST_BTN_RBUMPER;
 	
 	//Chassis

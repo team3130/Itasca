@@ -105,8 +105,10 @@ public class Chassis extends PIDSubsystem {
     	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	m_leftMotorFront.setSensorPhase(true);
     	m_rightMotorFront.setSensorPhase(false);
-    	m_leftMotorFront.config_kF(0, Constants.kChassisLowGearF, 0);
-    	m_rightMotorFront.config_kF(0, Constants.kChassisLowGearF, 0);
+    	m_leftMotorFront.config_kF(0, Constants.kChassisHighGearF, 0);
+    	m_rightMotorFront.config_kF(0, Constants.kChassisHighGearF, 0);
+    	m_leftMotorFront.config_kP(0, 1.0, 0);
+    	m_rightMotorFront.config_kP(0, 1.0, 0);
     	
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
@@ -625,7 +627,10 @@ public class Chassis extends PIDSubsystem {
 		}
 	}
 	
-	public static void DriveStraight(double move) { moveSpeed = move; }
+	
+	public static void DriveStraight(double move){ 
+		moveSpeed = move; 
+	}
 	
 	public static void toMotionProfileMode(){
 		

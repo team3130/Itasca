@@ -10,13 +10,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RunIntakeOut extends Command {
 
+	private double speed;
+	
     public RunIntakeOut() {
         requires(CubeIntake.GetInstance());
+        speed = Preferences.getInstance().getDouble("Cube Intake Out", -0.8);
+    }
+    
+    public void SetParam(double speed){
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	CubeIntake.runIntake(Preferences.getInstance().getDouble("Cube Intake Out", -0.8));
+    	CubeIntake.runIntake(speed);
     }
 
     // Called repeatedly when this Command is scheduled to run

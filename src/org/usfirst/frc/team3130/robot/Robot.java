@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
@@ -39,7 +40,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
-	SendableChooser<String> chooser = new SendableChooser<>();
+	SendableChooser<String> chooser  = new SendableChooser<>();
+	SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
 	//VisionServer mVisionServer = VisionServer.getInstance();
 	
@@ -83,9 +85,18 @@ public class Robot extends TimedRobot {
 		
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
+		//Auton command to run chooser
 		chooser.addDefault("No Auton", "No Auto");
 		chooser.addObject("Test MP", "Run MP");
+		chooser.addObject("Pass Baseline", "Baseline");
 		SmartDashboard.putData("Auto mode", chooser);
+		
+
+		//Starting configuration for autons
+		//If hardcoding required, manually choose fieldSide below
+		startPos.addDefault("Left Starting Position", "Left");
+		startPos.addDefault("Right Starting Position", "Right");
+		SmartDashboard.putData("Starting Position", startPos);
 	}
 
 	/**
@@ -120,18 +131,27 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
-
+		
 		switch(chooser.getSelected()){
 		case "Run MP":
+			System.out.println("Run MP");
 			autonomousCommand = new RunMotionProfiles();
 			break;
+		case "Baseline":
+			System.out.println("Baseline");
+			autonomousCommand = new PassBaseline();
 		case "No Auto":
+			System.out.println("No Auto");
 			autonomousCommand = null;
 			break;
 		default:
+			System.out.println("Null");
 			autonomousCommand = null;
 		}
 			
+		
+		//Hardcoding here
+		//autonomousCommand = new CDPassBaseline();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

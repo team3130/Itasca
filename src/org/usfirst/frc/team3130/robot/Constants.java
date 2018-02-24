@@ -11,6 +11,7 @@ public class Constants extends ConstantsBase {
     //Chassis constants
     public static double kDriveCodesPerRev = 2048.0;
     public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
+    public static double kChassisLength = 32.5; //Length of robot frame in inches
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
     public static double kMaxVelocity = 20.0; //in/s  in high gear
@@ -37,6 +38,9 @@ public class Constants extends ConstantsBase {
     public static double kCubeInRange = 80.0;//TODO: Get actual range
     public static int kBlinkNumber = 3;
 
+    //Field Measurements
+    public static double kWallToSwitch = Preferences.getInstance().getDouble("AUTON Wall To Switch", 140.0); //inches forward to switch
+    
     //Turret PID
     // Units: error is 4096 counts/rev. Max output is +/- 1023 units.
     public static double kTurretKp = Preferences.getInstance().getDouble("TurretAdjP",0.9);

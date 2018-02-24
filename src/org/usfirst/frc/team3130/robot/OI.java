@@ -23,6 +23,8 @@ import org.usfirst.frc.team3130.robot.commands.Shift;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -130,7 +132,7 @@ public class OI {
 		//Create Joystick Buttons
 		cubeIn = new JoystickButton(stickR, 1);
 		cubeOut = new JoystickButton(stickL, 1);
-		cubeActuate = new JoystickButton(stickR, 3);
+		cubeActuate = new JoystickButton(stickR, RobotMap.BTN_CUBEACTUATE);
 		cubeActuateL = new JoystickButton(stickL, 7);
 		cubeActuateR = new JoystickButton(stickR, 7);
 		
