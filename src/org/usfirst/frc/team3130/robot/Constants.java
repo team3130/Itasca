@@ -39,7 +39,9 @@ public class Constants extends ConstantsBase {
     public static int kBlinkNumber = 3;
 
     //Field Measurements
-    public static double kWallToSwitch = Preferences.getInstance().getDouble("AUTON Wall To Switch", 140.0); //inches forward to switch
+    public static double kWallToSwitch = 143.0; //inches forward to switch from alliance wall
+    public static double kSwitchWidth  = 154.5; //average of red and blue side switch widths
+    public static double kSwitchSlotWidth = 41.0; //inches wide of switch slot
     
     //Turret PID
     // Units: error is 4096 counts/rev. Max output is +/- 1023 units.

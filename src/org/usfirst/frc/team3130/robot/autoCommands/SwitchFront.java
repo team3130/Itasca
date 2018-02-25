@@ -19,32 +19,37 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class SwitchFront extends CommandGroup {
 
 	private AutoDriveCurve           turnLeft;
-	private AutoDriveStraightToPoint driveForward;
+	private AutoDriveStraightToPoint driveForwardShort;
+	private AutoDriveStraightToPoint driveForwardLong;
 	private AutoDriveCurve			 turnToSwitch;
 	private AutoDriveStraightToPoint toSwitch;
 	private RunIntakeIn	             intakeIn;
 	private HeightSetter			 elevatorUp;
 	private RunIntakeOut			 intakeOut;
+	private char					 side;
 	
     public SwitchFront(char side) {
     	requires(Chassis.GetInstance());
     	requires(CubeIntake.GetInstance());
     	requires(Elevator.GetInstance());
     	
-    	toSwitch   	   = new AutoDriveStraightToPoint();
-    	driveForward   = new AutoDriveStraightToPoint();
-    	turnLeft	   = new AutoDriveCurve();
-    	turnToSwitch   = new AutoDriveCurve();
-    	intakeIn  	   = new RunIntakeIn();
-    	elevatorUp	   = new HeightSetter(Direction.kUp);
-    	intakeOut  	   = new RunIntakeOut();
+    	this.side      	   = side;
+    	toSwitch   	       = new AutoDriveStraightToPoint();
+    	driveForwardShort  = new AutoDriveStraightToPoint();
+    	driveForwardLong   = new AutoDriveStraightToPoint();
+    	turnLeft	   	   = new AutoDriveCurve();
+    	turnToSwitch   	   = new AutoDriveCurve();
+    	intakeIn  	       = new RunIntakeIn();
+    	elevatorUp	       = new HeightSetter(Direction.kUp);
+    	intakeOut  	       = new RunIntakeOut();
     	
     	if(side == 'L'){
     		addParallel(intakeIn);
-    		addSequential(turnLeft, 2);
-    		addSequential(driveForward, 2);
-        	addParallel(elevatorUp, 2);
-    		addSequential(turnToSwitch, 2);
+    		addSequential(driveForwardShort, 2);
+    		addSequential(turnLeft, 1.5);
+    		addSequential(driveForwardLong, 2);
+        	addParallel(elevatorUp, 1.5);
+    		addSequential(turnToSwitch, 1.5);
         	addSequential(intakeOut, 2);
     	}
     	else{
@@ -58,12 +63,42 @@ public class SwitchFront extends CommandGroup {
     @Override
     protected void initialize(){
     	intakeIn.SetParam(0.3);
-    	toSwitch.SetParam(
-    		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0), 
-            3, 
-            Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-            false
-        );
     	intakeOut.SetParam(-0.4);
+    	driveForwardShort.SetParam(
+    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisWidth/2.0),
+    			3.0,
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
+                false);
+    	turnLeft.SetParam(
+    			Constants.kChassisWidth / 2.0,
+    			2.0,
+    			Math.PI / 2.0,
+    			false);
+    	driveForwardLong.SetParam(
+    			(Constants.kSwitchWidth) - (Constants.kSwitchSlotWidth),
+    			3.0,
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
+                false);
+    	turnToSwitch.SetParam(
+    			Constants.kChassisWidth / 2.0,
+    			2.0,
+    			- Math.PI / 2.0,
+    			false);
+    	if(side == 'L'){
+    		toSwitch.SetParam(
+    				Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) + (Constants.kChassisLength/2.0)), 
+    				3, 
+    				Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
+    				false
+    	    );
+    	}
+    	else {
+    		toSwitch.SetParam(
+    				Constants.kWallToSwitch - (Constants.kChassisLength / 2.0), 
+    				3, 
+    				Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
+    				false
+    	    );
+    	}
     }
 }
