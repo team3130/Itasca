@@ -37,7 +37,6 @@ public class RobotSensors extends Command {
     	//Elevator
     	Elevator.outputToSmartDashboard();
 
-    	/*
     	Rangefinder rf = Rangefinder.GetInstance();
     	int distance = Rangefinder.getDistance();
     	if(distance>=0) {
@@ -46,7 +45,7 @@ public class RobotSensors extends Command {
     	
     	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
     	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
-    	*/
+
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());
