@@ -20,9 +20,9 @@ public class TestPIDCurve extends Command{
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("TESTING PID CURVE");
-    	Chassis.setTurnDir(TurnDirection.kLeft);
+    	Chassis.setTurnDir(TurnDirection.kStraight);
     	Chassis.SetPIDValues();
-    	Chassis.HoldAngle(Math.PI / 6.0);
+    	Chassis.HoldAngle(30.0);
     }
     
     protected void execute(){

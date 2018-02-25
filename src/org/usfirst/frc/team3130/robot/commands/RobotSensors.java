@@ -50,19 +50,19 @@ public class RobotSensors extends Command {
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());
     	
     	//Chassis
-    	SmartDashboard.putNumber("Front Left Wheel Speed", Chassis.GetSpeedL());
+    	//SmartDashboard.putNumber("Front Left Wheel Speed", Chassis.GetSpeedL());
     	//SmartDashboard.putNumber("Front Right Wheel Speed", Chassis.GetSpeedR());
     	//SmartDashboard.putNumber("Front Left Voltage", Chassis.GetFrontVoltL());
     	//SmartDashboard.putNumber("Front Right Voltage", Chassis.GetFrontVoltR());
     	//SmartDashboard.putNumber("Rear Left Voltage", Chassis.GetRearVoltL());
     	//SmartDashboard.putNumber("Rear Right Voltage", Chassis.GetRearVoltR());
-    	SmartDashboard.putNumber("Front Left Current", Chassis.GetFrontCurrentL());
-    	SmartDashboard.putNumber("Front Right Current", Chassis.GetFrontCurrentR());
-    	SmartDashboard.putNumber("Rear Left Current", Chassis.GetRearCurrentL());
-    	SmartDashboard.putNumber("Rear Right Current", Chassis.GetRearCurrentR());
+    	//SmartDashboard.putNumber("Front Left Current", Chassis.GetFrontCurrentL());
+    	//SmartDashboard.putNumber("Front Right Current", Chassis.GetFrontCurrentR());
+    	//SmartDashboard.putNumber("Rear Left Current", Chassis.GetRearCurrentL());
+    	//SmartDashboard.putNumber("Rear Right Current", Chassis.GetRearCurrentR());
     	SmartDashboard.putNumber("Angle", Chassis.GetAngle());
-    	//SmartDashboard.putNumber("Left Distance", Chassis.GetDistanceL());
-    	//SmartDashboard.putNumber("Right Distance", Chassis.GetDistanceR());
+    	SmartDashboard.putNumber("Left Distance", Chassis.GetDistanceL());
+    	SmartDashboard.putNumber("Right Distance", Chassis.GetDistanceR());
     	
     	
     }

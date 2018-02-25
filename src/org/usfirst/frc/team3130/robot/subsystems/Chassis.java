@@ -55,7 +55,7 @@ public class Chassis extends PIDSubsystem {
 
 	private static double prevSpeedLimit;
 	
-	public static final double InchesPerRev = ((Constants.kLWheelDiameter * Constants.kRWheelDiameter)/ 2.0) * Math.PI;
+	public static final double InchesPerRev = ((Constants.kLWheelDiameter + Constants.kRWheelDiameter)/ 2.0) * Math.PI;
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
@@ -380,7 +380,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceL()
 	{
-		return m_leftMotorFront.get() * InchesPerRev;
+		return (m_leftMotorFront.getSelectedSensorPosition(0)/Constants.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**
@@ -389,20 +389,20 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceR()
 	{
-		return m_rightMotorFront.get() * InchesPerRev;
+		return (m_rightMotorFront.getSelectedSensorPosition(0)/Constants.kDriveCodesPerRev) * InchesPerRev;
 	}
 	
 	public static double GetDistance()
 	{
-		//Returns the average of the left and right speeds
+		//Returns the average of the left and right distances
 		return (GetDistanceL() + GetDistanceR()) / 2.0;
 	}
 	
 	//Shouldn't be used unless absolutely necessary, takes an excessive amount of time to run
 	public static void ResetEncoders()
 	{
-		m_leftMotorFront.set(0);
-		m_rightMotorFront.set(0);
+		m_leftMotorFront.setSelectedSensorPosition(0, 0, 20);
+		m_rightMotorFront.setSelectedSensorPosition(0, 0, 20);
 	}
 	
 	public static void SetPIDValues()

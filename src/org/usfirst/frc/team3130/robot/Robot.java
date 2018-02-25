@@ -115,10 +115,11 @@ public class Robot extends TimedRobot {
 		Logger.logRobotDisabled();
 		CubeIntake.reset();
 		HookDeploy.reset();
+		Chassis.ResetEncoders();
 		bcWingsDeploy.actuate(false);
 		mEnabledLooper.stop();
         mDisabledLooper.start();
-		locationCollector.start();
+		//locationCollector.start();
 	}
 
 	@Override
@@ -146,8 +147,8 @@ public class Robot extends TimedRobot {
     	StringBuilder st = new StringBuilder(gameData);
     	st.deleteCharAt(2);
     	String fieldInfo = st.toString();
-		
-		switch(chooser.getSelected()){
+		*/
+		/*switch(chooser.getSelected()){
 		case "Run MP":
 			System.out.println("Run MP");
 			autonomousCommand = new RunMotionProfiles();
@@ -166,7 +167,7 @@ public class Robot extends TimedRobot {
 			
 		
 		//Hardcoding here
-		//autonomousCommand = new TestPIDCurve();
+		autonomousCommand = new PassBaseline();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

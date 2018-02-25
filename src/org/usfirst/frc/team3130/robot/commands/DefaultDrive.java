@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DefaultDrive extends Command {
 
     public DefaultDrive() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Chassis.GetInstance());
     }
 
@@ -23,8 +21,8 @@ public class DefaultDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//TODO: Do not invert inputs in commands, do it in subsystem if it's universal.
-    	double moveSpeed = OI.stickL.getY();
-    	double turnSpeed = OI.stickR.getX();
+    	double moveSpeed = -OI.stickL.getY(); //joystick's y axis is inverted
+    	double turnSpeed = -OI.stickR.getX(); //arcade drive has left as positive, but we want right to be positive
     	double moveL = OI.stickL.getY();
     	double moveR = OI.stickR.getY();
     	double turnThrottle = (0.5 * OI.stickR.getRawAxis(3)) - 0.5;

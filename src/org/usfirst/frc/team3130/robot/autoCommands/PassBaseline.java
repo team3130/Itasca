@@ -1,12 +1,16 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.Constants;
+import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
+import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
+import org.usfirst.frc.team3130.robot.commands.RunElevator;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
+import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -16,34 +20,33 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class PassBaseline extends CommandGroup {
 	
-	private AutoDriveStraightToPoint  driveForward;
+	private ContDrive				  driveForward;
 	private RunIntakeIn               runIntake;
-	private HeightSetter              elevatorUp;
+	private ElevatorToHeight          elevatorUp;
 
     public PassBaseline() {
        requires(Chassis.GetInstance());
        requires(CubeIntake.GetInstance());
        requires(Elevator.GetInstance());
        
-       driveForward = new AutoDriveStraightToPoint();
+       driveForward = new ContDrive();
        runIntake    = new RunIntakeIn();
-       elevatorUp   = new HeightSetter(Direction.kUp);
+       elevatorUp   = new ElevatorToHeight(4.0);
        
        addParallel(runIntake);
+       addSequential(elevatorUp, 0.5);
        addSequential(driveForward, 3);
-       addSequential(elevatorUp, 2);
-       System.out.println("Running PB");
     }
     
     @Override
 	protected void initialize() {
+        System.out.println("Running PB");
+        Chassis.setTurnDir(TurnDirection.kStraight);
     	driveForward.SetParam(
-    		Constants.kWallToSwitch, 
-    		3, 
-    		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    		false);
-    		runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3)
-    	);
+    		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.1),
+    		Constants.kWallToSwitch
+    		);
+    	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));
     }
 	
 }
