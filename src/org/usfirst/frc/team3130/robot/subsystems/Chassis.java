@@ -11,9 +11,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  *
@@ -38,6 +41,7 @@ public class Chassis extends PIDSubsystem {
 	private static WPI_TalonSRX m_rightMotorRear;
 	private static Solenoid m_shifter;
 	private static AHRS m_navX;
+	private static Sendable navX;
 	private static boolean arcadeDrive;
 	
 	//Define an enum to control the direction to be turned
@@ -103,9 +107,11 @@ public class Chassis extends PIDSubsystem {
     	
     	m_leftMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	m_rightMotorFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    	m_leftMotorFront.setSensorPhase(true);
-    	m_rightMotorFront.setSensorPhase(false);
+    	m_leftMotorFront.setSensorPhase(true); //for compbot
+    	m_rightMotorFront.setSensorPhase(false); //for compbot
     	
+    	m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+    	m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
     	m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
     	m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
     	m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
@@ -116,6 +122,19 @@ public class Chassis extends PIDSubsystem {
     	
     	arcadeDrive = true;
     	moveSpeed = 0;
+    	
+    	try{
+			//Connect to navX Gyro on MXP port.
+			m_navX = new AHRS(SPI.Port.kMXP);
+			m_bNavXPresent = true;
+			navX.setName("Chassis", "NavX");
+		} catch(Exception ex){
+			//If connection fails log the error and fall back to encoder based angles.
+			String str_error = "Error instantiating navX from MXP: ";
+			str_error += ex.getLocalizedMessage();
+			DriverStation.reportError(str_error, true);
+			m_bNavXPresent = false;
+		}
     }
 
     public void initDefaultCommand() {
@@ -311,7 +330,7 @@ public class Chassis extends PIDSubsystem {
 		if(m_bNavXPresent)
 		{
 			//Angle use wants a faster, more accurate, but drifting angle, for quick use.
-			return -m_navX.getAngle();
+			return m_navX.getAngle();
 		}else {
 			//Means that angle use wants a driftless angle measure that lasts.
 			return ( GetDistanceR() - GetDistanceL() ) * 180 / (Constants.kChassisWidth * Math.PI);
