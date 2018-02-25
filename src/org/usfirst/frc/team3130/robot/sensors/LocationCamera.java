@@ -23,6 +23,8 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -38,6 +40,7 @@ public class LocationCamera {
 		public double x;
 		public double y;
 		public double heading;
+		public double timestamp;
 	}
 
 	public static String cameraName = "StartCam";
@@ -70,6 +73,7 @@ public class LocationCamera {
 	private boolean modeChanged = true;
 	private double initialPosition = 1.0;
 	private Location location = new Location();
+	private boolean locationNew = false;
 
 	// Image matrixes are big so let's reuse them
 	private Mat frame = new Mat();
@@ -120,20 +124,20 @@ public class LocationCamera {
 					synchronized(mode) {
 						safeMode = mode;
 					}
-					switch(safeMode) {
-					case kLocation:
-						doLocation();
-						break;
-					case kView:
-//						doView();
-//						break;
-					default:
-						try {
-							Thread.sleep(20);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+						switch(safeMode) {
+						case kLocation:
+							doLocation();
+							break;
+						case kView:
+						default:
+							doNothing();
 						}
+					}
+					catch (InterruptedException e) {
+						// This exception shouldn't really happen but we must handle it anyway
+						System.err.println("Location Camera thread caught an interrupted exception");
+						Thread.currentThread().interrupt();  // set interrupt flag
 					}
 				}
 				System.err.println("LocationCamera thread got interrupted. Exiting the thread");
@@ -142,7 +146,13 @@ public class LocationCamera {
 		}
 	}
 
-	void doView() {
+	void doNothing() throws InterruptedException {
+		Thread.sleep(20);
+	}
+
+	void doView() throws InterruptedException {
+		// TODO Reimplement the view camera. Copying frames from USB to Mat is the worst way to feed
+		// the camera stream to the driver station. This method is not used in the robot yet.
 		if(modeChanged) {
 			modeChanged = false;
 //			cvSink.setEnabled(false);
@@ -162,15 +172,12 @@ public class LocationCamera {
 			return;
 		}
 		outputStream.putFrame(frame);*/
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		// Unfinished thing. Shouldn't be used yet. But sleep if it is.
+		Thread.sleep(20);
 	}
 
-	void doLocation() {
+	void doLocation() throws InterruptedException {
 		if(modeChanged) {
 			modeChanged = false;
 
@@ -196,7 +203,10 @@ public class LocationCamera {
 	}
 
 	private boolean processFrame(Mat image) {
-		MatOfPoint2f imagePoints = new MatOfPoint2f();
+		boolean notFound = false;
+
+		// First define the left/right side of the field and initialize coordinates accordingly
+		initialPosition = Preferences.getInstance().getDouble("AutonPosition", 24.0);
 		MatOfPoint3f objectPoints;
 		Rect topROI, bottomROI;
 		if(initialPosition < 0) {
@@ -218,23 +228,23 @@ public class LocationCamera {
 					new Size(0.9*image.width(), 0.22*image.height()));
 		}
 
-		Imgproc.rectangle(image, topROI.tl(),    topROI.br(),    new Scalar(64,64,64), 3);
-		Imgproc.rectangle(image, bottomROI.tl(), bottomROI.br(), new Scalar(64,64,64), 3);
+		// Here we're going to store the found corners of the plates
+		MatOfPoint2f topCorners, bottomCorners;
 
-
+		// Initialize the LED detector
 		DetectLED detector = new DetectLED()
 				.withThresh(60)
 				.withMinArea(image.size().area()/10000)
 				.withMaxArea(image.size().area()/100)
 				.withMaxSegment(image.width()/20);
 
+		// Then try to find the scale's plate
 		detector.findLEDs(image, topROI)
 				.findSegments()
 				.findChains();
 
-		MatOfPoint2f twoCorners = detector.getCorners();
-		if(twoCorners == null) return false;
-		imagePoints.push_back(twoCorners);
+		topCorners = detector.getCorners();
+		if(topCorners == null) notFound = true;
 
 		for(int i = 0; i < detector.lights.size(); i++) {
 			Point center = detector.lights.get(i);
@@ -260,9 +270,8 @@ public class LocationCamera {
 				.findSegments()
 				.findChains();
 
-		twoCorners = detector.getCorners();
-		if(twoCorners == null) return false;
-		imagePoints.push_back(twoCorners);
+		bottomCorners = detector.getCorners();
+		if(bottomCorners == null) notFound = true;
 
 		for(int i = 0; i < detector.lights.size(); i++) {
 			Point center = detector.lights.get(i);
@@ -282,35 +291,53 @@ public class LocationCamera {
 				}
 			}
 		}
-		List<Point> corners = imagePoints.toList();
-		for(Point corner: corners) {
-			int half = image.width()/50;
-			Point a = new Point2(-half, -half).plus(corner);
-			Point b = new Point2( half,  half).plus(corner);
-			Imgproc.rectangle(image, a, b, new Scalar(0,255,0), 3);
-		}
 
+		// Draw the ROIs for visibility
+		Imgproc.rectangle(image, topROI.tl(),    topROI.br(),    new Scalar(64,64,64), 3);
+		Imgproc.rectangle(image, bottomROI.tl(), bottomROI.br(), new Scalar(64,64,64), 3);
+
+		if (notFound) return false;
+		// Bail out if something was not found. Everything below this line makes sense
+		// only if we found all 4 corners
+
+		// Collect the corners into an array of 4 two-dimensional points
+		MatOfPoint2f imagePoints = new MatOfPoint2f();
+		imagePoints.push_back(topCorners);
+		imagePoints.push_back(bottomCorners);
+
+		// Find the translation (tvec) and the rotation (rvec) vectors
+		// that represent how the origin is translated from the camera
+		// and how the coordinate system is rotated relative to the camera
 		Mat rvec = new Mat();
 		Mat tvec = new Mat();
 		Calib3d.solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec, tvec);
-		String text = String.format("Tvec %6.1f %6.1f %6.1f",
-			tvec.get(0,0)[0],
-			tvec.get(1,0)[0],
-			tvec.get(2,0)[0]);
-		Imgproc.putText(image, text, new Point(10,10), 1, 1, new Scalar(0,255,0));
-		text = String.format("Rvec %8.3f %8.3f %8.3f",
-				rvec.get(0,0)[0],
-				rvec.get(1,0)[0],
-				rvec.get(2,0)[0]);
-		Imgproc.putText(image, text, new Point(10,40), 1, 1, new Scalar(0,255,0));
 
 		// Location is a shared object between the threads so synchronize before accessing
 		synchronized(location)
 		{
 			location.x =  tvec.get(0, 0)[0];
-			location.x = -tvec.get(2, 0)[0];
-			location.heading = rvec.get(1,0)[0]; 
+			location.y = -tvec.get(2, 0)[0];
+			location.heading = rvec.get(1,0)[0];
+			location.timestamp = Timer.getFPGATimestamp();
+			locationNew = false;
 		}
+
+		// Draw squares around the found corners
+		Point2 tlOffset = new Point2(-image.width()/50, -image.width()/50);
+		Point2 brOffset = new Point2( image.width()/50,  image.width()/50);
+		for(Point corner: imagePoints.toList()) {
+			Point a = tlOffset.plus(corner);
+			Point b = brOffset.plus(corner);
+			Imgproc.rectangle(image, a, b, new Scalar(0,255,0), 3);
+		}
+
+		// Put the results on screen as text
+		String tvecText = String.format("Tvec %6.1f %6.1f %6.1f",
+				tvec.get(0,0)[0], tvec.get(1,0)[0], tvec.get(2,0)[0]);
+		String rvecText = String.format("Rvec %8.3f %8.3f %8.3f",
+				rvec.get(0,0)[0], rvec.get(1,0)[0], rvec.get(2,0)[0]);
+		Imgproc.putText(image, tvecText, new Point(10,10), 1, 3, new Scalar(0,255,0));
+		Imgproc.putText(image, rvecText, new Point(10,40), 1, 3, new Scalar(0,255,0));
 
 		return true;
 	}
@@ -321,14 +348,17 @@ public class LocationCamera {
 			modeChanged = true;
 		}
 	}
-	public static void set(Mode m) { GetInstance().setMode(m); }
+	public void set(Mode m) { GetInstance().setMode(m); }
 
-	public static Location getLocation() {
+	public boolean hasNew() {return locationNew;}
+
+	public Location getLocation() {
 		LocationCamera instance = GetInstance();
 		Location safeLocation;
 		// Location is a shared object between the threads so synchronize before accessing
 		synchronized (instance.location) {
 			safeLocation = instance.location;
+			instance.locationNew  = false;
 		}
 		return safeLocation;
 	}
@@ -344,7 +374,7 @@ public class LocationCamera {
 	 * @param initialPosition the initialPosition of the robot relative to the center line.
 	 * Positive direction is to the right. The value can be very approximate.
 	 */
-	public void setInitialPosition(double initialPosition) {
-		this.initialPosition = initialPosition;
+	public void setInitialPosition(double initP) {
+		initialPosition = initP;
 	}
 }

@@ -8,8 +8,9 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
+import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
+import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
@@ -42,7 +43,9 @@ public class Robot extends TimedRobot {
 	Command autonomousCommand;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotSensors robotSensors;
+	private Location robotLocation;
 	//VisionServer mVisionServer = VisionServer.getInstance();
+	Command locationCollector = new LocationCollector(robotLocation);
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
@@ -75,8 +78,6 @@ public class Robot extends TimedRobot {
 		HookDeploy.GetInstance();
 		
 		//Vision operation
-
-		//LocationCamera.enable();
 //		AndroidInterface.GetInstance();
 //		AndroidInterface.GetInstance().reset();
 //		VisionServer.getInstance();
@@ -101,7 +102,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		mEnabledLooper.stop();
         mDisabledLooper.start();
-		LocationCamera.set(LocationCamera.Mode.kLocation);
+		locationCollector.start();
 	}
 
 	@Override
@@ -123,7 +124,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
-		LocationCamera.set(LocationCamera.Mode.kDisabled);
+		locationCollector.cancel();
 
 		switch(chooser.getSelected()){
 		case "Run MP":
@@ -155,7 +156,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.logTeleopInit();
-		LocationCamera.set(LocationCamera.Mode.kDisabled);
+		locationCollector.cancel();
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
