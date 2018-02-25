@@ -43,6 +43,10 @@ public class RunMotionProfiles extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	runMotion = new MotionProfileExample(talonL, trajL, talonR, trajR);
+    	Chassis.getFrontL().config_kF(0, Constants.kChassisHighGearF, 0);
+    	Chassis.getFrontR().config_kF(0, Constants.kChassisHighGearF, 0);
+    	Chassis.getFrontL().config_kP(0, 0.01, 0);
+    	Chassis.getFrontR().config_kP(0, 0.01, 0);
     	SetValueMotionProfile setOutput = runMotion.getSetValue();
 		talonL.set(ControlMode.MotionProfile, setOutput.value);
 		talonR.set(ControlMode.MotionProfile, setOutput.value);

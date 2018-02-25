@@ -14,28 +14,45 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *  Deposit cube into switch from the front
+ *  (from center starting config, directly in front of right switch)
  */
 public class SwitchFront extends CommandGroup {
 
+	private AutoDriveCurve           turnLeft;
+	private AutoDriveStraightToPoint driveForward;
+	private AutoDriveCurve			 turnToSwitch;
 	private AutoDriveStraightToPoint toSwitch;
 	private RunIntakeIn	             intakeIn;
 	private HeightSetter			 elevatorUp;
 	private RunIntakeOut			 intakeOut;
 	
-    public SwitchFront() {
+    public SwitchFront(char side) {
     	requires(Chassis.GetInstance());
     	requires(CubeIntake.GetInstance());
     	requires(Elevator.GetInstance());
     	
-    	toSwitch   = new AutoDriveStraightToPoint();
-    	intakeIn   = new RunIntakeIn();
-    	elevatorUp = new HeightSetter(Direction.kUp);
-    	intakeOut  = new RunIntakeOut();
+    	toSwitch   	   = new AutoDriveStraightToPoint();
+    	driveForward   = new AutoDriveStraightToPoint();
+    	turnLeft	   = new AutoDriveCurve();
+    	turnToSwitch   = new AutoDriveCurve();
+    	intakeIn  	   = new RunIntakeIn();
+    	elevatorUp	   = new HeightSetter(Direction.kUp);
+    	intakeOut  	   = new RunIntakeOut();
     	
-    	addParallel(intakeIn);
-    	addSequential(toSwitch, 3);
-    	addSequential(elevatorUp, 2);
-    	addSequential(intakeOut, 2);
+    	if(side == 'L'){
+    		addParallel(intakeIn);
+    		addSequential(turnLeft, 2);
+    		addSequential(driveForward, 2);
+        	addParallel(elevatorUp, 2);
+    		addSequential(turnToSwitch, 2);
+        	addSequential(intakeOut, 2);
+    	}
+    	else{
+        	addParallel(intakeIn);
+        	addSequential(toSwitch, 3);
+        	addSequential(elevatorUp, 2);
+        	addSequential(intakeOut, 2);
+    	}
     }
     
     @Override

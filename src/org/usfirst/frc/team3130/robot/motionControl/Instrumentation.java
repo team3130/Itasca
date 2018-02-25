@@ -59,7 +59,7 @@ public class Instrumentation {
 			/* fire a loop every 200ms */
 
 			if (--count <= 0) {
-				count = 1;
+				count = 8;
 				/* every 1 loop(s), print our columns */
 
 				System.out.format("%-12s\t", "outEn");
@@ -78,18 +78,18 @@ public class Instrumentation {
 				System.out.format("\n");
 			}
 			/* every loop, print our values */
-			System.out.format("%-12s\t", StrOutputEnable(status.outputEnable));
-			System.out.format("%-12s\t", status.topBufferCnt);
-			System.out.format("%-12s\t", status.topBufferRem);
-			System.out.format("%-12s\t", status.btmBufferCnt);
-			System.out.format("%-12s\t", (status.activePointValid ? "1" : "0"));
-			System.out.format("%-12s\t", (status.hasUnderrun ? "1" : "0"));
-			System.out.format("%-12s\t", (status.isUnderrun ? "1" : "0"));
-			System.out.format("%-12s\t", (status.isLast ? "1" : "0"));
-			System.out.format("%-12s\t", pos);
-			System.out.format("%-12s\t", vel);
-			System.out.format("%-12s\t", status.profileSlotSelect);
-			System.out.format("%-12s\t", status.timeDurMs);
+			System.out.format("%-16s\t", StrOutputEnable(status.outputEnable));
+			System.out.format("%-16s\t", status.topBufferCnt);
+			System.out.format("%-16s\t", status.topBufferRem);
+			System.out.format("%-16s\t", status.btmBufferCnt);
+			System.out.format("%-16s\t", (status.activePointValid ? "1" : " "));
+			System.out.format("%-16s\t", (status.hasUnderrun ? "1" : " "));
+			System.out.format("%-16s\t", (status.isUnderrun ? "1" : " "));
+			System.out.format("%-16s\t", (status.isLast ? "1" : " "));
+			System.out.format("%-16s\t", pos);
+			System.out.format("%-16s\t", vel);
+			System.out.format("%-16s\t", status.profileSlotSelect);
+			System.out.format("%-16s\t", status.timeDurMs);
 
 			System.out.format("\n");
 		}
