@@ -67,8 +67,14 @@ public class Elevator extends Subsystem {
     	// At the bottom (if the height is lower than the safety zone) throttle down the power
     	double height = getHeight();
     	double zone = Constants.kElevatorZone;
-    	if(goingDown && height < zone) {
-    		percent *= Math.abs(height / zone);
+    	if(goingDown) {
+    		// Going down, so reduce the power
+    		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.5);
+    		if(height < zone) {
+    			// And at the bottom reduce the power even more, aggressively squared
+    			double ratio = Math.abs(height / zone);
+        		percent *= ratio * ratio;
+    		}
     	}
 
     	elevator.set(ControlMode.PercentOutput, percent);

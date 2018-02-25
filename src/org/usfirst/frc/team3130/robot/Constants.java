@@ -22,7 +22,7 @@ public class Constants extends ConstantsBase {
     //Elevator constants
     public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
-    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", -0.2);
+    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", 0.25);
     public static double kElevatorZone = Preferences.getInstance().getDouble("ElevatorZone", 16);
     //TODO: Get actual values 
     public static int kElevatorSoftMax = 55; //in encoder ticks 
