@@ -45,5 +45,11 @@ public class HookDeploy extends Subsystem {
     public static void runWinch(double speed){
     	winch.set(speed);
     }
+    
+
+    public static void reset(){
+    	actuated = false;
+    	actuator.set(actuated);
+    }
 }
 

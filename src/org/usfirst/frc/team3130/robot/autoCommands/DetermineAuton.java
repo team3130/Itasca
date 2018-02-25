@@ -20,16 +20,7 @@ public class DetermineAuton extends Command {
     protected void initialize() {
     	//Get field configuration
     	String gameData;
-    	/*
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	*/
-    	
-    	//From MN CSA for Week 0
-    	NetworkTableInstance offSeasonNetworkTable = NetworkTableInstance.create();
-   		offSeasonNetworkTable.startClient("10.0.100.5");
-   		gameData = offSeasonNetworkTable.getTable("OffseasonFMSInfo")
-    			   .getEntry("GameData").getString("defaultValue");
-   		
     	StringBuilder st = new StringBuilder(gameData);
     	st.deleteCharAt(2);
     	String fieldInfo;

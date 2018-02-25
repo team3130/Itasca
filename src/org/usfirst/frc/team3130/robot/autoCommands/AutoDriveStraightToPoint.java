@@ -93,20 +93,20 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 		if(output > m_speed) output = m_speed;
 		else if(output < -m_speed) output = -m_speed;
 		
-		Chassis.DriveStraight(output);
+		Chassis.DriveStraight(-output);
 	}
 	
 	private void setPID()
 	{
 		if(!m_shiftHigh){
 			getPIDController().setPID(
-					Preferences.getInstance().getDouble("LowGear Auton Drive P", 0.1), 
+					Preferences.getInstance().getDouble("LowGear Auton Drive P", 0.001), 
 					Preferences.getInstance().getDouble("LowGear Auton Drive I", 0), 
 					Preferences.getInstance().getDouble("LowGear Auton Drive D", 0)
 				); 
 		}else{
 			getPIDController().setPID(
-					Preferences.getInstance().getDouble("HighGear Auton Drive P", 0.1), 
+					Preferences.getInstance().getDouble("HighGear Auton Drive P", 0.001), 
 					Preferences.getInstance().getDouble("HighGear Auton Drive I", 0), 
 					Preferences.getInstance().getDouble("HighGear Auton Drive D", 0)
 				); 

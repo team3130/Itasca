@@ -19,6 +19,8 @@ import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
+import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
+import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -118,6 +120,8 @@ public class OI {
 	public static JoystickButton wingsDeploy;
 
 	public static JoystickButton changeDriveMode;
+	public static JoystickButton testStraight;
+	public static JoystickButton testCurve;
 	
 	public static JoystickButton revClimb;
 	
@@ -142,6 +146,8 @@ public class OI {
 		shiftUp = new JoystickButton(stickR, RobotMap.BTN_SHIFTUP);
 		shiftDown = new JoystickButton(stickL, RobotMap.BTN_SHIFTDOWN);
 		shift = new JoystickButton(stickL, RobotMap.BTN_SHIFT);
+		testStraight = new JoystickButton(stickL, 10);
+		testCurve = new JoystickButton(stickR, 10);
 		
 		elevatorUp = new POVTrigger(gamepad, RobotMap.LST_POV_N);
 		elevatorDown = new POVTrigger(gamepad, RobotMap.LST_POV_S);
@@ -155,6 +161,8 @@ public class OI {
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
+		testStraight.whenPressed(new TestPIDStraight());
+		testCurve.whenPressed(new TestPIDCurve());
 
 		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
 		elevatorDown.whenActive(new HeightSetter(Direction.kDown));

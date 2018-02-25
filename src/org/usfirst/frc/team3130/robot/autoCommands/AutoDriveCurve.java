@@ -15,7 +15,7 @@ public class AutoDriveCurve extends Command {
 	
 	private double m_angle;
 	private double m_threshold;
-	private boolean m_shiftLow;
+	private boolean m_shiftHigh;
 	private boolean m_turnLeft = false;
 	
 	private double m_radiusFar;
@@ -31,12 +31,12 @@ public class AutoDriveCurve extends Command {
      * @param radius the radius from to the center of the robot
      * @param threshold the threshold on the distance in inches
      * @param angle the angle to turn in radians
-     * @param shiftLow to shift the robot to low gear or not
+     * @param shiftHigh to shift the robot to high gear or not
      */
-    public void SetParam(double radius, double threshold, double angle, boolean shiftLow){
+    public void SetParam(double radius, double threshold, double angle, boolean shiftHigh){
     	m_angle = angle;
     	m_threshold = threshold;
-    	m_shiftLow = shiftLow;
+    	m_shiftHigh = shiftHigh;
     	
     	if(radius > 0) m_turnLeft = true;
     	m_radiusFar = Math.abs(radius) + (Constants.kChassisWidth)/2;
@@ -46,13 +46,13 @@ public class AutoDriveCurve extends Command {
      * Sets up the curve to be driven
      * @param linearDistance the distance in a straight line, as a chord of the curve
      * @param horizontalOffset the distance from the starting point to the tangent line of the ending point of the curve
-     * @param shiftLow to shift the robot to low gear or not
+     * @param shiftHigh to shift the robot to high gear or not
      * @param threshold the threshold on the distance in inches
      */
-    public void SetParam(double linearDistance, double horizontalOffset, boolean shiftLow, double threshold)
+    public void SetParam(double linearDistance, double horizontalOffset, boolean shiftHigh, double threshold)
     {
     	m_threshold = threshold;
-    	m_shiftLow = shiftLow;
+    	m_shiftHigh = shiftHigh;
     	
     	m_angle = 2*Math.asin(horizontalOffset/linearDistance);
     	
@@ -64,7 +64,7 @@ public class AutoDriveCurve extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {  	
     	//Needs to occur for both turn directions
-		Chassis.Shift(m_shiftLow);
+		Chassis.Shift(m_shiftHigh);
 		Chassis.ReleaseAngle();		
         Chassis.TalonsToCoast(false);
 

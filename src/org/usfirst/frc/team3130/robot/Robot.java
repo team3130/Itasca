@@ -10,6 +10,7 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
+import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
@@ -24,6 +25,7 @@ import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -108,6 +110,8 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.logRobotDisabled();
 		CubeIntake.reset();
+		HookDeploy.reset();
+		bcWingsDeploy.actuate(false);
 		mEnabledLooper.stop();
         mDisabledLooper.start();
 	}
@@ -131,6 +135,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
+		/*
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	StringBuilder st = new StringBuilder(gameData);
+    	st.deleteCharAt(2);
+    	String fieldInfo = st.toString();
 		
 		switch(chooser.getSelected()){
 		case "Run MP":
@@ -147,11 +156,11 @@ public class Robot extends TimedRobot {
 		default:
 			System.out.println("Null");
 			autonomousCommand = null;
-		}
+		}*/
 			
 		
 		//Hardcoding here
-		//autonomousCommand = new CDPassBaseline();
+		autonomousCommand = new TestPIDStraight();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
