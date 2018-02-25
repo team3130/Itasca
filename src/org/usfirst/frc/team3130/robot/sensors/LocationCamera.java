@@ -101,49 +101,34 @@ public class LocationCamera {
 		objectPointsL.fromList(objectLeft);
 		objectPointsR.fromList(objectRight);
 
-		if(true /*|| camera.isConnected()*/) {
-			// Run this thing as a thread so the heavy vision processing won't block the main (robot's) thread.
-			new Thread(() -> 
+		// Run this thing as a thread so the heavy vision processing won't block the main (robot's) thread.
+		new Thread(() -> 
+		{
+			while(!Thread.interrupted()) 
 			{
-				
-				// Done in implicit constructor
-				//outputStream = CameraServer.getInstance().putVideo(cameraName, 640, 400);
-				
-				/* Done later when mode is selected
-				camera.setResolution(1280, 800);
-				// HD-3000 min exposure is 5, Tested: 5, 10, 20, 39, 78, 156, 312, 625...
-				camera.setExposureManual(10);
-				camera.setWhiteBalanceManual(4500);
-				camera.setBrightness(30);
-				camera.setFPS(3);
-				*/
-
-				while(!Thread.interrupted()) 
-				{
-					Mode safeMode;
-					synchronized(mode) {
-						safeMode = mode;
-					}
-					try {
-						switch(safeMode) {
-						case kLocation:
-							doLocation();
-							break;
-						case kView:
-						default:
-							doNothing();
-						}
-					}
-					catch (InterruptedException e) {
-						// This exception shouldn't really happen but we must handle it anyway
-						System.err.println("Location Camera thread caught an interrupted exception");
-						Thread.currentThread().interrupt();  // set interrupt flag
+				Mode safeMode;
+				synchronized(mode) {
+					safeMode = mode;
+				}
+				try {
+					switch(safeMode) {
+					case kLocation:
+						doLocation();
+						break;
+					case kView:
+					default:
+						doNothing();
 					}
 				}
-				System.err.println("LocationCamera thread got interrupted. Exiting the thread");
-			}).start(); // Thread
-			
-		}
+				catch (InterruptedException e) {
+					// This exception shouldn't really happen but we must handle it anyway
+					System.err.println("Location Camera thread caught an interrupted exception");
+					Thread.currentThread().interrupt();  // set interrupt flag
+				}
+			}
+			System.err.println("LocationCamera thread got interrupted. Exiting the thread");
+		}).start(); // Thread
+
 	}
 
 	void doNothing() throws InterruptedException {
@@ -192,13 +177,13 @@ public class LocationCamera {
 		}
 		if(cvSink.grabFrame(frame, 1.0) == 0) {
 			DriverStation.reportError(cvSink.getError(), false);
+			Thread.sleep(5000); // Probably the camera is unplugged, so sleep this many milliseconds
 			return;
 		}
 
 		processFrame(frame);
 
 		Imgproc.resize(frame, display, new Size(NTwidth,NTheight));
-//		Mat outFrame = new Mat(frame,new Rect(new Point(640-120, 360-135), new Size(240, 135)));
 		outputStream.putFrame(display);
 	}
 
