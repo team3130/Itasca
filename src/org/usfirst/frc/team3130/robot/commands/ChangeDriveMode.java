@@ -14,7 +14,7 @@ public class ChangeDriveMode extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (Chassis.GetInstance().getArcade()){
+		if (Chassis.getArcade()){
     		Chassis.setArcade(false);
     	}
     	else {

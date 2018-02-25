@@ -1,9 +1,7 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.opencv.core.Point3;
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
+import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,10 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  * Determine which auton to run at the start of the match depending on the positioning of the switch/scale
  */
 public class DetermineAuton extends Command {
+	Location locationData;
 
-    public DetermineAuton() {
-       
-    }
+	public DetermineAuton(Location locationData) {
+		this.locationData = locationData;
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -26,8 +25,7 @@ public class DetermineAuton extends Command {
     	String fieldInfo;
     	fieldInfo = st.toString();    	
     	//find robot starting pose
-    	Point3 position = LocationCamera.getPosition();
-    	if ( position.x >= 0.0){
+    	if ( locationData.x >= 0.0){
     		//Start on right
     		if(fieldInfo == "LL"){
     			

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.*;
 
@@ -37,16 +36,15 @@ public class RobotSensors extends Command {
     	//Elevator
     	Elevator.outputToSmartDashboard();
 
-    	/*
     	Rangefinder rf = Rangefinder.GetInstance();
-    	int distance = Rangefinder.getDistance();
+    	int distance = rf.getDistance();
     	if(distance>=0) {
     		SmartDashboard.putNumber("Lidar range", distance);
     	}
     	
     	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
     	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
-    	*/
+
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());

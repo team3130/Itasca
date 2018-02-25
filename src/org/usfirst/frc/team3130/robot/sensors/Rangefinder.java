@@ -87,8 +87,7 @@ public class Rangefinder {
 	}
 
 	// Distance in mm
-	public static int getDistance() {
-		Rangefinder instance = GetInstance();
+	public int getDistance() {
 		int reg = 0x0062;
 		byte[] buffer = new byte[1];
 		
@@ -97,13 +96,13 @@ public class Rangefinder {
 		wbuffer[0] = (byte) ( (reg>>8) &0xFF);
 		wbuffer[1] = (byte) (reg &0xFF);
 
-		if(!instance.i2c.writeBulk(wbuffer)) {				
-			if( !instance.i2c.readOnly(buffer, 1) ) {
+		if(!i2c.writeBulk(wbuffer)) {				
+			if( !i2c.readOnly(buffer, 1) ) {
 				int num = buffer[0];
 				if(num < 0) {
 					num = num&127 + 128;
 				}
-				instance.writeByte(0x0018, 0x01);
+				writeByte(0x0018, 0x01);
 				
 				return num;
 			}

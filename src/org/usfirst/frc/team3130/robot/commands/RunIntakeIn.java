@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RunIntakeIn extends Command {
 
-	private static double speed;
+	private double speed;
 	
     public RunIntakeIn() {
         requires(CubeIntake.GetInstance());
