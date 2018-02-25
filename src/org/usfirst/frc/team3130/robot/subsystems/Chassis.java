@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -58,9 +59,9 @@ public class Chassis extends PIDSubsystem {
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
-	private static final double SUBSYSTEM_CURVE_HIGH_P_DEFAULT = 0.075;
-	private static final double SUBSYSTEM_CURVE_HIGH_I_DEFAULT = 0.01;
-	private static final double SUBSYSTEM_CURVE_HIGH_D_DEFAULT = 0.09;
+	private static final double SUBSYSTEM_CURVE_HIGH_P_DEFAULT = 0.001;
+	private static final double SUBSYSTEM_CURVE_HIGH_I_DEFAULT = 0.0;
+	private static final double SUBSYSTEM_CURVE_HIGH_D_DEFAULT = 0.0;
 
 	private static final double SUBSYSTEM_CURVE_LOW_P_DEFAULT = 0.085;
 	private static final double SUBSYSTEM_CURVE_LOW_I_DEFAULT = 0.02;
@@ -125,9 +126,9 @@ public class Chassis extends PIDSubsystem {
     	
     	try{
 			//Connect to navX Gyro on MXP port.
-			m_navX = new AHRS(SPI.Port.kMXP);
+			m_navX = new AHRS(I2C.Port.kMXP);
 			m_bNavXPresent = true;
-			navX.setName("Chassis", "NavX");
+			//navX.setName("Chassis", "NavX");
 		} catch(Exception ex){
 			//If connection fails log the error and fall back to encoder based angles.
 			String str_error = "Error instantiating navX from MXP: ";
@@ -193,8 +194,8 @@ public class Chassis extends PIDSubsystem {
     		final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
    			if (bias >  speedLimit) bias = speedLimit;
    			if (bias < -speedLimit) bias = -speedLimit;
-   			double speed_L = moveSpeed-bias;
-   			double speed_R = moveSpeed+bias;
+   			double speed_L = moveSpeed+bias;
+   			double speed_R = moveSpeed-bias;
 			DriveTank(speed_L, speed_R); 
     		prevSpeedLimit = Math.abs(speedLimit);
     		}else{
@@ -404,7 +405,7 @@ public class Chassis extends PIDSubsystem {
 		m_rightMotorFront.set(0);
 	}
 	
-	public static void SetPIDValues(double angle)
+	public static void SetPIDValues()
 	{
 		if(m_bShiftedHigh){
 			if(m_dir.equals(TurnDirection.kStraight)){
@@ -437,10 +438,14 @@ public class Chassis extends PIDSubsystem {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param angle  in degrees
+	 */
 	public static void HoldAngle(double angle)
 	{
 		double workingAngle = (180/Math.PI)*angle;
-		SetPIDValues(workingAngle);
+		SetPIDValues();
 		if(m_dir.equals(TurnDirection.kStraight))
 			GetInstance().getPIDController().setSetpoint(GetAngle() + workingAngle);
 		else
@@ -448,10 +453,14 @@ public class Chassis extends PIDSubsystem {
 		GetInstance().getPIDController().enable();
 	}
 	
+	/**
+	 * 
+	 * @param angle  in degrees
+	 */
 	public static void HoldAbsAngle(double angle)
 	{
 		double workingAngle = (180/Math.PI)*angle;
-		SetPIDValues(workingAngle);
+		SetPIDValues();
 		if(m_dir.equals(TurnDirection.kStraight))
 			GetInstance().getPIDController().setSetpoint(workingAngle);
 		else

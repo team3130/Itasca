@@ -38,10 +38,14 @@ public class Constants extends ConstantsBase {
     public static double kCubeInRange = 80.0;//TODO: Get actual range
     public static int kBlinkNumber = 3;
 
-    //Field Measurements
-    public static double kWallToSwitch = 143.0; //inches forward to switch from alliance wall
-    public static double kSwitchWidth  = 154.5; //average of red and blue side switch widths
-    public static double kSwitchSlotWidth = 41.0; //inches wide of switch slot
+  //Field Measurements
+    public static double kWallToSwitch     = 143.0; //inches forward to switch from alliance wall
+    public static double kSwitchWidth      = 154.5; //average of red and blue side switch widths
+    public static double kSwitchSlotWidth  = 41.0; //inches wide of switch slot
+    public static double kSwitchDepth      = 52.0; //inches deep of switch
+    public static double kWallToScale      = 297.0; //inches from alliance wall to front plate of scale
+    public static double kScaleWidth       = 177.75; //inches wide of scale
+    public static double kScaleDepth       = 48.0; //inches deep of scale 
     
     //Turret PID
     // Units: error is 4096 counts/rev. Max output is +/- 1023 units.

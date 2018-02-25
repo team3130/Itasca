@@ -11,6 +11,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
+import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
 import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
 import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
 import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
@@ -44,8 +45,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
-	SendableChooser<String> chooser  = new SendableChooser<>();
-	SendableChooser<String> startPos = new SendableChooser<String>();
+	private SendableChooser<String> chooser  = new SendableChooser<>();
+	public static SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
 	private Location robotLocation;
 	//VisionServer mVisionServer = VisionServer.getInstance();
@@ -100,7 +101,7 @@ public class Robot extends TimedRobot {
 		//Starting configuration for autons
 		//If hardcoding required, manually choose fieldSide below
 		startPos.addDefault("Left Starting Position", "Left");
-		startPos.addDefault("Right Starting Position", "Right");
+		startPos.addObject("Right Starting Position", "Right");
 		SmartDashboard.putData("Starting Position", startPos);
 	}
 
@@ -165,7 +166,7 @@ public class Robot extends TimedRobot {
 			
 		
 		//Hardcoding here
-		autonomousCommand = new TestPIDStraight();
+		//autonomousCommand = new TestPIDCurve();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

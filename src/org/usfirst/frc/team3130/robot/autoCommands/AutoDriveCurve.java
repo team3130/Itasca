@@ -38,7 +38,7 @@ public class AutoDriveCurve extends Command {
     	m_threshold = threshold;
     	m_shiftHigh = shiftHigh;
     	
-    	if(radius > 0) m_turnLeft = true;
+    	if(angle > 0) m_turnLeft = true;
     	m_radiusFar = Math.abs(radius) + (Constants.kChassisWidth)/2;
     }
     
