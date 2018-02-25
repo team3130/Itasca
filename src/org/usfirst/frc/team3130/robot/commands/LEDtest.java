@@ -3,7 +3,6 @@ package org.usfirst.frc.team3130.robot.commands;
 import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -24,7 +23,7 @@ public class LEDtest extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Rangefinder rf = Rangefinder.GetInstance();
-    	int distance = Rangefinder.getDistance();
+    	int distance = rf.getDistance();
     	BlinkinInterface.showRange(distance);
     }
 

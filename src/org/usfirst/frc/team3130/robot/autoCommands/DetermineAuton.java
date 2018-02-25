@@ -1,9 +1,7 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera;
 import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
