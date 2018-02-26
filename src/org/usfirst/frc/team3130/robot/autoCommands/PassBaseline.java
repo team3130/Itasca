@@ -36,21 +36,23 @@ public class PassBaseline extends CommandGroup {
        closeIntake  = new IntakeToggle();
        elevatorUp   = new ElevatorToHeight(4.0);
        
-       addParallel(runIntake, 1);
-       addParallel(closeIntake, 0.5);
+       //addParallel(runIntake, 1);
+       //addParallel(closeIntake, 0.5);
        addSequential(elevatorUp, 0.5);
-       addSequential(driveForward, 3);
+       addSequential(driveForward, 7);
     }
     
     @Override
 	protected void initialize() {
+    	
         System.out.println("Running PB");
         Chassis.setTurnDir(TurnDirection.kStraight);
-    	driveForward.SetParam(
+        driveForward.SetParam(0.4, 250.0);
+    	/*driveForward.SetParam(
     		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),
     		Constants.kWallToSwitch
     		);
-    	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));
+    	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));*/
     }
 	
 }

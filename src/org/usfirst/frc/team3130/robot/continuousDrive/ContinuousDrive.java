@@ -71,7 +71,7 @@ public abstract class ContinuousDrive extends Command {
 	
 	/**
 	 * Gets the value by how much it overshot
-	 * @return the ammount the robot overshot its move
+	 * @return the amount the robot overshot its move
 	 */
 	public double GetOvershoot()
 	{

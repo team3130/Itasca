@@ -47,7 +47,7 @@ public class Chassis extends PIDSubsystem {
 	
 	//Define an enum to control the direction to be turned
 	public static enum TurnDirection{kLeft, kRight, kStraight};
-	private static TurnDirection m_dir;
+	private static TurnDirection m_dir = TurnDirection.kStraight;
 	
 	//Create and define all standard data types needed
 	private static boolean m_bShiftedHigh;
@@ -126,7 +126,7 @@ public class Chassis extends PIDSubsystem {
     	
     	try{
 			//Connect to navX Gyro on MXP port.
-			m_navX = new AHRS(I2C.Port.kMXP);
+			m_navX = new AHRS(SPI.Port.kMXP);
 			m_bNavXPresent = true;
 			//navX.setName("Chassis", "NavX");
 		} catch(Exception ex){

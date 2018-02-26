@@ -9,6 +9,7 @@ package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
+import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
@@ -189,6 +190,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.logTeleopInit();
 		locationCollector.cancel();
+		
 		Elevator.holdHeight(0);
 
 		// This makes sure that the autonomous stops running when
