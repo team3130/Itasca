@@ -24,7 +24,7 @@ public class ContinuousIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double distance = Rangefinder.GetInstance().getDistance();
+    	double distance = Rangefinder.GetInstance().getStoredRange();
     	if(0 < distance && distance < 200) {
     		CubeIntake.runIntake(Preferences.getInstance().getDouble("Idle Intake", 0.2));
     	}

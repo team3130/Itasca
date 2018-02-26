@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class Rangefinder {
 	
     private I2C i2c;
+    private int range = 0;
 	
 	private final int LIDAR_ADDR = 0x52>>1;
 
@@ -192,6 +193,14 @@ public class Rangefinder {
 			}
 		}
 		return -1;
+	}
+
+	public int getStoredRange() {
+		return range;
+	}
+
+	public void setStoredRange(int range) {
+		this.range = range;
 	}
 }
 

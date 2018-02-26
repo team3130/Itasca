@@ -23,7 +23,7 @@ public class LEDtest extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Rangefinder rf = Rangefinder.GetInstance();
-    	int distance = rf.getDistance();
+    	int distance = rf.getStoredRange();
     	BlinkinInterface.showRange(distance);
     }
 
