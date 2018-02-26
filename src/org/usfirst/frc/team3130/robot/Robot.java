@@ -142,6 +142,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Logger.logAutonInit();
 		locationCollector.cancel();
+		Elevator.holdHeight(0);
 		/*
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
     	StringBuilder st = new StringBuilder(gameData);
@@ -188,6 +189,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.logTeleopInit();
 		locationCollector.cancel();
+		Elevator.holdHeight(0);
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to

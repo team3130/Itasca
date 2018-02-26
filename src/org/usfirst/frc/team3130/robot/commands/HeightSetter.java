@@ -41,7 +41,7 @@ public class HeightSetter extends Command {
 		double height = Elevator.getHeight();
 		double previous = 0;
 		for (double h: heights) {
-			if (height > h) {
+			if (height < h) {
 				Elevator.setHeight(previous);
 				return;
 			}

@@ -34,7 +34,7 @@ public class SwitchSide extends CommandGroup {
     	
     	driveForward   = new ContDrive();
     	intakeIn  	   = new RunIntakeIn();
-    	turnToSwitch   = new ContTurn();
+//    	turnToSwitch   = new ContTurn();
     	toSwitch 	   = new ContDrive();
     	elevatorUp 	   = new ElevatorToHeight(50.0);
     	intakeOut 	   = new RunIntakeOut();
@@ -51,10 +51,8 @@ public class SwitchSide extends CommandGroup {
     protected void initialize(){
     	intakeIn.SetParam(0.3);
     	driveForward.SetParam(
-    		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0), 
-            3, 
             Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-            false
+    		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0)
         );
     	intakeOut.SetParam(-0.4);
     }

@@ -47,7 +47,7 @@ public class Elevator extends Subsystem {
 		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 		elevator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0, 10);
 
-		elevator.config_kP(0, Constants.kElevatorP, 0);
+		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);
@@ -81,11 +81,16 @@ public class Elevator extends Subsystem {
     }
 
     public synchronized static void setHeight(double height_inches){
+		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
     	elevator.set(ControlMode.Position, height_inches * Constants.kElevatorTicksPerInch);
     }
 
     public synchronized static double getHeight(){
     	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
+    }
+
+    public static void holdHeight(double offset) {
+    	setHeight(getHeight() + offset);
     }
 
     public static void outputToSmartDashboard() {
