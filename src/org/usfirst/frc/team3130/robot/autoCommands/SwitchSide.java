@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.Constants;
+import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
@@ -8,6 +9,8 @@ import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
+import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
+import org.usfirst.frc.team3130.robot.continuousDrive.ContTurn;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -17,11 +20,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SwitchSide extends CommandGroup {
 
-	private AutoDriveStraightToPoint driveForward;
+	private ContDrive                driveForward;
 	private RunIntakeIn	             intakeIn;
-	private AutoDriveCurve			 turnToSwitch;
-	private AutoDriveStraightToPoint toSwitch;
-	private HeightSetter			 elevatorUp;
+	private ContTurn      			 turnToSwitch;
+	private ContDrive				 toSwitch;
+	private ElevatorToHeight		 elevatorUp;
 	private RunIntakeOut			 intakeOut;
 	
     public SwitchSide() {
@@ -29,11 +32,11 @@ public class SwitchSide extends CommandGroup {
     	requires(CubeIntake.GetInstance());
     	requires(Elevator.GetInstance());
     	
-    	driveForward   = new AutoDriveStraightToPoint();
+    	driveForward   = new ContDrive();
     	intakeIn  	   = new RunIntakeIn();
-    	turnToSwitch   = new AutoDriveCurve();
-    	toSwitch 	   = new AutoDriveStraightToPoint();
-    	elevatorUp 	   = new HeightSetter(Direction.kUp);
+    	turnToSwitch   = new ContTurn();
+    	toSwitch 	   = new ContDrive();
+    	elevatorUp 	   = new ElevatorToHeight(50.0);
     	intakeOut 	   = new RunIntakeOut();
     	
     	addParallel(intakeIn);
