@@ -63,18 +63,18 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_CURVE_HIGH_I_DEFAULT = 0.0;
 	private static final double SUBSYSTEM_CURVE_HIGH_D_DEFAULT = 0.0;
 
-	private static final double SUBSYSTEM_CURVE_LOW_P_DEFAULT = 0.085;
+	private static final double SUBSYSTEM_CURVE_LOW_P_DEFAULT = 0.018;
 	private static final double SUBSYSTEM_CURVE_LOW_I_DEFAULT = 0.02;
 	private static final double SUBSYSTEM_CURVE_LOW_D_DEFAULT = 0.125;
 
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.075;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.01;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.09;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.001;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.1;
 
-	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.085;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 7.0E-7;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_ZERO = 0.002;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.125;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
 	
 	//PID Preferences Defaults
 		private static final double TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT = 0.1;
@@ -119,7 +119,7 @@ public class Chassis extends PIDSubsystem {
     	m_drive.setSafetyEnabled(false);
     	
     	m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
-    	m_bShiftedHigh = false;
+    	m_bShiftedHigh = true;
     	
     	arcadeDrive = true;
     	moveSpeed = 0;
@@ -425,7 +425,7 @@ public class Chassis extends PIDSubsystem {
 			if(m_dir.equals(TurnDirection.kStraight)){
 				GetInstance().getPIDController().setPID(
 					Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
-					Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
+					Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
 					Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
 				);
 			}else{
@@ -440,7 +440,7 @@ public class Chassis extends PIDSubsystem {
 	
 	/**
 	 * 
-	 * @param angle  in degrees
+	 * @param angle  in radians
 	 */
 	public static void HoldAngle(double angle)
 	{

@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
  * Test the Chassis' PID values for driving a curve
  */
 public class TestPIDCurve extends Command{
-
-	private AutoDriveCurve drive;
 	
     public TestPIDCurve() {
         requires(Chassis.GetInstance());
@@ -21,7 +19,6 @@ public class TestPIDCurve extends Command{
     protected void initialize() {
     	System.out.println("TESTING PID CURVE");
     	Chassis.setTurnDir(TurnDirection.kStraight);
-    	Chassis.SetPIDValues();
     	Chassis.HoldAngle(30.0);
     }
     

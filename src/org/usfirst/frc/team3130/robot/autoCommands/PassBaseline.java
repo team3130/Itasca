@@ -6,6 +6,7 @@ import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.RunElevator;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
@@ -22,6 +23,7 @@ public class PassBaseline extends CommandGroup {
 	
 	private ContDrive				  driveForward;
 	private RunIntakeIn               runIntake;
+	private IntakeToggle			  closeIntake;
 	private ElevatorToHeight          elevatorUp;
 
     public PassBaseline() {
@@ -31,9 +33,11 @@ public class PassBaseline extends CommandGroup {
        
        driveForward = new ContDrive();
        runIntake    = new RunIntakeIn();
+       closeIntake  = new IntakeToggle();
        elevatorUp   = new ElevatorToHeight(4.0);
        
-       addParallel(runIntake);
+       addParallel(runIntake, 1);
+       addParallel(closeIntake, 0.5);
        addSequential(elevatorUp, 0.5);
        addSequential(driveForward, 3);
     }
@@ -43,7 +47,7 @@ public class PassBaseline extends CommandGroup {
         System.out.println("Running PB");
         Chassis.setTurnDir(TurnDirection.kStraight);
     	driveForward.SetParam(
-    		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.1),
+    		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),
     		Constants.kWallToSwitch
     		);
     	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));

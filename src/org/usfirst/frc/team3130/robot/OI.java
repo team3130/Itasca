@@ -161,7 +161,7 @@ public class OI {
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
-		testStraight.whenPressed(new TestPIDStraight());
+		testStraight.whileHeld(new TestPIDStraight());
 		testCurve.whileHeld(new TestPIDCurve());
 
 		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
