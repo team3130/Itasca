@@ -45,7 +45,7 @@ public class PassBaseline extends CommandGroup {
     @Override
 	protected void initialize() {
     	
-        System.out.println("Running PB");
+        //System.out.println("Running PB");
         Chassis.setTurnDir(TurnDirection.kStraight);
         driveForward.SetParam(0.4, 250.0);
     	/*driveForward.SetParam(
