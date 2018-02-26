@@ -8,10 +8,11 @@ public class HeightSetter extends Command {
 
 	public enum Direction { kUp, kDown };
 	private Direction myDir; 
-	public static int acc = 0;
+	private double[] heights = {0, 5.0, 20, 57.0, 65.0, 75.0};
 
 	public HeightSetter(Direction dir) {
 		myDir = dir;
+		requires(Elevator.GetInstance());
 	}
 
 	@Override
@@ -27,34 +28,24 @@ public class HeightSetter extends Command {
 	}
 
 	public void increaseHeight() {
-		if (acc <= 4){
-			acc += 1;
-			setHeight();
+		double height = Elevator.getHeight();
+		for (double h: heights) {
+			if (height + 3 < h) {
+				Elevator.setHeight(h);
+				return;
+			}
 		}
 	}
 
 	public void decreaseHeight(){
-		if(acc >= 0){
-			acc = acc - 1;
-			setHeight();
-		}
-	}
-
-	public void setHeight() {
-		if(acc == 0){
-			Elevator.setHeight(0.0);
-		}
-		if(acc == 1){
-			Elevator.setHeight(10.0);
-		}
-		if(acc == 2){
-			Elevator.setHeight(57.0);
-		}
-		if(acc == 3){
-			Elevator.setHeight(65.0);
-		}
-		if(acc == 4){
-			Elevator.setHeight(75.0);
+		double height = Elevator.getHeight();
+		double previous = 0;
+		for (double h: heights) {
+			if (height > h) {
+				Elevator.setHeight(previous);
+				return;
+			}
+			previous = h;
 		}
 	}
 
