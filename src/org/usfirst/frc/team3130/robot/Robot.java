@@ -9,6 +9,7 @@ package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.commands.LocationCollector;
@@ -29,7 +30,6 @@ import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 		chooser.addObject("No Auton", null);
 		chooser.addObject("Test MP", "Test MP");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
-		chooser.addObject("Switch Side", "Switch Side");
+		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -147,43 +147,8 @@ public class Robot extends TimedRobot {
 		Logger.logAutonInit();
 		locationCollector.cancel();
 		Elevator.holdHeight(0);
-		
-		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	StringBuilder st = new StringBuilder(gameData);
-    	st.deleteCharAt(2);
-    	String fieldInfo = st.toString();
     	
-    	String start = startPos.getSelected();
-    	
-		switch(chooser.getSelected()){
-		case "Test MP":
-			autonomousCommand = new RunMotionProfiles();
-			break;
-		case "Pass Baseline":
-			autonomousCommand = new PassBaseline();
-			break;
-		case "Switch Side":
-			if(fieldInfo.charAt(0) == 'L' && start == "Left"){
-				System.out.println("Switch Side Left");
-			}
-			else if(fieldInfo.charAt(0) == 'R' && start == "Right"){
-				System.out.println("Switch Side Right");
-			}
-			else{
-				autonomousCommand = new PassBaseline();
-				System.out.println("Cancelling Switch Side");
-			}
-			break;
-		case "Switch Front":
-			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
-			break;
-		case "No Auto":
-			autonomousCommand = null;
-			break;
-		default:
-			autonomousCommand = null;
-		}
-			
+		determineAuton();
 		//Hardcoding here
 		//autonomousCommand = new SwitchSide(fieldInfo.charAt(0));
 		// schedule the autonomous command (example)
@@ -223,6 +188,71 @@ public class Robot extends TimedRobot {
 	/**
 	 * This function is called periodically during operator control.
 	 */
+	private void determineAuton(){
+		String gameData;
+    	gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	StringBuilder st = new StringBuilder(gameData);
+    	st.deleteCharAt(2);
+    	String fieldInfo = st.toString();    	
+    	//find robot starting pose
+    	
+
+    	String start = startPos.getSelected();
+    	
+		switch(chooser.getSelected()){
+		case "Test MP":
+			autonomousCommand = new RunMotionProfiles();
+			break;
+		case "Pass Baseline":
+			autonomousCommand = new PassBaseline();
+			break;
+		case "Side":
+			if(start == "Left"){
+				if(fieldInfo == "LR"){
+					System.out.println("Switch Side Left");
+					autonomousCommand = new SwitchSide('L');
+				}
+				else if(fieldInfo == "LL"){
+					System.out.println("Switch Side Left");
+					autonomousCommand = new SwitchSide('L');
+				}
+				else if(fieldInfo == "RL"){
+					System.out.println("Scale Left");
+					autonomousCommand = new ScaleOnly('L');
+				}
+				else{
+					autonomousCommand = new PassBaseline();
+					System.out.println("Cancelling Switch Side");
+				}
+			}else{
+				if(fieldInfo == "RL"){
+					System.out.println("Switch Side Right");
+					autonomousCommand = new SwitchSide('R');
+				}
+				else if(fieldInfo == "RR"){
+					System.out.println("Switch Side Right");
+					autonomousCommand = new SwitchSide('R');
+				}
+				else if(fieldInfo == "LR"){
+					System.out.println("Scale Right");
+					autonomousCommand = new ScaleOnly('R');
+				}
+				else{
+					autonomousCommand = new PassBaseline();
+					System.out.println("Cancelling Switch Side");
+				}
+			}
+			break;
+		case "Switch Front":
+			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
+			break;
+		case "No Auto":
+			autonomousCommand = null;
+			break;
+		default:
+			autonomousCommand = null;
+		}
+	}
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
