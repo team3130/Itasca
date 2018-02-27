@@ -147,7 +147,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Logger.logAutonInit();
 		locationCollector.cancel();
-		Elevator.holdHeight(0);
 
 		Elevator.holdHeight();
 		Chassis.ReleaseAngle();
