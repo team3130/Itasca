@@ -9,6 +9,7 @@ package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
+import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
@@ -46,7 +47,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
-	private SendableChooser<String> chooser  = new SendableChooser<>();
+	private SendableChooser<String> chooser  = new SendableChooser<String>();
 	public static SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
 	private Location robotLocation;
@@ -93,9 +94,11 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addDefault("No Auton", "No Auto");
-		chooser.addObject("Test MP", "Run MP");
-		chooser.addObject("Pass Baseline", "Baseline");
+		chooser.addObject("No Auton", null);
+		chooser.addObject("Test MP", "Test MP");
+		chooser.addObject("Pass Baseline", "Pass Baseline");
+		chooser.addObject("Switch Side", "Switch Side");
+		chooser.addObject("Switch Front", "Switch Front");
 		SmartDashboard.putData("Auto mode", chooser);
 		
 
@@ -144,32 +147,45 @@ public class Robot extends TimedRobot {
 		Logger.logAutonInit();
 		locationCollector.cancel();
 		Elevator.holdHeight(0);
-		/*
+		
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
     	StringBuilder st = new StringBuilder(gameData);
     	st.deleteCharAt(2);
     	String fieldInfo = st.toString();
-		*/
-		/*switch(chooser.getSelected()){
-		case "Run MP":
-			System.out.println("Run MP");
+    	
+    	String start = startPos.getSelected();
+    	
+		switch(chooser.getSelected()){
+		case "Test MP":
 			autonomousCommand = new RunMotionProfiles();
 			break;
-		case "Baseline":
-			System.out.println("Baseline");
+		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
+			break;
+		case "Switch Side":
+			if(fieldInfo.charAt(0) == 'L' && start == "Left"){
+				System.out.println("Switch Side Left");
+			}
+			else if(fieldInfo.charAt(0) == 'R' && start == "Right"){
+				System.out.println("Switch Side Right");
+			}
+			else{
+				autonomousCommand = new PassBaseline();
+				System.out.println("Cancelling Switch Side");
+			}
+			break;
+		case "Switch Front":
+			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
+			break;
 		case "No Auto":
-			System.out.println("No Auto");
 			autonomousCommand = null;
 			break;
 		default:
-			System.out.println("Null");
 			autonomousCommand = null;
-		}*/
+		}
 			
-		
 		//Hardcoding here
-		autonomousCommand = new PassBaseline();
+		//autonomousCommand = new SwitchSide(fieldInfo.charAt(0));
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();

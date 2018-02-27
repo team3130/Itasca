@@ -15,6 +15,10 @@ public class ContTurnDist extends ContTurn{
         super();
     }
 
+    public ContTurnDist(ContinuousDrive previousCommand){
+    	super(previousCommand);
+	}
+    
     protected double getPos()
     {
     	if(leftOutside) return Chassis.GetDistanceL();
@@ -24,6 +28,8 @@ public class ContTurnDist extends ContTurn{
     // Called just before this Command runs the first time
     protected void initialize() {
     	super.initialize();
+
+    	System.out.println("ContTurnDist");
     	endAngle += Chassis.GetAngle() * (Math.PI/180f);
     }
 

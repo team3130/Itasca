@@ -31,11 +31,11 @@ public class ContDrive extends ContinuousDrive{
     // Called just before this Command runs the first time
     protected void initialize() {
     	super.initialize();
-    	
+    	System.out.println("ContDrive");
     	if(prev!=null) angle=prev.getEndAngle();
     	else angle = Chassis.GetAngle() * (Math.PI/180f);
     	
-    	Chassis.HoldAbsAngle(angle);
+    	Chassis.HoldAngle(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run

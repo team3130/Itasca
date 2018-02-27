@@ -12,6 +12,10 @@ public abstract class ContTurn extends ContinuousDrive{
     public ContTurn() {
         super();
     }
+    
+    public ContTurn(ContinuousDrive previousCommand){
+    	super(previousCommand);
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {

@@ -25,7 +25,8 @@ public class SwitchFront extends CommandGroup {
 	private ContDrive 	      driveForwardShort;
 	private ContDrive 		  driveForwardLong;
 	private ContTurnDist      turnToSwitch;
-	private ContDrive         toSwitch;
+	private ContDrive         toSwitchL;
+	private ContDrive         toSwitchR;
 	private RunIntakeIn	      intakeIn;
 	private ElevatorToHeight  elevatorUp;
 	private RunIntakeOut	  intakeOut;
@@ -37,27 +38,29 @@ public class SwitchFront extends CommandGroup {
     	requires(Elevator.GetInstance());
     	
     	this.side      	   = side;
-    	toSwitch   	       = new ContDrive();
+    	toSwitchR   	   = new ContDrive();
     	driveForwardShort  = new ContDrive();
-    	driveForwardLong   = new ContDrive();
-    	turnLeft	   	   = new ContTurnDist();
-    	turnToSwitch   	   = new ContTurnDist();
+    	turnLeft	   	   = new ContTurnDist(driveForwardShort);
+    	driveForwardLong   = new ContDrive(turnLeft);
+    	turnToSwitch   	   = new ContTurnDist(driveForwardLong);
+    	toSwitchL          = new ContDrive(turnToSwitch);
     	intakeIn  	       = new RunIntakeIn();
-    	elevatorUp	       = new ElevatorToHeight(35.0);
+    	elevatorUp	       = new ElevatorToHeight(40.0);
     	intakeOut  	       = new RunIntakeOut();
 
     	addParallel(intakeIn);
     	
     	if(side == 'L'){
     		addSequential(driveForwardShort, 1.5);
-    		addSequential(turnLeft, 1.5);
+    		addSequential(turnLeft, 3);
     		addSequential(driveForwardLong, 2);
         	addParallel(elevatorUp, 1.5);
     		addSequential(turnToSwitch, 1.5);
+        	addSequential(toSwitchL, 3);
     	}
     	else{
-        	addSequential(toSwitch, 3);
-        	addSequential(elevatorUp, 2);
+        	addParallel(elevatorUp, 2);
+        	addSequential(toSwitchR, 3);
     	}
     	
     	addSequential(intakeOut, 2);
@@ -68,27 +71,25 @@ public class SwitchFront extends CommandGroup {
     	intakeIn.SetParam(0.3);
     	intakeOut.SetParam(-0.4);
     	driveForwardShort.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisWidth/2.0)
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
+    			(Constants.kWallToSwitch/2.0)
     	);
     	turnLeft.SetParam(0.3, -Math.PI / 2.0);
     	driveForwardLong.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
     			(Constants.kSwitchWidth) - (Constants.kSwitchSlotWidth)
     	);
     	turnToSwitch.SetParam(0.3, Math.PI / 2.0);
     	
-    	if(side == 'L'){
-    		toSwitch.SetParam(
-    				Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    				Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) + (Constants.kChassisLength/2.0))
-    	    );
-    	}
-    	else {
-    		toSwitch.SetParam(
-    				Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    				Constants.kWallToSwitch - (Constants.kChassisLength / 2.0)
-    	    );
-    	}
+    	toSwitchL.SetParam(
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
+    			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) + Constants.kChassisLength)
+    	);
+    	
+    	
+    	toSwitchR.SetParam(
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
+    			Constants.kWallToSwitch - ((Constants.kChassisBLength/2.0) + 8.0)//intake clearance
+    	);
     }
 }

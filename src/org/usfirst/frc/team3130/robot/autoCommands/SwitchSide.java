@@ -31,12 +31,14 @@ public class SwitchSide extends CommandGroup {
 	private RunIntakeOut			 intakeOut;
 	private ContTurnDist      		 turnDownField;
 	private ContDrive                driveDownField;
+	private char					 side;
 	
-    public SwitchSide() {
+    public SwitchSide(char side) {
     	requires(Chassis.GetInstance());
     	requires(CubeIntake.GetInstance());
     	requires(Elevator.GetInstance());
     	
+    	this.side      = side;
     	delay		   = new AutoDelay();
     	driveForward   = new ContDrive();
     	intakeIn  	   = new RunIntakeIn();
@@ -67,9 +69,15 @@ public class SwitchSide extends CommandGroup {
             Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
     		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0)
         );
-    	turnToSwitch.SetParam(0.31, 90*(Math.PI/180f));
+    	if(side == 'L'){
+    		turnToSwitch.SetParam(0.31, 90*(Math.PI/180f));
+        	turnDownField.SetParam(-0.6, 90*(Math.PI/180f));
+    	}
+    	else{
+    		turnToSwitch.SetParam(0.31, -90*(Math.PI/180f));
+        	turnDownField.SetParam(-0.6, -90*(Math.PI/180f));
+    	}
     	intakeOut.SetParam(-0.4);
-    	turnDownField.SetParam(-0.6, 90*(Math.PI/180f));
     	driveDownField.SetParam(0.7, 70.0);
     }
 }
