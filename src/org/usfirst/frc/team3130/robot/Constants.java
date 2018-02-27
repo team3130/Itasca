@@ -5,6 +5,7 @@ import org.usfirst.frc.team3130.robot.util.ConstantsBase;
 import edu.wpi.first.wpilibj.Preferences;
 
 public class Constants extends ConstantsBase {
+
 	//Vision tracking centerpoint height on high efficiency boiler
     public static double kCenterOfTargetHeight = 86.0; //Correct 9/11/17, in inches
     
@@ -24,11 +25,12 @@ public class Constants extends ConstantsBase {
     //Elevator constants
     public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
-    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", 0.25);
+    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", 0.2);
     public static double kElevatorZone = Preferences.getInstance().getDouble("ElevatorZone", 16);
     //TODO: Get actual values 
     public static int kElevatorSoftMax = 55; //in encoder ticks 
     public static int kElevatorSoftMin = 55; //in encoder ticks
+	public static final double ElevatorBottom = 2.0;
     
     //Elevator PID
     public static double kElevatorP = Preferences.getInstance().getDouble("ElevatorP",0.2);

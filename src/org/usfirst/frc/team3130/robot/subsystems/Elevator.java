@@ -89,12 +89,26 @@ public class Elevator extends Subsystem {
     	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
     }
 
-    public static void holdHeight(double offset) {
-    	setHeight(getHeight() + offset);
+    /**
+     * Move the elevator to a relative amount
+     * @param offset the offset in inches from the current height, positive is up
+     */
+    public static void addHeight(double offset) {
+    	double newHeight = getHeight() + offset;
+    	// If the elevator is (almost) at the bottom then just turn it off
+    	if(newHeight < Constants.ElevatorBottom) {
+    		elevator.set(ControlMode.PercentOutput, 0);
+    	}
+    	else {
+    		setHeight(newHeight);
+    	}
     }
 
+    /**
+     * Hold the current height by PID closed loop
+     */
     public static void holdHeight() {
-    	holdHeight(0);
+    	addHeight(0);
     }
 
     public static void outputToSmartDashboard() {
