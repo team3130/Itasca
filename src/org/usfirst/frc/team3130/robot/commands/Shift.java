@@ -36,7 +36,7 @@ public class Shift extends Command {
     	currentShift = Chassis.GetShiftedUp();
     	//Execute the shift only once, and only at a certain delay after the motors have been stopped
     	if(!m_bShifted && timer.get() > Preferences.getInstance().getDouble("Shift Dead Time Start", 0.125)){
-    		Chassis.Shift(!currentShift);
+    		Chassis.ShiftDown(currentShift);
     		m_bShifted = true;
     		//Reset the timer so that the ending dead time is from shifting rather than from the start.
     		timer.reset();

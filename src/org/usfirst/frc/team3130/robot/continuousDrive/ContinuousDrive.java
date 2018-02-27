@@ -32,7 +32,7 @@ public abstract class ContinuousDrive extends Command {
 		done = false;
 		heldAngle = false;
 		Chassis.ReleaseAngle();
-		Chassis.Shift(true);
+		Chassis.ShiftDown(true);
 		Chassis.TalonsToCoast(false);
     	valPrev = getPos();
     	System.out.println(valPrev);

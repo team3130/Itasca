@@ -33,7 +33,7 @@ public class DriveShiftUp extends Command {
     protected void execute() {
     	//Execute the shift only once, and only at a certain delay after the motors have been stopped
     	if(!m_bShifted && timer.get() > Preferences.getInstance().getDouble("Shift Dead Time Start", 0.125)){
-    		Chassis.Shift(false);
+    		Chassis.ShiftDown(false);
     		m_bShifted = true;
     		//Reset the timer so that the ending dead time is from shifting rather than from the start.
     		timer.reset();

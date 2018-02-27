@@ -195,14 +195,17 @@ public class Robot extends TimedRobot {
 	private void determineAuton(){
 		String gameData;
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	StringBuilder st = new StringBuilder(gameData);
-    	st.deleteCharAt(2);
-    	String fieldInfo = st.toString();    	
-    	//find robot starting pose
     	
+    	String fieldInfo = gameData.substring(0, 2);    	
+    	//find robot starting pose
+    	System.out.print(fieldInfo);
 
     	String start = startPos.getSelected();
-    	
+    	String c1 = "LR";
+    	String c2 = "LL";
+    	String c3 = "RL";
+    	String c4 = "RR";
+
 		switch(chooser.getSelected()){
 		case "Test MP":
 			autonomousCommand = new RunMotionProfiles();
@@ -212,15 +215,15 @@ public class Robot extends TimedRobot {
 			break;
 		case "Side":
 			if(start == "Left"){
-				if(fieldInfo == "LR"){
+				if(fieldInfo.equals(c1)){
 					System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
-				else if(fieldInfo == "LL"){
+				else if(fieldInfo.equals(c2)){
 					System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
-				else if(fieldInfo == "RL"){
+				else if(fieldInfo.equals(c3)){
 					System.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
@@ -229,15 +232,15 @@ public class Robot extends TimedRobot {
 					System.out.println("Cancelling Switch Side");
 				}
 			}else{
-				if(fieldInfo == "RL"){
+				if(fieldInfo.equals(c3)){
 					System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
-				else if(fieldInfo == "RR"){
+				else if(fieldInfo.equals(c4)){
 					System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
-				else if(fieldInfo == "LR"){
+				else if(fieldInfo.equals(c1)){
 					System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}

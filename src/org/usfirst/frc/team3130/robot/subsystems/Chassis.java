@@ -138,10 +138,10 @@ public class Chassis extends PIDSubsystem {
     }
     
   //shifts the robot either into high or low gear
-    public static void Shift(boolean shiftUp)
+    public static void ShiftDown(boolean shiftDown)
     {
-    	m_shifter.set(shiftUp);
-    	m_bShiftedHigh = shiftUp;
+    	m_shifter.set(shiftDown); //On practice robot false shiftUp is high gear
+    	m_bShiftedHigh = !shiftDown;
     }
     
     /**
