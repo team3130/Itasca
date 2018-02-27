@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		HookDeploy.reset();
 		Chassis.ResetEncoders();
+		Chassis.ReleaseAngle();
 		bcWingsDeploy.actuate(false);
 		mEnabledLooper.stop();
         mDisabledLooper.start();
@@ -147,6 +148,7 @@ public class Robot extends TimedRobot {
 		Logger.logAutonInit();
 		locationCollector.cancel();
 		Elevator.holdHeight(0);
+		Chassis.ReleaseAngle();
 		
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
     	StringBuilder st = new StringBuilder(gameData);
@@ -164,17 +166,22 @@ public class Robot extends TimedRobot {
 			break;
 		case "Switch Side":
 			if(fieldInfo.charAt(0) == 'L' && start == "Left"){
+				autonomousCommand = new SwitchSide('L');
 				System.out.println("Switch Side Left");
+				break;
 			}
 			else if(fieldInfo.charAt(0) == 'R' && start == "Right"){
+				autonomousCommand = new SwitchSide('R');
 				System.out.println("Switch Side Right");
+				break;
 			}
 			else{
 				autonomousCommand = new PassBaseline();
 				System.out.println("Cancelling Switch Side");
+				break;
 			}
-			break;
 		case "Switch Front":
+			System.out.println("Switch Front");
 			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
 			break;
 		case "No Auto":

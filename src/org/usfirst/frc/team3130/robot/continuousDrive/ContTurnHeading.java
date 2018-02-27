@@ -10,6 +10,10 @@ public class ContTurnHeading extends ContTurn{
 	public ContTurnHeading() {
 		super();
 	}
+	
+    public ContTurnHeading(ContinuousDrive previousCommand){
+    	super(previousCommand);
+	}
 
 	protected double getPos()
 	{
