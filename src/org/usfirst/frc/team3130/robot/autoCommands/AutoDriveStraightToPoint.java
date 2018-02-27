@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
@@ -47,7 +45,6 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     	getPIDController().reset();
     	
     	Chassis.Shift(m_shiftHigh);
-    	Chassis.setTurnDir(TurnDirection.kStraight);
     	Chassis.HoldAngle(0);
     	
     	getPIDController().setSetpoint(m_distance + Chassis.GetDistance());

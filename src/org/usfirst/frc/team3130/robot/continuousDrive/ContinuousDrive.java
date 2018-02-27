@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3130.robot.continuousDrive;
 
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class ContinuousDrive extends Command {
@@ -36,7 +34,6 @@ public abstract class ContinuousDrive extends Command {
 		Chassis.ReleaseAngle();
 		Chassis.Shift(true);
 		Chassis.TalonsToCoast(false);
-		Chassis.setTurnDir(TurnDirection.kStraight);
     	valPrev = getPos();
     	System.out.println(valPrev);
     	System.out.println(valEnd);

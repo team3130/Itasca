@@ -2,7 +2,6 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 import org.usfirst.frc.team3130.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.*;
@@ -42,12 +41,7 @@ public class Chassis extends PIDSubsystem {
 	private static WPI_TalonSRX m_rightMotorRear;
 	private static Solenoid m_shifter;
 	private static AHRS m_navX;
-	private static Sendable navX;
 	private static boolean arcadeDrive;
-	
-	//Define an enum to control the direction to be turned
-	public static enum TurnDirection{kLeft, kRight, kStraight};
-	private static TurnDirection m_dir = TurnDirection.kStraight;
 	
 	//Create and define all standard data types needed
 	private static boolean m_bShiftedHigh;
@@ -59,39 +53,13 @@ public class Chassis extends PIDSubsystem {
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
-	private static final double SUBSYSTEM_CURVE_HIGH_P_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_CURVE_HIGH_I_DEFAULT = 0.0;
-	private static final double SUBSYSTEM_CURVE_HIGH_D_DEFAULT = 0.0;
-
-	private static final double SUBSYSTEM_CURVE_LOW_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_CURVE_LOW_I_DEFAULT = 0.02;
-	private static final double SUBSYSTEM_CURVE_LOW_D_DEFAULT = 0.125;
-
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.0;
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.062;
 
 	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_I_ZERO = 0.002;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
-	
-	//PID Preferences Defaults
-		private static final double TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT = 0.1;
-		private static final double TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT = 0.0;
-		private static final double TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT = 0.0;
-		
-		private static final double TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT = 0.1;
-		private static final double TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT = 0.0;
-		private static final double TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT = 0.0;
-		
-		private static final double TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT = 0.1;
-		private static final double TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT = 0.0;
-		private static final double TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT = 0.0;
-		
-		private static final double TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT = 0.1;
-		private static final double TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT = 0.0;
-		private static final double TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT = 0.0;
 	
     private Chassis() {
     	
@@ -183,24 +151,18 @@ public class Chassis extends PIDSubsystem {
     public static boolean GetShiftedUp(){return m_bShiftedHigh;}
     
     protected double returnPIDInput() {
-    	if(m_dir.equals(TurnDirection.kStraight))return GetAngle();
-		return GetRate();
+    	return GetAngle();
     }
 
     protected void usePIDOutput(double bias) {
-    	//TODO: Replace this with a system that works under the curve drive, currently implemented under the else
-    	if(m_dir.equals(TurnDirection.kStraight)){	//Maintnance of the Old Drive Straight Angle control.
-    		//Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
-    		final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
-   			if (bias >  speedLimit) bias = speedLimit;
-   			if (bias < -speedLimit) bias = -speedLimit;
-   			double speed_L = moveSpeed+bias;
-   			double speed_R = moveSpeed-bias;
-			DriveTank(speed_L, speed_R); 
-    		prevSpeedLimit = Math.abs(speedLimit);
-    		}else{
-    			setSpeedTalon(bias);
-   			}
+    	//Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
+    	final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
+    	if (bias >  speedLimit) bias = speedLimit;
+    	if (bias < -speedLimit) bias = -speedLimit;
+    	double speed_L = moveSpeed+bias;
+    	double speed_R = moveSpeed-bias;
+    	DriveTank(speed_L, speed_R); 
+    	prevSpeedLimit = Math.abs(speedLimit);
     }
     
     public static void TalonsToCoast(boolean coast)
@@ -408,33 +370,17 @@ public class Chassis extends PIDSubsystem {
 	public static void SetPIDValues()
 	{
 		if(m_bShiftedHigh){
-			if(m_dir.equals(TurnDirection.kStraight)){
-				GetInstance().getPIDController().setPID(
-					Preferences.getInstance().getDouble("ChassisHighP",SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT),
-					Preferences.getInstance().getDouble("ChassisHighI",SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT),
-					Preferences.getInstance().getDouble("ChassisHighD",SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT)
-				);
-			}else{
-				GetInstance().getPIDController().setPID(
-					Preferences.getInstance().getDouble("Chassis High Curve P",SUBSYSTEM_CURVE_HIGH_P_DEFAULT),
-					Preferences.getInstance().getDouble("Chassis High Curve I",SUBSYSTEM_CURVE_HIGH_I_DEFAULT),
-					Preferences.getInstance().getDouble("Chassis High Curve D",SUBSYSTEM_CURVE_HIGH_D_DEFAULT)
-				);
-			}
+			GetInstance().getPIDController().setPID(
+				Preferences.getInstance().getDouble("ChassisHighP",SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT),
+				Preferences.getInstance().getDouble("ChassisHighI",SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT),
+				Preferences.getInstance().getDouble("ChassisHighD",SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT)
+			);
 		}else{
-			if(m_dir.equals(TurnDirection.kStraight)){
-				GetInstance().getPIDController().setPID(
-					Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
-					Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
-					Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
-				);
-			}else{
-				GetInstance().getPIDController().setPID(
-					Preferences.getInstance().getDouble("Chassis Low Curve P",SUBSYSTEM_CURVE_LOW_P_DEFAULT),
-					Preferences.getInstance().getDouble("Chassis Low Curve I",SUBSYSTEM_CURVE_LOW_I_DEFAULT),
-					Preferences.getInstance().getDouble("Chassis Low Curve D",SUBSYSTEM_CURVE_LOW_D_DEFAULT)
-				);
-			}
+			GetInstance().getPIDController().setPID(
+				Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
+				Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
+				Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
+			);
 		}
 	}
 	
@@ -446,10 +392,7 @@ public class Chassis extends PIDSubsystem {
 	{
 		double workingAngle = (180/Math.PI)*angle;
 		SetPIDValues();
-		if(m_dir.equals(TurnDirection.kStraight))
-			GetInstance().getPIDController().setSetpoint(GetAngle() + workingAngle);
-		else
-			GetInstance().getPIDController().setSetpoint(workingAngle);
+		GetInstance().getPIDController().setSetpoint(GetAngle() + workingAngle);
 		GetInstance().getPIDController().enable();
 	}
 	
@@ -461,196 +404,9 @@ public class Chassis extends PIDSubsystem {
 	{
 		double workingAngle = (180/Math.PI)*angle;
 		SetPIDValues();
-		if(m_dir.equals(TurnDirection.kStraight))
-			GetInstance().getPIDController().setSetpoint(workingAngle);
-		else
-			GetInstance().getPIDController().setSetpoint(workingAngle);
+		GetInstance().getPIDController().setSetpoint(workingAngle);
 		GetInstance().getPIDController().enable();
 	}
-	
-	/**
-	 * Sets the control modes and switches the mode of the subsystem for turning
-	 * 
-	 * <p>
-	 * Sets the PID for both talons, changes the control mode for the subsystem, and changes the control mode of the talons.
-	 * @param dir the direction that the robot will be turning
-	 */
-	public static void setTurnDir(TurnDirection dir)
-	{
-		m_dir = dir;
-		if(dir.equals(TurnDirection.kLeft)){
-			m_leftMotorFront.set(ControlMode.Velocity, RobotMap.CAN_LEFTMOTORFRONT);
-			m_rightMotorFront.set(ControlMode.Position, RobotMap.CAN_RIGHTMOTORFRONT);
-		}else if(dir.equals(TurnDirection.kRight)){
-			m_rightMotorFront.set(ControlMode.Velocity, RobotMap.CAN_RIGHTMOTORFRONT);
-			m_leftMotorFront.set(ControlMode.Position, RobotMap.CAN_LEFTMOTORFRONT);
-		}else{
-			//TODO: Rethink this area, it was done on a whim to make a pseudo functioning system
-			m_leftMotorFront.set(ControlMode.Velocity, RobotMap.CAN_LEFTMOTORFRONT);
-			m_rightMotorFront.set(ControlMode.Velocity, RobotMap.CAN_RIGHTMOTORFRONT);
-		}
-		setTalonPID();
-	}
-	
-	/**
-	 * Calls the .set() function on the Position talon
-	 * <p>
-	 * Sets the appropriate output on the talon, depending on the mode.
-	 * </p>
-	 * 
-	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
-	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
-	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
-	 * <br/>In Speed mode, outputValue is in position change / 10ms. 
-	 * <br/><b>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</b></p>
-	 * 
-	 * @param set - The setpoint value, as described above.
-	 */
-	public static void setPositionTalon(double set)
-	{
-		if(m_dir.equals(TurnDirection.kRight))
-			m_leftMotorFront.set(set);
-		else
-		if(m_dir.equals(TurnDirection.kLeft))
-			m_rightMotorFront.set(set);
-	}
-	
-	
-	/**
-	 * Calls the .set() function on the Speed talon
-	 * <p>
-	 * Sets the appropriate output on the talon, depending on the mode.
-	 * </p>
-	 * 
-	 * <p>In PercentVbus, the output is between -1.0 and 1.0, with 0.0 as stopped. 
-	 * <br/>In Follower mode, the output is the integer device ID of the talon to duplicate. 
-	 * <br/>In Voltage mode, outputValue is in volts. In Current mode, outputValue is in amperes. 
-	 * <br/><b>In Speed mode, outputValue is in position change / 10ms.</b> 
-	 * <br/>In Position mode, outputValue is in encoder ticks or an analog value, depending on the sensor.</p>
-	 * 
-	 * @param set - The setpoint value, as described above.
-	 */
-	public static void setSpeedTalon(double set)
-	{
-		if(m_dir.equals(TurnDirection.kRight))
-			m_rightMotorFront.set(set);
-		else
-		if(m_dir.equals(TurnDirection.kLeft))
-			m_leftMotorFront.set(set);
-	}
-	
-	/**
-	 * Returns the difference between the setpoint and the current position
-	 * @return the error on the position talon returns negative 1 in in straight
-	 */
-	public static double getPositionTalonError()
-	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getClosedLoopError(0);
-		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getClosedLoopError(0);
-		return -1;
-	}
-	
-	/**
-	 * Returns the difference between the setpoint and the current position
-	 * @return the error on the speed talon, returns negative 1 if in straight mode
-	 */
-	public static double getSpeedTalonError()
-	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_rightMotorFront.getClosedLoopError(0);
-		else if(m_dir.equals(TurnDirection.kLeft))return m_leftMotorFront.getClosedLoopError(0);
-		return -1;
-	}
-	
-	/**
-	 * Returns the current speed of the postion talon
-	 * 
-	 * Determines which side is being driven in position mode, and returns the speed of that side. Returns -1 if in kStraight mode
-	 * @return the speed of the position talon
-	 */
-	public static double getPositionTalonSpeed()
-	{
-		if(m_dir.equals(TurnDirection.kRight)) return m_leftMotorFront.getSelectedSensorVelocity(0);
-		else if(m_dir.equals(TurnDirection.kLeft))return m_rightMotorFront.getSelectedSensorVelocity(0);
-		return -1;
-	}
-	
-	/**
-	 * Sets the PID Values of both talons
-	 * <p>The PID Values to be used can be defined in Preferences, and have defaults set in the constants at the top of Chassis.
-	 * The PID Values can differ for high and low gear, as well as for if the talons are in speed or position mode, determined by 
-	 * turn direction.
-	 */
-	private static void setTalonPID()
-	{
-		if(m_bShiftedHigh){
-			switch(m_dir){
-			case kLeft:
-				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 100);
-				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT), 100);
-				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT), 100);
-				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 100);
-				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT), 100);
-				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT), 100);
-				break;
-			case kRight:
-				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_LOW_SPEED_P_DEFAULT), 100);
-				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_LOW_SPEED_I_DEFAULT), 100);
-				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_LOW_SPEED_D_DEFAULT), 100);
-				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_LOW_POSITION_P_DEFAULT), 100);
-				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_LOW_POSITION_I_DEFAULT), 100);
-				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_LOW_POSITION_D_DEFAULT), 100);
-				break;
-			default:
-				break;
-			}
-		}else{
-			switch(m_dir){
-			case kLeft:
-				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 100);
-				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT), 100);
-				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT), 100);
-				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 100);
-				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT), 100);
-				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT), 100);
-				break;
-			case kRight:
-				m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_HIGH_SPEED_P_DEFAULT), 100);
-				m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_HIGH_SPEED_I_DEFAULT), 100);
-				m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_HIGH_SPEED_D_DEFAULT), 100);
-				m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("CurveDrive Low Position P", 
-						TALON_CURVEDRIVE_HIGH_POSITION_P_DEFAULT), 100);
-				m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("CurveDrive Low Position I", 
-						TALON_CURVEDRIVE_HIGH_POSITION_I_DEFAULT), 100);
-				m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("CurveDrive Low Position D", 
-						TALON_CURVEDRIVE_HIGH_POSITION_D_DEFAULT), 100);
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	
 	
 	public static void DriveStraight(double move){ 
 		moveSpeed = move; 

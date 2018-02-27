@@ -2,10 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Test the Chassis' PID values for driving straight
@@ -21,7 +18,6 @@ public class TestPIDStraight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("TESTING PID STRAIGHT");
-    	Chassis.setTurnDir(TurnDirection.kStraight);
     	Chassis.HoldAngle(Math.PI/2);
     }
     
