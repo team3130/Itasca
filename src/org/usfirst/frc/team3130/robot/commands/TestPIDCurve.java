@@ -19,7 +19,7 @@ public class TestPIDCurve extends Command{
     protected void initialize() {
     	System.out.println("TESTING PID CURVE");
     	Chassis.setTurnDir(TurnDirection.kStraight);
-    	Chassis.HoldAngle(30.0);
+    	Chassis.HoldAngle(Math.PI/2.0);
     }
     
     protected void execute(){

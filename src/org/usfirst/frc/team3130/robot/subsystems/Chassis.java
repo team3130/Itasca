@@ -68,8 +68,8 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_CURVE_LOW_D_DEFAULT = 0.125;
 
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.1;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.0;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.062;
 
 	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
@@ -455,7 +455,7 @@ public class Chassis extends PIDSubsystem {
 	
 	/**
 	 * 
-	 * @param angle  in degrees
+	 * @param angle  in radians
 	 */
 	public static void HoldAbsAngle(double angle)
 	{

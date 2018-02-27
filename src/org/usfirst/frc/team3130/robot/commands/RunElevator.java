@@ -31,7 +31,7 @@ public class RunElevator extends Command {
 	    	Elevator.runElevator(moveSpeed);
 	    	changeHeight = true;
     	} else if (changeHeight){
-    			Elevator.setHeight(Elevator.getHeight());
+    			Elevator.holdHeight();
     			changeHeight = false;
     	}
     }
@@ -43,8 +43,7 @@ public class RunElevator extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Elevator.runElevator(0.0);
-    	
+		Elevator.holdHeight();
     }
 
     // Called when another command which requires one or more of the same

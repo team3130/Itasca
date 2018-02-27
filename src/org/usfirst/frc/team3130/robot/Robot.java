@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
 		CubeIntake.reset();
 		HookDeploy.reset();
 		Chassis.ResetEncoders();
+		Chassis.ReleaseAngle();
 		bcWingsDeploy.actuate(false);
 		mEnabledLooper.stop();
         mDisabledLooper.start();
@@ -147,8 +148,12 @@ public class Robot extends TimedRobot {
 		Logger.logAutonInit();
 		locationCollector.cancel();
 		Elevator.holdHeight(0);
-    	
+
+		Elevator.holdHeight();
+		Chassis.ReleaseAngle();
+		
 		determineAuton();
+
 		//Hardcoding here
 		//autonomousCommand = new SwitchSide(fieldInfo.charAt(0));
 		// schedule the autonomous command (example)
@@ -172,7 +177,7 @@ public class Robot extends TimedRobot {
 		Logger.logTeleopInit();
 		locationCollector.cancel();
 		
-		Elevator.holdHeight(0);
+		Elevator.holdHeight();
 
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to

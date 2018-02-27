@@ -35,7 +35,7 @@ public class ContDrive extends ContinuousDrive{
     	if(prev!=null) angle=prev.getEndAngle();
     	else angle = Chassis.GetAngle() * (Math.PI/180f);
     	
-    	Chassis.HoldAngle(angle);
+    	Chassis.HoldAbsAngle(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run

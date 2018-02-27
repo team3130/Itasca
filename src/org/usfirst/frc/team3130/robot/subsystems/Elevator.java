@@ -93,6 +93,10 @@ public class Elevator extends Subsystem {
     	setHeight(getHeight() + offset);
     }
 
+    public static void holdHeight() {
+    	holdHeight(0);
+    }
+
     public static void outputToSmartDashboard() {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
     	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
