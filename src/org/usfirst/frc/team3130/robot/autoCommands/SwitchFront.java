@@ -53,7 +53,7 @@ public class SwitchFront extends CommandGroup {
     	toSwitch           = new ContDrive(turn2);
     	delay4			   = new AutoDelay();
     	intakeIn  	       = new RunIntakeIn();
-    	elevatorUp	       = new ElevatorToHeight(40.0);
+    	elevatorUp	       = new ElevatorToHeight(35.0);
     	intakeOut  	       = new RunIntakeOut();
     	backUp			   = new ContDrive();
 
@@ -68,6 +68,7 @@ public class SwitchFront extends CommandGroup {
        	addSequential(toSwitch, 2);
        	addSequential(delay4, 0.5);
     	addSequential(intakeOut, 2);
+    	//addSequential(backUp, 2);
     }
     
     @Override
@@ -80,24 +81,24 @@ public class SwitchFront extends CommandGroup {
     	);
     	driveBetween.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			5.0
+    			20.0
     	);
     	if(side == 'L'){
-        	turn1.SetParam(0.6, -Math.PI / 2.0);
-        	turn2.SetParam(0.6, Math.PI / 2.0);
+        	turn1.SetParam(0.6, -90.0*(Math.PI / 180.0));
+        	turn2.SetParam(0.6, 90.0*(Math.PI / 180.0));
     	}
     	else{
-    		turn1.SetParam(0.6, Math.PI / 2.0);
-        	turn2.SetParam(0.6, -Math.PI / 2.0);
+    		turn1.SetParam(0.6, 90*(Math.PI / 180.0));
+        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0));
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
     			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) - (Constants.kChassisLength/2.0) +
     									   (Constants.kChassisBWidth/2.0))
     	);
-    	backUp.SetParam(
+    	/*backUp.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
-    			10.0
-    	);
+    			1.0
+    	);*/
     }
 }
