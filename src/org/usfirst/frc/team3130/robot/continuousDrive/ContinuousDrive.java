@@ -34,10 +34,12 @@ public abstract class ContinuousDrive extends Command {
 		done = false;
 		heldAngle = false;
 		Chassis.ReleaseAngle();
-		Chassis.Shift(false);
+		Chassis.Shift(true);
 		Chassis.TalonsToCoast(false);
 		Chassis.setTurnDir(TurnDirection.kStraight);
     	valPrev = getPos();
+    	System.out.println(valPrev);
+    	System.out.println(valEnd);
 	}
 	
 	@Override
@@ -79,4 +81,10 @@ public abstract class ContinuousDrive extends Command {
 	}
 	
 	public abstract double getEndAngle();
+	
+	@Override
+	protected void interrupted(){
+		System.out.println("interupt");
+		end();
+	}
 }

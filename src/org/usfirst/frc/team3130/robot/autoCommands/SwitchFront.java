@@ -22,9 +22,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SwitchFront extends CommandGroup {
 
-	private ContTurnHeading   turn1;
+	private ContTurnDist      turn1;
 	private ContDrive 	      driveForward;
-	private ContTurnHeading   turn2;
+	private ContDrive		  driveBetween;
+	private ContTurnDist      turn2;
 	private ContDrive         toSwitch;
 	private RunIntakeIn	      intakeIn;
 	private ElevatorToHeight  elevatorUp;
@@ -33,6 +34,8 @@ public class SwitchFront extends CommandGroup {
 	private AutoDelay		  delay1;
 	private AutoDelay		  delay2;
 	private AutoDelay		  delay3;
+	private AutoDelay		  delay4;
+	private ContDrive		  backUp;
 	
     public SwitchFront(char side) {
     	requires(Chassis.GetInstance());
@@ -41,25 +44,29 @@ public class SwitchFront extends CommandGroup {
     	
     	this.side      	   = side;
     	driveForward       = new ContDrive();
-    	turn1	   	  	   = new ContTurnHeading(driveForward);
+    	turn1	   	  	   = new ContTurnDist(driveForward);
     	delay1			   = new AutoDelay();
-    	turn2   	   	   = new ContTurnHeading(turn1);
+    	driveBetween	   = new ContDrive();
     	delay2			   = new AutoDelay();
-    	toSwitch           = new ContDrive(turn2);
+    	turn2   	   	   = new ContTurnDist(turn1);
     	delay3			   = new AutoDelay();
+    	toSwitch           = new ContDrive(turn2);
+    	delay4			   = new AutoDelay();
     	intakeIn  	       = new RunIntakeIn();
     	elevatorUp	       = new ElevatorToHeight(40.0);
     	intakeOut  	       = new RunIntakeOut();
+    	backUp			   = new ContDrive();
 
     	addParallel(intakeIn);
-    	//addSequential(driveForward, 1.5);
-    	addSequential(turn1, 1.5);
+    	addSequential(driveForward, 1.5);
+    	addSequential(turn1, 4);
     	addSequential(delay1, 0.5);
-    	addSequential(turn2, 1.5);
+    	addSequential(driveBetween, 0.5);
     	addSequential(delay2, 0.5);
        	addParallel(elevatorUp, 1);
+    	addSequential(turn2, 4);
        	addSequential(toSwitch, 2);
-       	addSequential(delay3, 0.5);
+       	addSequential(delay4, 0.5);
     	addSequential(intakeOut, 2);
     }
     
@@ -69,20 +76,28 @@ public class SwitchFront extends CommandGroup {
     	intakeOut.SetParam(-0.4);
     	driveForward.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength)
+    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength + 10.0)
+    	);
+    	driveBetween.SetParam(
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
+    			5.0
     	);
     	if(side == 'L'){
-        	turn1.SetParam(0.3, -Math.PI / 3.0);
-        	turn2.SetParam(0.3, Math.PI / 3.0);
+        	turn1.SetParam(0.6, -Math.PI / 2.0);
+        	turn2.SetParam(0.6, Math.PI / 2.0);
     	}
     	else{
-    		turn1.SetParam(0.3, Math.PI / 3.0);
-        	turn2.SetParam(0.3, -Math.PI / 3.0);
+    		turn1.SetParam(0.6, Math.PI / 2.0);
+        	turn2.SetParam(0.6, -Math.PI / 2.0);
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
     			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) - (Constants.kChassisLength/2.0) +
     									   (Constants.kChassisBWidth/2.0))
+    	);
+    	backUp.SetParam(
+    			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
+    			10.0
     	);
     }
 }
