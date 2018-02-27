@@ -20,9 +20,9 @@ public class ScaleOnly extends CommandGroup {
 	
 	private AutoDriveStraightToPoint driveForward;
 	private AutoDriveStraightToPoint behindSwitch;
-	private AutoDriveCurve           turnToScale;
-	private AutoDriveCurve           turnLeft;
-	private AutoDriveCurve			 turnRight;
+//	private AutoDriveCurve           turnToScale;
+//	private AutoDriveCurve           turnLeft;
+//	private AutoDriveCurve			 turnRight;
 	private HeightSetter			 elevatorUp;
 	private RunIntakeIn				 intakeIn;
 	private RunIntakeOut			 intakeOut;
@@ -36,9 +36,9 @@ public class ScaleOnly extends CommandGroup {
     	this.side    = side;
     	driveForward = new AutoDriveStraightToPoint();
     	behindSwitch = new AutoDriveStraightToPoint();
-    	turnToScale  = new AutoDriveCurve();
-    	turnLeft     = new AutoDriveCurve();
-    	turnRight    = new AutoDriveCurve();
+//    	turnToScale  = new AutoDriveCurve();
+//    	turnLeft     = new AutoDriveCurve();
+//    	turnRight    = new AutoDriveCurve();
     	elevatorUp   = new HeightSetter(Direction.kUp);
     	intakeIn     = new RunIntakeIn();
     	intakeOut    = new RunIntakeOut();
@@ -64,7 +64,7 @@ public class ScaleOnly extends CommandGroup {
     protected void intialize(){
     	intakeIn.SetParam(0.3);
     	intakeOut.SetParam(-0.4);
-    	turnLeft.SetParam(
+/*    	turnLeft.SetParam(
     			Constants.kChassisWidth / 2.0,
     			1.0, 
     			Math.PI / 2.0,
@@ -73,7 +73,7 @@ public class ScaleOnly extends CommandGroup {
     			Constants.kChassisWidth / 2.0,
     			1.0, 
     			- Math.PI / 2.0,
-    			true);
+    			true); */
     	//behindSwitch.SetParam(
     			//setpoint, threshold, speed, shiftHigh);
     	if(Robot.startPos.getSelected() == "Left"){

@@ -11,8 +11,6 @@ import org.usfirst.frc.team3130.robot.commands.RunElevator;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -46,7 +44,6 @@ public class PassBaseline extends CommandGroup {
 	protected void initialize() {
     	
         System.out.println("Running PB");
-        Chassis.setTurnDir(TurnDirection.kStraight);
         driveForward.SetParam(0.4, 250.0);
     	/*driveForward.SetParam(
     		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),

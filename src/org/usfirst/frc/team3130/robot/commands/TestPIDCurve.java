@@ -1,9 +1,6 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveCurve;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,7 +15,6 @@ public class TestPIDCurve extends Command{
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("TESTING PID CURVE");
-    	Chassis.setTurnDir(TurnDirection.kStraight);
     	Chassis.HoldAngle(Math.PI/2.0);
     }
     

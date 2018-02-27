@@ -2,16 +2,12 @@ package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis.TurnDirection;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContTurn;
 import org.usfirst.frc.team3130.robot.continuousDrive.ContTurnDist;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -63,7 +59,6 @@ public class SwitchSide extends CommandGroup {
     
     @Override
     protected void initialize(){
-    	Chassis.setTurnDir(TurnDirection.kStraight);
     	intakeIn.SetParam(0.3);
     	driveForward.SetParam(
             Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
