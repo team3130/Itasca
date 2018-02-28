@@ -193,6 +193,7 @@ public class Robot extends TimedRobot {
 	 * This function is called periodically during operator control.
 	 */
 	private void determineAuton(){
+		autonomousCommand = null;
 		String gameData;
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
     	
@@ -201,12 +202,22 @@ public class Robot extends TimedRobot {
     	System.out.print(fieldInfo);
 
     	String start = startPos.getSelected();
+    	if(start == null) {
+    		DriverStation.reportError("startPos selector returned NULL", false);
+    		return;
+    	}
+    	String chosenOne = chooser.getSelected();
+    	if(chosenOne == null) {
+    		DriverStation.reportError("Auton chooser returned NULL", false);
+    		return;
+    	}
+
     	String c1 = "LR";
     	String c2 = "LL";
     	String c3 = "RL";
     	String c4 = "RR";
 
-		switch(chooser.getSelected()){
+    	switch(chosenOne){
 		case "Test MP":
 			autonomousCommand = new RunMotionProfiles();
 			break;
@@ -214,7 +225,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand = new PassBaseline();
 			break;
 		case "Side":
-			if(start == "Left"){
+			if(start.equals("Left")){
 				if(fieldInfo.equals(c1)){
 					System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
@@ -260,6 +271,7 @@ public class Robot extends TimedRobot {
 			autonomousCommand = null;
 		}
 	}
+
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
