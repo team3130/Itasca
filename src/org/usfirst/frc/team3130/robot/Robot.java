@@ -10,6 +10,7 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
@@ -23,6 +24,7 @@ import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
 import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -41,7 +43,7 @@ public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
 	private SendableChooser<String> chooser  = new SendableChooser<String>();
-	public static SendableChooser<String> startPos = new SendableChooser<String>();
+	private SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
 	//VisionServer mVisionServer = VisionServer.getInstance();
 	
@@ -74,6 +76,7 @@ public class Robot extends TimedRobot {
 		Climber.GetInstance();
 		BlinkinInterface.GetInstance();
 		HookDeploy.GetInstance();
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		//Vision operation
 //		AndroidInterface.GetInstance();
@@ -85,9 +88,9 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addObject("No Auton", null);
-		chooser.addObject("Test MP", "Test MP");
-		chooser.addObject("Pass Baseline", "Pass Baseline");
+		chooser.addDefault("No Auton", null);
+		//chooser.addObject("Test MP", "Test MP");
+		chooser.addObject("Baseline", "Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
 		SmartDashboard.putData("Auto mode", chooser);
@@ -95,9 +98,9 @@ public class Robot extends TimedRobot {
 
 		//Starting configuration for autons
 		//If hardcoding required, manually choose fieldSide below
-		startPos.addDefault("Left Starting Position", "Left");
-		startPos.addObject("Right Starting Position", "Right");
-		SmartDashboard.putData("Starting Position", startPos);
+		startPos.addDefault("Left Start Pos", "Left");
+		startPos.addObject("Right Start Pos", "Right");
+		SmartDashboard.putData("Start Pos", startPos);
 	}
 
 	/**
@@ -211,7 +214,7 @@ public class Robot extends TimedRobot {
 		case "Test MP":
 			autonomousCommand = new RunMotionProfiles();
 			break;
-		case "Pass Baseline":
+		case "Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
 		case "Side":
@@ -226,7 +229,7 @@ public class Robot extends TimedRobot {
 				}
 				else if(fieldInfo.equals(c3)){
 					System.out.println("Scale Left");
-					autonomousCommand = new ScaleOnly('L');
+					autonomousCommand = new ScaleOnly('L', 'L');
 				}
 				else{
 					autonomousCommand = new PassBaseline();
@@ -243,7 +246,7 @@ public class Robot extends TimedRobot {
 				}
 				else if(fieldInfo.equals(c1)){
 					System.out.println("Scale Right");
-					autonomousCommand = new ScaleOnly('R');
+					autonomousCommand = new ScaleOnly(start.charAt(0),'R');
 				}
 				else{
 					autonomousCommand = new PassBaseline();

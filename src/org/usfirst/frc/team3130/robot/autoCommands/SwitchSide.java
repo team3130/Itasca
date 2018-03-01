@@ -62,7 +62,7 @@ public class SwitchSide extends CommandGroup {
     	intakeIn.SetParam(0.3);
     	driveForward.SetParam(
             Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0)
+    		Constants.kWallToSwitchRL - (Constants.kChassisLength / 2.0)
         );
     	if(side == 'L'){
     		turnToSwitch.SetParam(0.31, 90*(Math.PI/180f));

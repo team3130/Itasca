@@ -35,8 +35,6 @@ public abstract class ContinuousDrive extends Command {
 		Chassis.ShiftDown(true);
 		Chassis.TalonsToCoast(false);
     	valPrev = getPos();
-    	System.out.println(valPrev);
-    	System.out.println(valEnd);
 	}
 	
 	@Override

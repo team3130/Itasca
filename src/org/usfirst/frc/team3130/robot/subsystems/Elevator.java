@@ -47,7 +47,7 @@ public class Elevator extends Subsystem {
 		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 		elevator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0, 10);
 
-		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
+		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.07), 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);
