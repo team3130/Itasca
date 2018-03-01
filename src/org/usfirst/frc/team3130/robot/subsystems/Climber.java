@@ -18,7 +18,7 @@ public class Climber extends Subsystem {
 	private static WPI_TalonSRX winchL2;
 	private static WPI_TalonSRX winchR1;
 	private static WPI_TalonSRX winchR2;
-	private static double climbDirection;
+	private static int climbDirection;
 	
 	//Instance Handling
 	private static Climber m_pInstance;
@@ -48,14 +48,22 @@ public class Climber extends Subsystem {
     }
     
     public static void climb(double w1, double w2){
-    	winchL1.set(climbDirection * w1);
-    	winchR1.set(climbDirection * w2);
+    	winchL1.set(w1);//climbDirection * w1);
+    	winchR1.set(w2);//climbDirection * w2);
     	//System.out.println("Running L winch at: " + w1);
     	//System.out.println("Running R winch at: " + w2);
     }
     
     public static void reverseDir(){
     	climbDirection = -climbDirection;
+    }
+    
+    public static int returnDir(){
+    	return climbDirection;
+    }
+    
+    public static void resetClimbDir(){
+    	climbDirection = 1;
     }
 }
 

@@ -121,6 +121,7 @@ public class Robot extends TimedRobot {
 		HookDeploy.reset();
 		Chassis.ResetEncoders();
 		Chassis.ReleaseAngle();
+		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);
 		mEnabledLooper.stop();
         mDisabledLooper.start();

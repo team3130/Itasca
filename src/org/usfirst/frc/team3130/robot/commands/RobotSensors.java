@@ -65,6 +65,7 @@ public class RobotSensors extends Command {
     	SmartDashboard.putNumber("Angle", Chassis.GetAngle());
     	SmartDashboard.putNumber("Left Distance", Chassis.GetDistanceL());
     	SmartDashboard.putNumber("Right Distance", Chassis.GetDistanceR());
+    	SmartDashboard.putNumber("Climber Direction", Climber.returnDir());
     	
     	
     }
