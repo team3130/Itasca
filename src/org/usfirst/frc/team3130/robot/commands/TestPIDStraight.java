@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.autoCommands.ContDrive;
+import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 
