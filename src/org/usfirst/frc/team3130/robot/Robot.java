@@ -12,12 +12,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
-import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
-import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
-import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
-import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
@@ -25,8 +20,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
-import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
-import org.usfirst.frc.team3130.robot.vision.VisionServer;
 import org.usfirst.frc.team3130.robot.util.Logger;
 import org.usfirst.frc.team3130.robot.util.Looper;
 
@@ -50,9 +43,7 @@ public class Robot extends TimedRobot {
 	private SendableChooser<String> chooser  = new SendableChooser<String>();
 	public static SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
-	private Location robotLocation;
 	//VisionServer mVisionServer = VisionServer.getInstance();
-	Command locationCollector = new LocationCollector(robotLocation);
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
     Looper mEnabledLooper = new Looper();
@@ -147,7 +138,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		Logger.logAutonInit();
-		locationCollector.cancel();
 
 		Elevator.holdHeight();
 		Chassis.ReleaseAngle();
@@ -175,7 +165,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.logTeleopInit();
-		locationCollector.cancel();
 		
 		Elevator.holdHeight();
 
