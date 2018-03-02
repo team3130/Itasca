@@ -13,16 +13,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This subsystem controls the power cube elevator of the robot
  */
-public class Elevator extends Subsystem {
+public class Elevator extends PIDSubsystem {
 	
-	private static WPI_TalonSRX elevator;
-	private static WPI_TalonSRX elevator2;
+	private WPI_TalonSRX elevator;
+	private WPI_TalonSRX elevator2;
 	
 	//Instance Handling
 	private static Elevator m_pInstance;
@@ -33,6 +34,7 @@ public class Elevator extends Subsystem {
 	}
 	
 	private Elevator() {
+		super(0, 0, 0);
 		elevator = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
 		elevator2 = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 		elevator.setNeutralMode(NeutralMode.Brake);
@@ -76,17 +78,19 @@ public class Elevator extends Subsystem {
         		percent *= ratio * ratio;
     		}
     	}
-
-    	elevator.set(ControlMode.PercentOutput, percent);
+    	GetInstance().getPIDController().disable();
+    	GetInstance().elevator.set(ControlMode.PercentOutput, percent);
     }
 
     public synchronized static void setHeight(double height_inches){
-		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
-    	elevator.set(ControlMode.Position, height_inches * Constants.kElevatorTicksPerInch);
+//		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
+//    	elevator.set(ControlMode.Position, height_inches * Constants.kElevatorTicksPerInch);
+    	GetInstance().getPIDController().setPID(Preferences.getInstance().getDouble("ElevatorP",0.02), 0, 0);
+    	GetInstance().getPIDController().enable();
     }
 
     public synchronized static double getHeight(){
-    	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
+    	return GetInstance().elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
     }
 
     /**
@@ -97,7 +101,7 @@ public class Elevator extends Subsystem {
     	double newHeight = getHeight() + offset;
     	// If the elevator is (almost) at the bottom then just turn it off
     	if(newHeight < Constants.ElevatorBottom) {
-    		elevator.set(ControlMode.PercentOutput, 0);
+    		GetInstance().elevator.set(ControlMode.PercentOutput, 0);
     	}
     	else {
     		setHeight(newHeight);
@@ -113,8 +117,19 @@ public class Elevator extends Subsystem {
 
     public static void outputToSmartDashboard() {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
-    	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
-    	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_m1current", GetInstance().elevator.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_m2current", GetInstance().elevator2.getOutputCurrent() );
     }
+
+	@Override
+	protected double returnPIDInput() {
+		return getHeight();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		output *= Constants.kElevatorSpeed;
+		elevator.set(ControlMode.PercentOutput, output);
+	}
 }
 
