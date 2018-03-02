@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
 		chooser.addObject("Baseline", "Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
+		chooser.addObject("Scale", "Scale");
 		SmartDashboard.putData("Auto mode", chooser);
 		
 
@@ -229,7 +230,7 @@ public class Robot extends TimedRobot {
 				}
 				else if(fieldInfo.equals(c3)){
 					System.out.println("Scale Left");
-					autonomousCommand = new ScaleOnly('L', 'L');
+					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
 					autonomousCommand = new PassBaseline();
@@ -246,7 +247,7 @@ public class Robot extends TimedRobot {
 				}
 				else if(fieldInfo.equals(c1)){
 					System.out.println("Scale Right");
-					autonomousCommand = new ScaleOnly(start.charAt(0),'R');
+					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
 					autonomousCommand = new PassBaseline();
@@ -256,6 +257,9 @@ public class Robot extends TimedRobot {
 			break;
 		case "Switch Front":
 			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
+			break;
+		case "Scale":
+			autonomousCommand = new ScaleOnly(fieldInfo.charAt(1));
 			break;
 		case "No Auto":
 			autonomousCommand = null;

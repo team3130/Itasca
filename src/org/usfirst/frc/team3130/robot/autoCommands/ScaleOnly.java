@@ -38,13 +38,13 @@ public class ScaleOnly extends CommandGroup {
 	private char		  	  start;
 	private char		  	  side;
 
-    public ScaleOnly(char start, char side) {
+    public ScaleOnly(/*char start, */char side) {
     	requires(Chassis.GetInstance());
     	requires(Elevator.GetInstance());
     	requires(CubeIntake.GetInstance());
     	
     	this.side       = side;
-    	this.start      = start;
+    	//this.start      = start;
     	driveForward    = new ContDrive();
     	behindSwitch    = new ContDrive();
     	backUp		    = new ContDrive();
@@ -67,12 +67,12 @@ public class ScaleOnly extends CommandGroup {
 		addParallel(intakeIn, 1.0);
 		addParallel(elevatorUpSmall, 1.0);
 		
-    	if(start == 'L'){
-    		if(side == 'L'){
+    	//if(start == 'L'){
+    	if(side == 'L'){
     			addSequential(driveForward, 5.0);
     			addSequential(delay1, 0.5);
     			addSequential(turnRight, 1.0);
-    		}
+    	}/*
     		else{
     			addSequential(driveForward, 3.0);
     			addSequential(delay1, 0.5);
@@ -85,14 +85,14 @@ public class ScaleOnly extends CommandGroup {
     			addSequential(toScale, 1.0);
     			addSequential(delay5, 0.5);
     			addSequential(turnToScale, 1.0);
-    		}
-    	}
+    		}*/
+    	//}
     	else{
-    		if(side == 'R'){
+    		//if(side == 'R'){
     			addSequential(driveForward, 5.0);
     			addSequential(delay1, 0.5);
     			addSequential(turnLeft, 1.0);
-    		}
+    		}/*
     		else{
     			addSequential(driveForward, 3.0);
     			addSequential(delay1, 0.5);
@@ -105,8 +105,8 @@ public class ScaleOnly extends CommandGroup {
     			addSequential(toScale, 1.0);
     			addSequential(delay5, 0.5);
     			addSequential(turnToScale, 1.0);
-    		}
-    	}
+    		}*/
+    	//}
 
 		addSequential(elevatorUp, 3.0);
 		addSequential(intakeOut, 1.0);
@@ -117,7 +117,7 @@ public class ScaleOnly extends CommandGroup {
     protected void intialize(){
     	intakeIn.SetParam(0.6);
     	intakeOut.SetParam(-0.4);
-    	turnLeft.SetParam(0.6, -Math.PI/2.0);
+    	turnLeft.SetParam(0.3, -Math.PI/2.0);
     	turnRight.SetParam(0.6, Math.PI / 2.0); 
     	behindSwitch.SetParam(0.7, Constants.kAllianceWallWidth - (Constants.kChassisBLength));
     	toScale.SetParam(0.7, 
@@ -126,7 +126,7 @@ public class ScaleOnly extends CommandGroup {
     	backUp.SetParam(-0.4, 10.0);
     	if(start == 'L'){
     		if(side == 'L'){
-    			driveForward.SetParam(0.7, Constants.kWallToScale - (Constants.kChassisBLength/2.0));
+    			driveForward.SetParam(0.3, Constants.kWallToScale - (Constants.kChassisBLength/2.0));
     		}
     		else{
     			driveForward.SetParam(0.7, 
@@ -137,7 +137,7 @@ public class ScaleOnly extends CommandGroup {
     	}
     	else{
     		if(side == 'R'){
-    			driveForward.SetParam(0.7, Constants.kWallToScale - (Constants.kChassisLength/2.0));
+    			driveForward.SetParam(0.3, Constants.kWallToScale - (Constants.kChassisLength/2.0));
     		}
     		else{
     			driveForward.SetParam(0.7, 

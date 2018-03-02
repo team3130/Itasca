@@ -82,7 +82,7 @@ public class SwitchFront extends CommandGroup {
     	if(side =='L'){
     	driveBetween.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			25.0
+    			26.0
     	);
     	}else{
     		driveBetween.SetParam(
@@ -90,12 +90,12 @@ public class SwitchFront extends CommandGroup {
         			18.0);
     	}
     	if(side == 'L'){
-        	turn1.SetParam(0.6, -90.0*(Math.PI / 180.0));
+        	turn1.SetParam(0.6, -85.0*(Math.PI / 180.0));
         	turn2.SetParam(0.6, 75.0*(Math.PI / 180.0));
     	}
     	else{
     		turn1.SetParam(0.6, 90.0*(Math.PI / 180.0));
-        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0));
+        	turn2.SetParam(0.6, -80.0*(Math.PI / 180.0));
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
