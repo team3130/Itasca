@@ -415,4 +415,26 @@ public class Chassis extends PIDSubsystem {
 	public static void toMotionProfileMode(){
 		
 	}
+	
+	/**
+	 * Gets the current roll of the robot.
+	 * 
+	 * Gets the reported roll based on the navX. If the navX failed to initialze, returns null.
+	 * @return the current roll<br/>null if the navX failed to initialize.
+	 */
+	public static Double getRoll(){
+		if(m_bNavXPresent) return new Double(m_navX.getRoll());
+		return null;
+	}
+	
+	/**
+	 * Gets the current pitch of the robot.
+	 * 
+	 * Gets the reported pitch based on the navX. If the navX failed to initialze, returns null.
+	 * @return the current pitch<br/>null if the navX failed to initialize.
+	 */
+	public static Double getPitch(){
+		if(m_bNavXPresent) return new Double(m_navX.getPitch());
+		return null;
+	}
 }

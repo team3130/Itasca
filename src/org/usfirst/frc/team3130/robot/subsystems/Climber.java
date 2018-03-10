@@ -47,9 +47,9 @@ public class Climber extends Subsystem {
         setDefaultCommand(new Climb());
     }
     
-    public static void climb(double w1, double w2){
-    	winchL1.set(w1);//climbDirection * w1);
-    	winchR1.set(w2);//climbDirection * w2);
+    public static void climb(double wL, double wR){
+    	winchL1.set(wL);//climbDirection * w1);
+    	winchR1.set(wR);//climbDirection * w2);
     	//System.out.println("Running L winch at: " + w1);
     	//System.out.println("Running R winch at: " + w2);
     }
