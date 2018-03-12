@@ -174,12 +174,12 @@ public class OI {
 		testCurve.whileHeld(new TestPIDCurve());
 
 		//TODO: Find good defaults
-		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 100)));
+		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 90)));
 		elevator0.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator 0", 0)));
-		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 60)));
-		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 48)));
-		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 36)));
-		elevatorLift.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 12)));
+		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 77)));
+		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 61)));
+		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 27)));
+		elevatorLift.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
 		
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());

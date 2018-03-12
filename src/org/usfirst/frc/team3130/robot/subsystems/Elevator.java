@@ -43,8 +43,8 @@ public class Elevator extends Subsystem {
 		elevator.overrideSoftLimitsEnable(false);
 		elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-		elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
-		elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
+		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
+		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 		elevator.configSetParameter(ParamEnum.eClearPositionOnLimitR, 1, 0, 0, 10);
 
 		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
