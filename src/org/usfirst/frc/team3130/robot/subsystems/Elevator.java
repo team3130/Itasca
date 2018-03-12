@@ -40,13 +40,13 @@ public class Elevator extends PIDSubsystem {
 		elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		elevator.set(ControlMode.PercentOutput, 0);
 		
+		
 		elevator.overrideLimitSwitchesEnable(true);
 		elevator.overrideSoftLimitsEnable(false);
 		elevator.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		elevator.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
-		elevator.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
 
 		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
@@ -93,7 +93,7 @@ public class Elevator extends PIDSubsystem {
     }
 
     public synchronized static double getHeight(){
-    	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
+    	return elevator.getSensorCollection().getQuadraturePosition() / Constants.kElevatorTicksPerInch; //Returns height in inches
     }
 
     /**
@@ -122,6 +122,14 @@ public class Elevator extends PIDSubsystem {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
     	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
     	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
+    	SmartDashboard.putBoolean("Elev_Rev_Switch",elevator.getSensorCollection().isRevLimitSwitchClosed());
+    	SmartDashboard.putBoolean("elev_Fwd_Switch", elevator.getSensorCollection().isFwdLimitSwitchClosed());
+    	
+    	//Zero Handling
+    	if(elevator.getSensorCollection().isRevLimitSwitchClosed()){
+    		elevator.getSensorCollection().setQuadraturePosition(0, 25);
+    		System.out.println("Zero!");
+    	}
     }
 
 	@Override
