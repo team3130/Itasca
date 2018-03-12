@@ -23,8 +23,8 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double winchLSpeed = OI.gamepad.getRawAxis(RobotMap.LST_AXS_CLIMB2);
-    	double winchRSpeed = OI.gamepad.getRawAxis(RobotMap.LST_AXS_CLIMB1);
+    	double winchLSpeed = OI.gamepad.getRawAxis(RobotMap.AXS_CLIMB2);
+    	double winchRSpeed = OI.gamepad.getRawAxis(RobotMap.AXS_CLIMB1);
     	if(winchLSpeed > 0 || winchRSpeed > 0){
     		//c.stop();
     	}
