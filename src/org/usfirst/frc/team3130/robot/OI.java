@@ -109,7 +109,6 @@ public class OI {
 	private static JoystickButton shift;
 
 	public static POVTrigger elevatorMax;
-	public static POVTrigger elevator0;
 	public static POVTrigger elevatorScaleLevel;
 	public static POVTrigger elevatorScaleLowest;
 	public static JoystickButton elevatorSwitch;
@@ -155,7 +154,6 @@ public class OI {
 		testCurve = new JoystickButton(stickR, 10);
 		
 		elevatorMax=new POVTrigger(gamepad, RobotMap.POV_ELEVATORMAX);
-		elevator0=new POVTrigger(gamepad, RobotMap.POV_ELEVATOR0);
 		elevatorScaleLevel=new POVTrigger(gamepad, RobotMap.POV_ELEVATORSCALELEVEL);
 		elevatorScaleLowest=new POVTrigger(gamepad, RobotMap.POV_ELEVATORSCALELOWEST);
 		elevatorSwitch = new JoystickButton(gamepad, RobotMap.BTN_ELEVATORSWITCHHIGHT);
@@ -175,7 +173,6 @@ public class OI {
 
 		//TODO: Find good defaults
 		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 90)));
-		elevator0.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator 0", 0)));
 		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 77)));
 		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 61)));
 		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 27)));
