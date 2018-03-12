@@ -11,6 +11,7 @@ import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
+import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
@@ -23,6 +24,7 @@ import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
 import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -106,8 +108,12 @@ public class OI {
 	private static JoystickButton shiftDown;
 	private static JoystickButton shift;
 
-	public static POVTrigger elevatorUp;
-	public static POVTrigger elevatorDown;
+	public static POVTrigger elevatorMax;
+	public static POVTrigger elevator0;
+	public static POVTrigger elevatorScaleLevel;
+	public static POVTrigger elevatorScaleLowest;
+	public static JoystickButton elevatorSwitch;
+	public static JoystickButton elevatorLift;
 
 	public static JoystickButton cubeIn;
 	public static JoystickButton cubeOut;
@@ -124,7 +130,6 @@ public class OI {
 	public static JoystickButton testCurve;
 	
 	public static JoystickButton revClimb;
-	
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -149,8 +154,12 @@ public class OI {
 		testStraight = new JoystickButton(stickL, 10);
 		testCurve = new JoystickButton(stickR, 10);
 		
-		elevatorUp = new POVTrigger(gamepad, RobotMap.LST_POV_N);
-		elevatorDown = new POVTrigger(gamepad, RobotMap.LST_POV_S);
+		elevatorMax=new POVTrigger(gamepad, RobotMap.POV_ELEVATORMAX);
+		elevator0=new POVTrigger(gamepad, RobotMap.POV_ELEVATOR0);
+		elevatorScaleLevel=new POVTrigger(gamepad, RobotMap.POV_ELEVATORSCALELEVEL);
+		elevatorScaleLowest=new POVTrigger(gamepad, RobotMap.POV_ELEVATORSCALELOWEST);
+		elevatorSwitch = new JoystickButton(gamepad, RobotMap.BTN_ELEVATORSWITCHHIGHT);
+		elevatorLift = new JoystickButton(gamepad, RobotMap.BTN_ELEVATORLIFT);
 		
 		wingsDeploy = new JoystickButton(gamepad, RobotMap.BTN_WINGSDEPLOY);
 		
@@ -164,9 +173,14 @@ public class OI {
 		testStraight.whileHeld(new TestPIDStraight());
 		testCurve.whileHeld(new TestPIDCurve());
 
-		elevatorUp.whenActive(new HeightSetter(Direction.kUp));
-		elevatorDown.whenActive(new HeightSetter(Direction.kDown));
-
+		//TODO: Find good defaults
+		elevatorMax.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 100)));
+		elevator0.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator 0", 0)));
+		elevatorScaleLevel.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 60)));
+		elevatorScaleLowest.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 48)));
+		elevatorSwitch.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 36)));
+		elevatorLift.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 12)));
+		
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
 		cubeActuate.whenPressed(new IntakeToggle());

@@ -96,4 +96,12 @@ public class RobotMap {
 	public static final int BTN_SHIFT = 4; //Joystick L
 	public static final int BTN_SHIFTDOWN = 5;	//Joystick L
 	public static final int BTN_SHIFTUP = 6;	//Joystick L
+	
+	//Elevator Presets
+	public static final int POV_ELEVATORMAX = LST_POV_N;
+	public static final int POV_ELEVATOR0 = LST_POV_S;
+	public static final int POV_ELEVATORSCALELEVEL = LST_POV_W;
+	public static final int POV_ELEVATORSCALELOWEST = LST_POV_E;
+	public static final int BTN_ELEVATORSWITCHHIGHT = LST_BTN_Y;
+	public static final int BTN_ELEVATORLIFT = LST_BTN_A;
 }
