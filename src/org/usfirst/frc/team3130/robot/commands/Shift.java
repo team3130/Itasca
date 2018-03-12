@@ -55,6 +55,7 @@ public class Shift extends Command {
     	//Set variables to default states for next execution of command
     	m_bShifted = false;
     	timer.stop();
+    	Chassis.TalonsToCoast(false);
     }
 
     // Called when another command which requires one or more of the same
