@@ -173,9 +173,9 @@ public class OI {
 
 		//TODO: Find good defaults
 		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 90)));
-		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 77)));
-		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 61)));
-		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 27)));
+		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
+		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
+		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));
 		elevatorLift.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
 		
 		cubeIn.whileHeld(new RunIntakeIn());
