@@ -115,13 +115,15 @@ public class Elevator extends PIDSubsystem {
      * Hold the current height by PID closed loop
      */
     public static void holdHeight() {
-    	addHeight(0);
+    	setHeight(getHeight());
     }
 
     public static void outputToSmartDashboard() {
     	SmartDashboard.putNumber("Elev_Height", getHeight());
     	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
     	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_setpoint", GetInstance().getPIDController().getSetpoint());
+    	SmartDashboard.putBoolean("ElevPID", GetInstance().getPIDController().isEnabled());
     	SmartDashboard.putBoolean("Elev_Rev_Switch",elevator.getSensorCollection().isRevLimitSwitchClosed());
     	SmartDashboard.putBoolean("elev_Fwd_Switch", elevator.getSensorCollection().isFwdLimitSwitchClosed());
     	
