@@ -332,8 +332,8 @@ public class Chassis extends PIDSubsystem {
 		GetInstance().getPIDController().disable();
 		GetInstance().getPIDController().reset();
 		prevSpeedLimit = 0;
-		m_leftMotorFront.set(ControlMode.PercentOutput, RobotMap.CAN_LEFTMOTORFRONT);
-		m_rightMotorFront.set(ControlMode.PercentOutput, RobotMap.CAN_RIGHTMOTORFRONT);
+		m_leftMotorFront.set(ControlMode.PercentOutput, 0);
+		m_rightMotorFront.set(ControlMode.PercentOutput, 0);
 	}
 	
 	/**
@@ -342,7 +342,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceL()
 	{
-		return (m_leftMotorFront.getSelectedSensorPosition(0)/Constants.kDriveCodesPerRev) * InchesPerRev ;
+		return (m_leftMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**
@@ -351,7 +351,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceR()
 	{
-		return (m_rightMotorFront.getSelectedSensorPosition(0)/Constants.kDriveCodesPerRev) * InchesPerRev;
+		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev;
 	}
 	
 	public static double GetDistance()
