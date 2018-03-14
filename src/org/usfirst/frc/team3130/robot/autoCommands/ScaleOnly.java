@@ -22,6 +22,7 @@ public class ScaleOnly extends CommandGroup {
 	private AutoDriveStraightToPoint	driveForward;
 	private AutoDriveStraightToPoint	driveBehind;
 	private AutoDriveStraightToPoint	driveToScale;
+	private AutoDriveStraightToPoint	driveBack;
 	private AutoTurn					turnToScale;
 	private AutoTurn					turnBehind;
 	private ElevatorToHeight			elevatorUp;
@@ -40,6 +41,7 @@ public class ScaleOnly extends CommandGroup {
 		driveForward = new AutoDriveStraightToPoint();
 		driveBehind = new AutoDriveStraightToPoint();
 		driveToScale = new AutoDriveStraightToPoint();
+		driveBack    = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
 		turnBehind   = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
@@ -49,21 +51,22 @@ public class ScaleOnly extends CommandGroup {
 		sameSide	 =Robot.startPos.getSelected().substring(0,1).equalsIgnoreCase(String.valueOf(side));
 		
 		addParallel(intakeIn,1);
-		addSequential(driveForward);
+		addSequential(driveForward,4.1);
 		
 		if(sameSide){
 			addSequential(elevatorUp,3);
-			addSequential(turnToScale, 3);
+			addSequential(turnToScale, 1);
 			addSequential(driveToScale,3);
+			addSequential(intakeOut, 1);
 		}else{
-			addSequential(turnBehind, 3);
+			addSequential(turnBehind, 2);
 			addSequential(driveBehind,5);
-			addSequential(elevatorUp);
-			addSequential(turnToScale);
-			addSequential(driveToScale);
+			addParallel(turnToScale,2);
+			addSequential(elevatorUp,3);
+			addSequential(driveToScale,3);
+			addSequential(intakeOut,1);
+			addSequential(driveBack,2);
 		}
-		
-		addSequential(intakeOut, 1);
     }
     
 	@Override
@@ -71,12 +74,12 @@ public class ScaleOnly extends CommandGroup {
     	System.out.println("INIT SCALE ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
-		intakeOut.SetParam(-0.7);
 		elevatorUp.setParam(98);
 		
 
 		
 		if(sameSide){
+			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
 					525, 
 					20, 
@@ -85,30 +88,52 @@ public class ScaleOnly extends CommandGroup {
 				);
 			driveToScale.SetParam(12, 10, 0.4, false);
 			if(side=='L'){
-				turnToScale.setParam(110, 5);
+				turnToScale.setParam(90, 5);
 			}else{
-				turnToScale.setParam(-110, 5);
+				turnToScale.setParam(-95, 5);
 			}
 		}else{
+			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					432, 
-					10, 
+					432-50, 
+					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
 				);
+			driveBack.SetParam(
+					-50, 
+					5, 
+					0.3, 
+					false
+				);
 			if(side=='L'){
-				turnBehind.setParam(90, 1);
+				turnBehind.setParam(-102, 1);
 				driveBehind.SetParam(
-						408, 
-						10, 
+						340, 
+						5, 
 						.5, 
 						false
 					);
-				turnToScale.setParam(-90, 1);
+				turnToScale.setParam(88, 1);
 				driveToScale.SetParam(
-						24, 
-						10, 
-						0.4, 
+						50, 
+						5, 
+						0.3, 
+						false
+					);
+			}else{
+				turnBehind.setParam(92, 1);
+				driveBehind.SetParam(
+						310, 
+						5, 
+						.5, 
+						false
+					);
+				turnToScale.setParam(-102, 1);
+				driveToScale.SetParam(
+						50, 
+						5, 
+						0.3, 
 						false
 					);
 			}
