@@ -342,7 +342,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceL()
 	{
-		return (m_leftMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev ;
+		return -1*(m_leftMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**
@@ -394,6 +394,8 @@ public class Chassis extends PIDSubsystem {
 		SetPIDValues();
 		GetInstance().getPIDController().setSetpoint(GetAngle() + workingAngle);
 		GetInstance().getPIDController().enable();
+		
+		System.out.println("Holding Angle");
 	}
 	
 	/**

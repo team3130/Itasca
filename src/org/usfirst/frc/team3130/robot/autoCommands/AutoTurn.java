@@ -16,13 +16,19 @@ public class AutoTurn extends Command {
     	requires(Chassis.GetInstance());
     }
 
+    /**
+     * Sets the turn parameters
+     * @param angle in degrees
+     * @param threshold in degrees
+     */
     public void setParam(double angle, double threshold){
-    	this.angle=angle;
+    	this.angle=(Math.PI/180)*angle;
     	thresh=threshold;
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Chassis.ReleaseAngle();
     	Chassis.HoldAngle(angle);
     	Chassis.GetInstance().setAbsoluteTolerance(thresh);
     	Chassis.DriveStraight(0);

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
@@ -129,6 +130,8 @@ public class OI {
 	public static JoystickButton testCurve;
 	
 	public static JoystickButton revClimb;
+	
+	private static AutoDriveStraightToPoint testDrive;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -163,12 +166,15 @@ public class OI {
 		
 		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
 		
+		testDrive=new AutoDriveStraightToPoint();
+		testDrive.SetParam(150, 5, 1, false);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
-		testStraight.whileHeld(new TestPIDStraight());
+		testStraight.whileHeld(testDrive);
 		testCurve.whileHeld(new TestPIDCurve());
 
 		//TODO: Find good defaults
