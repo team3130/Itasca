@@ -45,6 +45,8 @@ public class RobotSensors extends Command {
     	
     	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
     	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
+    	
+    	SmartDashboard.putNumber("Velocity", Chassis.GetSpeed());
 
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
