@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
 		Logger.logRobotDisabled();
 		CubeIntake.reset();
 		HookDeploy.reset();
-		Chassis.ResetEncoders();
+		//Chassis.ResetEncoders();
 		Chassis.ReleaseAngle();
 		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);

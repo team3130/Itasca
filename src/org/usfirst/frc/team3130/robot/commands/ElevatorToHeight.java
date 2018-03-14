@@ -31,7 +31,7 @@ public class ElevatorToHeight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeight()-dist)<2;
+        return Math.abs(Elevator.getHeight()-dist)<12;
     }
 
     // Called once after isFinished returns true
