@@ -107,7 +107,7 @@ public class ScaleOnly extends CommandGroup {
 					false
 				);
 			if(side=='L'){
-				turnBehind.setParam(-102, 1);
+				turnBehind.setParam(-95, 1);
 				driveBehind.SetParam(
 						340, 
 						5, 
@@ -122,7 +122,7 @@ public class ScaleOnly extends CommandGroup {
 						false
 					);
 			}else{
-				turnBehind.setParam(92, 1);
+				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
 						310, 
 						5, 

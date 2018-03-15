@@ -241,8 +241,8 @@ public class Robot extends TimedRobot {
 					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
-					autonomousCommand = new PassBaseline();
-					System.out.println("Cancelling Switch Side");
+					System.out.println("Scale Right");
+					autonomousCommand = new ScaleOnly('R');
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
@@ -258,8 +258,8 @@ public class Robot extends TimedRobot {
 					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
-					autonomousCommand = new PassBaseline();
-					System.out.println("Cancelling Switch Side");
+					System.out.println("Scale Left");
+					autonomousCommand = new ScaleOnly('L');
 				}
 			}
 			break;
