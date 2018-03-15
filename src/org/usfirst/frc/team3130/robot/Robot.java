@@ -94,12 +94,12 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addDefault("No Auton", null);
 		chooser.addObject("Test MP", "Test MP");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
+		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
 
