@@ -44,7 +44,7 @@ public class PassBaseline extends CommandGroup {
 	protected void initialize() {
     	
         System.out.println("Running PB");
-        driveForward.SetParam(0.4, 250.0);
+        driveForward.SetParam(0.4, 250.0, false);
     	/*driveForward.SetParam(
     		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),
     		Constants.kWallToSwitch

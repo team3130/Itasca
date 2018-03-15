@@ -77,30 +77,35 @@ public class SwitchFront extends CommandGroup {
     	intakeOut.SetParam(-0.4);
     	driveForward.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength + 10.0)
+    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength + 10.0),
+    			false
     	);
     	if(side =='L'){
     	driveBetween.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			27.0
+    			27.0,
+    			false
     	);
     	}else{
     		driveBetween.SetParam(
         			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-        			18.0);
+        			18.0,
+        			false
+        		);
     	}
     	if(side == 'L'){
-        	turn1.SetParam(0.6, -110.0*(Math.PI / 180.0));
-        	turn2.SetParam(0.6, 82.0*(Math.PI / 180.0));
+        	turn1.SetParam(0.6, -110.0*(Math.PI / 180.0), false);
+        	turn2.SetParam(0.6, 82.0*(Math.PI / 180.0), false);
     	}
     	else{
-    		turn1.SetParam(0.6, 90.0*(Math.PI / 180.0));
-        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0));
+    		turn1.SetParam(0.6, 90.0*(Math.PI / 180.0), false);
+        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0), false);
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
     			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) - (Constants.kChassisLength/2.0) +
-    									   (Constants.kChassisBWidth/2.0))
+    									   (Constants.kChassisBWidth/2.0)),
+    			false
     	);
     	/*backUp.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
