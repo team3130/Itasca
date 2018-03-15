@@ -22,6 +22,7 @@ public class SwitchFront extends CommandGroup {
 	private AutoTurn					turnToSwitch;
 	private RunIntakeIn				intakeIn;
 	private ElevatorToHeight		elevatorUp;
+	private ElevatorToHeight		eleReleaseIntake;
 	private RunIntakeOut			intakeOut;
 	private char					side;
 	
@@ -35,10 +36,11 @@ public class SwitchFront extends CommandGroup {
 		turnToSwitch		= new AutoTurn();
 		driveToSwitch		= new AutoDriveStraightToPoint();
 		intakeIn			= new RunIntakeIn();
-		elevatorUp			= new ElevatorToHeight(35.0);
+		elevatorUp			= new ElevatorToHeight(0);
+		eleReleaseIntake = new ElevatorToHeight(3);
 		intakeOut			= new RunIntakeOut();
 		
-
+		addSequential(eleReleaseIntake,1);
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 2);
 		addSequential(turnToSwitch, 1.5);

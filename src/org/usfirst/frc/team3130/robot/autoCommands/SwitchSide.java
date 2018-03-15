@@ -20,6 +20,7 @@ public class SwitchSide extends CommandGroup {
 	private AutoDriveStraightToPoint	driveBack;
 	private AutoTurn					turnToSwitch;
 	private ElevatorToHeight			elevatorUp;
+	private ElevatorToHeight			eleReleaseIntake;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
 	private char						side;
@@ -35,9 +36,11 @@ public class SwitchSide extends CommandGroup {
 		driveBack		= new AutoDriveStraightToPoint();
 		turnToSwitch	= new AutoTurn();
 		elevatorUp		= new ElevatorToHeight(0);
+		eleReleaseIntake = new ElevatorToHeight(3);
 		intakeIn		= new RunIntakeIn();
 		intakeOut		= new RunIntakeOut();
 		
+		addSequential(eleReleaseIntake, 1);
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 3);
 		addSequential(elevatorUp, 3);

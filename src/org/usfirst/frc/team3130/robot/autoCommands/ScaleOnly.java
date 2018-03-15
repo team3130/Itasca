@@ -26,6 +26,7 @@ public class ScaleOnly extends CommandGroup {
 	private AutoTurn					turnToScale;
 	private AutoTurn					turnBehind;
 	private ElevatorToHeight			elevatorUp;
+	private ElevatorToHeight			eleReleaseIntake;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
 	private char						side;
@@ -45,11 +46,13 @@ public class ScaleOnly extends CommandGroup {
 		turnToScale  = new AutoTurn();
 		turnBehind   = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
+		eleReleaseIntake = new ElevatorToHeight(3);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
 		
 		sameSide	 =Robot.startPos.getSelected().substring(0,1).equalsIgnoreCase(String.valueOf(side));
 		
+		addSequential(eleReleaseIntake, 1);
 		addParallel(intakeIn,1);
 		addSequential(driveForward,4.1);
 		
