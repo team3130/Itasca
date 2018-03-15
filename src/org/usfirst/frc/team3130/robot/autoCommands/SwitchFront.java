@@ -22,94 +22,63 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SwitchFront extends CommandGroup {
 
-	private ContTurnDist      turn1;
-	private ContDrive 	      driveForward;
-	private ContDrive		  driveBetween;
-	private ContTurnDist      turn2;
-	private ContDrive         toSwitch;
-	private RunIntakeIn	      intakeIn;
-	private ElevatorToHeight  elevatorUp;
-	private RunIntakeOut	  intakeOut;
-	private char     		  side;
-	private AutoDelay		  delay1;
-	private AutoDelay		  delay2;
-	private AutoDelay		  delay3;
-	private AutoDelay		  delay4;
-	private ContDrive		  backUp;
+	private ContDrive			driveForward;
+	private ContDrive			driveToSwitch;
+	private ContTurnDist		turnToSwitch;
+	private RunIntakeIn			intakeIn;
+	private ElevatorToHeight	elevatorUp;
+	private RunIntakeOut		intakeOut;
+	private char				side;
 	
-    public SwitchFront(char side) {
-    	requires(Chassis.GetInstance());
-    	requires(CubeIntake.GetInstance());
-    	requires(Elevator.GetInstance());
-    	
-    	this.side      	   = side;
-    	driveForward       = new ContDrive();
-    	turn1	   	  	   = new ContTurnDist(driveForward);
-    	delay1			   = new AutoDelay();
-    	driveBetween	   = new ContDrive();
-    	delay2			   = new AutoDelay();
-    	turn2   	   	   = new ContTurnDist(turn1);
-    	delay3			   = new AutoDelay();
-    	toSwitch           = new ContDrive(turn2);
-    	delay4			   = new AutoDelay();
-    	intakeIn  	       = new RunIntakeIn();
-    	elevatorUp	       = new ElevatorToHeight(35.0);
-    	intakeOut  	       = new RunIntakeOut();
-    	backUp			   = new ContDrive();
+	public SwitchFront(char side) {
+		requires(Chassis.GetInstance());
+		requires(CubeIntake.GetInstance());
+		requires(Elevator.GetInstance());
+		
+		this.side			= side;
+		driveForward		= new ContDrive();
+		turnToSwitch		= new ContTurnDist(driveForward);
+		driveToSwitch		= new ContDrive(turnToSwitch);
+		intakeIn			= new RunIntakeIn();
+		elevatorUp			= new ElevatorToHeight(35.0);
+		intakeOut			= new RunIntakeOut();
 
-    	addParallel(intakeIn);
-    	addSequential(driveForward, 1.5);
-    	addSequential(turn1, 4);
-    	addSequential(delay1, 0.5);
-    	addSequential(driveBetween, 0.5);
-    	addSequential(delay2, 0.5);
-       	addParallel(elevatorUp, 1);
-    	addSequential(turn2, 4);
-       	addSequential(toSwitch, 2);
-       	addSequential(delay4, 0.7);
-    	addSequential(intakeOut, 2);
-    	//addSequential(backUp, 2);
-    }
-    
-    @Override
-    protected void initialize(){
-    	intakeIn.SetParam(0.3);
-    	intakeOut.SetParam(-0.4);
-    	driveForward.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength + 10.0),
-    			false
-    	);
-    	if(side =='L'){
-    	driveBetween.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			27.0,
-    			false
-    	);
-    	}else{
-    		driveBetween.SetParam(
-        			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-        			18.0,
-        			false
-        		);
-    	}
-    	if(side == 'L'){
-        	turn1.SetParam(0.6, -110.0*(Math.PI / 180.0), false);
-        	turn2.SetParam(0.6, 82.0*(Math.PI / 180.0), false);
-    	}
-    	else{
-    		turn1.SetParam(0.6, 90.0*(Math.PI / 180.0), false);
-        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0), false);
-    	}
-    	toSwitch.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) - (Constants.kChassisLength/2.0) +
-    									   (Constants.kChassisBWidth/2.0)),
-    			false
-    	);
-    	/*backUp.SetParam(
-    			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
-    			1.0
-    	);*/
-    }
+		addParallel(intakeIn, 1);
+		addSequential(driveForward, 2);
+		addParallel(turnToSwitch, 1);
+		addSequential(elevatorUp, 2);
+		addSequential(driveToSwitch, 4);
+		addSequential(intakeOut,1);
+	}
+
+	@Override
+	protected void initialize(){
+		intakeIn.SetParam(0.3);
+		intakeOut.SetParam(-0.4);
+		
+		driveForward.SetParam(
+				0.5, 
+				20, 
+				false
+			);
+		driveToSwitch.SetParam(
+				0.5, 
+				100, 
+				false
+			);
+		
+		if(side=='L'){
+			turnToSwitch.SetParam(
+					0.5, 
+					30, 
+					false
+				);
+		}else{
+			turnToSwitch.SetParam(
+					0.5, 
+					-30, 
+					false
+				);
+		}
+	}
 }
