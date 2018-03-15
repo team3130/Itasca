@@ -61,12 +61,12 @@ public class SwitchFront extends CommandGroup {
        	addParallel(elevatorUp, 1);
     	addSequential(driveForward, 1.5);
     	addSequential(turn1, 4);
-    	//addSequential(delay1, 0.5);
-    	addSequential(driveBetween, 0.5);//1.5);
-    	//addSequential(delay2, 0.5);
+    	addSequential(delay1, 0.5);
+    	addSequential(driveBetween, 0.5); //1.5);
+    	addSequential(delay2, 0.5);
     	addSequential(turn2, 4);
        	addSequential(toSwitch, 2);
-       	//addSequential(delay4, 0.7);
+       	addSequential(delay4, 0.7);
     	addSequential(intakeOut, 2);
     	//addSequential(backUp, 2);
     }
@@ -99,12 +99,11 @@ public class SwitchFront extends CommandGroup {
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			Constants.kWallToSwitchRL - ((Constants.kWallToSwitchRL/2.0) - (Constants.kChassisLength/2.0) +
-    									   (Constants.kChassisBWidth/2.0))
+    			Constants.kWallToSwitchRL - ((Constants.kWallToSwitchRL/2.0) - (Constants.kChassisLength/2.0))
     	);
     	/*backUp.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
-    			1.0
+    			10.0
     	);*/
     }
 }

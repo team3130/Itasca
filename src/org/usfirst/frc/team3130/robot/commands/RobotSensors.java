@@ -39,9 +39,9 @@ public class RobotSensors extends Command {
     	Rangefinder rf = Rangefinder.GetInstance();
     	int distance = rf.getDistance();
     	rf.setStoredRange(distance);
-    	if(distance>=0) {
+    	//if(distance>=0) {
     		SmartDashboard.putNumber("Lidar range", distance);
-    	}
+    	//}
     	
     	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
     	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
