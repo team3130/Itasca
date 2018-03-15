@@ -2,16 +2,11 @@ package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContTurnDist;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContTurnHeading;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -22,13 +17,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class SwitchFront extends CommandGroup {
 
-	private ContDrive			driveForward;
-	private ContDrive			driveToSwitch;
-	private ContTurnDist		turnToSwitch;
-	private RunIntakeIn			intakeIn;
-	private ElevatorToHeight	elevatorUp;
-	private RunIntakeOut		intakeOut;
-	private char				side;
+	private AutoDriveStraightToPoint	driveForward;
+	private AutoDriveStraightToPoint	driveToSwitch;
+	private AutoTurn					turnToSwitch;
+	private RunIntakeIn				intakeIn;
+	private ElevatorToHeight		elevatorUp;
+	private RunIntakeOut			intakeOut;
+	private char					side;
 	
 	public SwitchFront(char side) {
 		requires(Chassis.GetInstance());
@@ -36,17 +31,18 @@ public class SwitchFront extends CommandGroup {
 		requires(Elevator.GetInstance());
 		
 		this.side			= side;
-		driveForward		= new ContDrive();
-		turnToSwitch		= new ContTurnDist(driveForward);
-		driveToSwitch		= new ContDrive(turnToSwitch);
+		driveForward		= new AutoDriveStraightToPoint();
+		turnToSwitch		= new AutoTurn();
+		driveToSwitch		= new AutoDriveStraightToPoint();
 		intakeIn			= new RunIntakeIn();
 		elevatorUp			= new ElevatorToHeight(35.0);
 		intakeOut			= new RunIntakeOut();
+		
 
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 2);
-		addParallel(turnToSwitch, 1);
-		addSequential(elevatorUp, 2);
+		addSequential(turnToSwitch, 1.5);
+		addParallel(elevatorUp, 3);
 		addSequential(driveToSwitch, 4);
 		addSequential(intakeOut,1);
 	}
@@ -57,26 +53,27 @@ public class SwitchFront extends CommandGroup {
 		intakeOut.SetParam(-0.4);
 		
 		driveForward.SetParam(
-				0.5, 
-				20, 
-				false
-			);
-		driveToSwitch.SetParam(
-				0.5, 
-				100, 
+				30, 
+				5,
+				0.5,
 				false
 			);
 		
+		
 		if(side=='L'){
-			turnToSwitch.SetParam(
+			turnToSwitch.setParam(-40, 2);
+			driveToSwitch.SetParam(
+					150,
+					5,
 					0.5, 
-					30, 
 					false
 				);
 		}else{
-			turnToSwitch.SetParam(
+			turnToSwitch.setParam(50,2);
+			driveToSwitch.SetParam(
+					174,
+					5,
 					0.5, 
-					-30, 
 					false
 				);
 		}
