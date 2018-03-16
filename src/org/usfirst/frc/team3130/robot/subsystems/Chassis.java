@@ -14,12 +14,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -482,13 +479,66 @@ public class Chassis extends PIDSubsystem {
         };
     }
 	
+	public void pathFollow(EncoderFollower[] followers, boolean reverse) {
+        EncoderFollower left = followers[0];
+        EncoderFollower right = followers[1];
+        double l;
+        double r;
+        double localGp = PathConstants.gp;
+        if (!reverse) {
+            localGp *= -1;
+            l = left.calculate(-m_leftMotorFront.getSelectedSensorPosition(0));
+            r = right.calculate(-m_rightMotorFront.getSelectedSensorPosition(0));
+        } else {
+            l = left.calculate(m_leftMotorFront.getSelectedSensorPosition(0));
+            r = right.calculate(m_rightMotorFront.getSelectedSensorPosition(0));
+        }
+
+        double gyro_heading = reverse ? GetAngle() - PathConstants.path_angle_offset : -GetAngle() + PathConstants.path_angle_offset;
+        double angle_setpoint = Pathfinder.r2d(left.getHeading());
+        SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
+        double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
+        SmartDashboard.putNumber("Angle difference", angleDifference);
+
+        double turn = localGp * angleDifference + (PathConstants.gd *
+                ((angleDifference - PathConstants.last_gyro_error) / PathConstants.dt));
+
+        PathConstants.last_gyro_error = angleDifference;
+
+        if (left != null && !left.isFinished()) {
+            //SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
+            SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
+            SmartDashboard.putNumber("Left set pos", left.getSegment().x);
+            SmartDashboard.putNumber("Left calc voltage", l);
+            SmartDashboard.putNumber("Commanded seg heading", left.getHeading());
+            SmartDashboard.putNumber("Left + turn", l + turn);
+            SmartDashboard.putNumber("Left seg acceleration", left.getSegment().acceleration);
+            SmartDashboard.putNumber("Path angle offset", PathConstants.path_angle_offset);
+            SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + PathConstants.path_angle_offset);
+        }
+        if (!reverse) {
+            DriveTank(l + turn, r - turn);
+        } else {
+        	DriveTank(-l + turn, -r - turn);
+        }
+
+        if (left.isFinished() && right.isFinished()) {
+            pathFinished = true;
+            PathConstants.path_angle_offset = 0.0;
+        }
+    }
+	
+	
 	public static class PathConstants {
+		
 		//ALL PATHFINDER CONSTANTS IN METERS
         //TODO: TUNE CONSTANTS
         public static double kp = 1.0; 
         public static double kd = 0.0;
+        //TODO: TUNE THESE OR USE JACI's MATH
+        public static double gp = 0.0375;
+        public static double gd = 0.0;
         
-
         public static double ki = 0.0;
 
         //Gyro logging for motion profiling
@@ -499,7 +549,7 @@ public class Chassis extends PIDSubsystem {
         public static final double kv = 1.0 / max_velocity; 
         public static final double max_acceleration = 3.8; 
         public static final double ka = 0.05; //0.015
-        public static final double max_jerk = 16.0;
+        public static final double max_jerk = 10.0;
         public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
         public static final double wheel_diameter_R = Constants.kRWheelDiameter * 0.0254;
 
