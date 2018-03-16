@@ -53,7 +53,7 @@ public class SwitchFront extends CommandGroup {
 	protected void initialize(){
 		intakeIn.SetParam(0.3);
 		intakeOut.SetParam(-0.4);
-		
+		elevatorUp.setParam(40);
 		driveForward.SetParam(
 				30, 
 				5,
