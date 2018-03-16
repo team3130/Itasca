@@ -10,7 +10,7 @@ public class Constants extends ConstantsBase {
     public static double kCenterOfTargetHeight = 86.0; //Correct 9/11/17, in inches
     
     //Chassis constants
-    public static double kDriveCodesPerRev = 2048.0;
+    public static double kDriveCodesPerRev = 4096.0;
     public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
     public static double kChassisBWidth = 33.5; //Distance between the left and right middle wheels
     public static double kChassisLength = 32.5; //Length of robot frame in inches

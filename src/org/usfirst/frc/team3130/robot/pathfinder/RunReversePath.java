@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunPath extends Command {
+public class RunReversePath extends Command {
 
 	Waypoint[] path;
 	EncoderFollower[] followers;
 	
-    public RunPath(Waypoint[] path) {
+    public RunReversePath(Waypoint[] path) {
     	requires(Chassis.GetInstance());
     	this.path = path;
     	setInterruptible(false);
@@ -23,12 +23,12 @@ public class RunPath extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Chassis.GetInstance().resetForPath();
-    	Chassis.GetInstance().pathFollow(followers, false);
+    	Chassis.GetInstance().pathFollow(followers, true);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.GetInstance().pathFollow(followers, false);
+    	Chassis.GetInstance().pathFollow(followers, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
