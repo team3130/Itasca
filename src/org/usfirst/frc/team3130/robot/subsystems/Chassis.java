@@ -417,4 +417,19 @@ public class Chassis extends PIDSubsystem {
 	public static void toMotionProfileMode(){
 		
 	}
+	
+	public void resetGyro() {
+		m_navX.reset();
+	}
+	
+	private boolean pathFinished = false;
+	
+	public void resetForPath() {
+		pathFinished = false;
+		ResetEncoders();
+		resetGyro();
+	}
+	public boolean isPathFinished() {
+		return pathFinished;
+	}
 }
