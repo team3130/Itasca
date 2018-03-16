@@ -2,6 +2,9 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
+
+import java.io.File;
+
 import org.usfirst.frc.team3130.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.*;
@@ -17,6 +20,12 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  *
@@ -431,5 +440,71 @@ public class Chassis extends PIDSubsystem {
 	}
 	public boolean isPathFinished() {
 		return pathFinished;
+	}
+	
+	 public double generateHashCode(Waypoint[] path) {
+	        double hash = 1.0;
+	        for (int i = 0; i < path.length; i++) {
+	            hash += ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+	        }
+	        return (int) Math.abs(hash * 1000) * path.length;
+	    }
+	 
+	public EncoderFollower[] pathSetup(Waypoint[] path) {
+        EncoderFollower left = new EncoderFollower();
+        EncoderFollower right = new EncoderFollower();
+        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
+                PathConstants.dt, PathConstants.max_velocity, PathConstants.max_acceleration, PathConstants.max_jerk);
+        String pathHash = String.valueOf(generateHashCode(path));
+        SmartDashboard.putString("Path Hash", pathHash);
+        Trajectory toFollow;// = Pathfinder.generate(path, cfg);
+        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        if (!trajectory.exists()) {
+            toFollow = Pathfinder.generate(path, cfg);
+            Pathfinder.writeToCSV(trajectory, toFollow);
+            System.out.println(pathHash + ".csv not found, wrote to file");
+        } else {
+            System.out.println(pathHash + ".csv read from file");
+            toFollow = Pathfinder.readFromCSV(trajectory);
+        }
+
+        TankModifier modifier = new TankModifier(toFollow).modify(PathConstants.wheel_base_width);
+        PathConstants.last_gyro_error = 0.0;
+        left = new EncoderFollower(modifier.getLeftTrajectory());
+        right = new EncoderFollower(modifier.getRightTrajectory());
+        left.configureEncoder(m_leftMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_L);
+        right.configureEncoder(m_rightMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_R);
+        left.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
+        right.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
+        return new EncoderFollower[]{
+                left, // 0
+                right, // 1
+        };
+    }
+	
+	public static class PathConstants {
+		//ALL PATHFINDER CONSTANTS IN METERS
+        //TODO: TUNE CONSTANTS
+        public static double kp = 1.0; 
+        public static double kd = 0.0;
+        
+
+        public static double ki = 0.0;
+
+        //Gyro logging for motion profiling
+        public static double last_gyro_error = 0.0;
+
+        public static double path_angle_offset = 0.0;
+        public static final double max_velocity = 4.0; //TODO: calculate
+        public static final double kv = 1.0 / max_velocity; 
+        public static final double max_acceleration = 3.8; 
+        public static final double ka = 0.05; //0.015
+        public static final double max_jerk = 16.0;
+        public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
+        public static final double wheel_diameter_R = Constants.kRWheelDiameter * 0.0254;
+
+        public static final double wheel_base_width = Constants.kChassisWidth * 0.0254;
+        public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
+        public static final double dt = 0.02; //TODO: find
 	}
 }

@@ -22,6 +22,7 @@ public class Constants extends ConstantsBase {
     public static double kChassisLowGearF = 0.0; //TODO: find
     public static double kChassisHighGearF = 0.152;
     
+
     //Elevator constants
     public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
