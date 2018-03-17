@@ -169,7 +169,7 @@ public class OI {
 		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
 		
 		testDrive=new AutoDriveStraightToPoint();
-		testDrive.SetParam(150, 5, 1, false);
+		testDrive.SetParam(3, 0.5, 1, false);
 		
 		testTurn=new AutoTurn();
 		testTurn.setParam(90,2);
