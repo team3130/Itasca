@@ -561,7 +561,7 @@ public class Chassis extends PIDSubsystem {
 
         public static final double wheel_base_width = Constants.kChassisWidth * 0.0254;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
-        public static final double dt = 0.02; //TODO: find
+        public static final double dt = 0.02; //Control loop of Roborio
 	}
 	
 	public static double GetLeftMetricVelocity() {

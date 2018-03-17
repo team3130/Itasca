@@ -13,6 +13,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
+import org.usfirst.frc.team3130.robot.autoCommands.autoPaths.TestPath;
 import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
@@ -95,6 +96,7 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
+		chooser.addObject("Test Path", "Test Path");
 		chooser.addObject("Test MP", "Test MP");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
@@ -222,6 +224,8 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
+    	case "Test Path":
+    		autonomousCommand = new TestPath();
 		case "Test MP":
 			autonomousCommand = new RunMotionProfiles();
 			break;
