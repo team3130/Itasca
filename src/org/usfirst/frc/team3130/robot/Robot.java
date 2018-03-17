@@ -8,7 +8,6 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
-import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
@@ -88,7 +87,6 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addObject("Test MP", "Test MP");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
@@ -212,9 +210,6 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
-		case "Test MP":
-			autonomousCommand = new RunMotionProfiles();
-			break;
 		case "Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
