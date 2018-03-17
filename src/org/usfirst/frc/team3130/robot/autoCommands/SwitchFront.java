@@ -46,9 +46,9 @@ public class SwitchFront extends CommandGroup {
     	driveForward       = new ContDrive();
     	turn1	   	  	   = new ContTurnDist(driveForward);
     	delay1			   = new AutoDelay();
-    	driveBetween	   = new ContDrive();
+    	driveBetween	   = new ContDrive(turn1);
     	delay2			   = new AutoDelay();
-    	turn2   	   	   = new ContTurnDist(turn1);
+    	turn2   	   	   = new ContTurnDist(driveBetween);
     	delay3			   = new AutoDelay();
     	toSwitch           = new ContDrive(turn2);
     	delay4			   = new AutoDelay();
@@ -58,12 +58,12 @@ public class SwitchFront extends CommandGroup {
     	backUp			   = new ContDrive();
 
     	addParallel(intakeIn);
+       	addParallel(elevatorUp, 1);
     	addSequential(driveForward, 1.5);
     	addSequential(turn1, 4);
     	addSequential(delay1, 0.5);
-    	addSequential(driveBetween, 0.5);
+    	addSequential(driveBetween, 0.5); //1.5);
     	addSequential(delay2, 0.5);
-       	addParallel(elevatorUp, 1);
     	addSequential(turn2, 4);
        	addSequential(toSwitch, 2);
        	addSequential(delay4, 0.7);
@@ -73,16 +73,16 @@ public class SwitchFront extends CommandGroup {
     
     @Override
     protected void initialize(){
-    	intakeIn.SetParam(0.3);
+    	intakeIn.SetParam(0.5);
     	intakeOut.SetParam(-0.4);
     	driveForward.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			(Constants.kWallToSwitch/2.0) - (Constants.kChassisBLength + 10.0)
+    			(Constants.kWallToSwitchRL/2.0) - (Constants.kChassisBLength + 10.0)
     	);
     	if(side =='L'){
     	driveBetween.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			27.0
+    			26.0
     	);
     	}else{
     		driveBetween.SetParam(
@@ -90,21 +90,20 @@ public class SwitchFront extends CommandGroup {
         			18.0);
     	}
     	if(side == 'L'){
-        	turn1.SetParam(0.6, -110.0*(Math.PI / 180.0));
-        	turn2.SetParam(0.6, 82.0*(Math.PI / 180.0));
+        	turn1.SetParam(0.6, -85.0*(Math.PI / 180.0));
+        	turn2.SetParam(0.6, 75.0*(Math.PI / 180.0));
     	}
     	else{
     		turn1.SetParam(0.6, 90.0*(Math.PI / 180.0));
-        	turn2.SetParam(0.6, -85.0*(Math.PI / 180.0));
+        	turn2.SetParam(0.6, -80.0*(Math.PI / 180.0));
     	}
     	toSwitch.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", 0.4), 
-    			Constants.kWallToSwitch - ((Constants.kWallToSwitch/2.0) - (Constants.kChassisLength/2.0) +
-    									   (Constants.kChassisBWidth/2.0))
+    			Constants.kWallToSwitchRL - ((Constants.kWallToSwitchRL/2.0) - (Constants.kChassisLength/2.0))
     	);
     	/*backUp.SetParam(
     			Preferences.getInstance().getDouble("AUTON Forward Speed", -0.4), 
-    			1.0
+    			10.0
     	);*/
     }
 }

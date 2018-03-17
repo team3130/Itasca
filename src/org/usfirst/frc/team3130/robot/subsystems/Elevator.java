@@ -48,7 +48,7 @@ public class Elevator extends PIDSubsystem {
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
-		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
+		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.07), 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);
@@ -71,7 +71,7 @@ public class Elevator extends PIDSubsystem {
     	double zone = Constants.kElevatorZone;
     	if(goingDown) {
     		// Going down, so reduce the power
-    		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.5);
+    		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.8);
     		if(height < zone) {
     			// And at the bottom reduce the power even more, aggressively squared
     			double ratio = Math.abs(height / zone);

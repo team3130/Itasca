@@ -23,7 +23,7 @@ public class Constants extends ConstantsBase {
     public static double kChassisHighGearF = 0.152;
     
     //Elevator constants
-    public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
+    public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.8);
     public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
     public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", 0.2);
     public static double kElevatorZone = Preferences.getInstance().getDouble("ElevatorZone", 16);
@@ -43,13 +43,21 @@ public class Constants extends ConstantsBase {
     public static int kBlinkNumber = 3;
 
   //Field Measurements
-    public static double kWallToSwitch     = 143.0; //inches forward to switch from alliance wall
-    public static double kSwitchWidth      = 154.5; //average of red and blue side switch widths
+    public static double kWallToSwitchRL     = 139.5; //inches forward to switch from alliance wall (red left)
+    public static double kWallToSwitchRR     = 139.5; //inches forward to switch from alliance wall (red right)
+    public static double kWallToSwitchBL     = 139.75; //inches forward to switch from alliance wall (blue left)
+    public static double kWallToSwitchBR     = 138.75; //inches forward to switch from alliance wall (blue right)
+    public static double kSwitchWidth      = 154.0; //switch width
     public static double kSwitchSlotWidth  = 41.0; //inches wide of switch slot
     public static double kSwitchDepth      = 52.0; //inches deep of switch
-    public static double kWallToScale      = 297.0; //inches from alliance wall to front plate of scale
-    public static double kScaleWidth       = 177.75; //inches wide of scale
+    public static double kWallToScale      = 301.0; //inches from alliance wall to front plate of scale
+    public static double kScaleWidth       = 180.0; //inches wide of scale
     public static double kScaleDepth       = 48.0; //inches deep of scale 
+    public static double kExchangeToCenter = 11.5; //inches from exchange to center line
+    public static double kToBaseline	   = 121.0; //inches to baseline
+    public static double kAllianceWallWidth  = 294.5; //inches wide of alliance wall
+    public static double kRCtoRSw			 = 150.5; //inches from alliance wall right corner to right switch
+    public static double kLCtoLSw			 = 151.0; //inches from alliance wall left corner to left switch
     
     //Turret PID
     // Units: error is 4096 counts/rev. Max output is +/- 1023 units.

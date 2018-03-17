@@ -38,7 +38,7 @@ public class SwitchSide extends CommandGroup {
     	delay		   = new AutoDelay();
     	driveForward   = new ContDrive();
     	intakeIn  	   = new RunIntakeIn();
-    	turnToSwitch   = new ContTurnDist();
+    	turnToSwitch   = new ContTurnDist(driveForward);
     	//toSwitch 	   = new ContDrive();
     	elevatorUp 	   = new ElevatorToHeight(35.0);
     	intakeOut 	   = new RunIntakeOut();
@@ -47,10 +47,10 @@ public class SwitchSide extends CommandGroup {
     	
     	//addParallel(intakeIn);
     	addParallel(elevatorUp);
-    	addSequential(driveForward, 3);
+    	addSequential(driveForward, 5);
     	addSequential(turnToSwitch, 1);
     	//addSequential(toSwitch, 2);
-    	addSequential(delay, 1);
+    	//addSequential(delay, 1);
     	addSequential(intakeOut, 1);
     	addSequential(turnDownField, 1);
     	addSequential(driveDownField, 2);
@@ -61,8 +61,8 @@ public class SwitchSide extends CommandGroup {
     protected void initialize(){
     	intakeIn.SetParam(0.3);
     	driveForward.SetParam(
-            Preferences.getInstance().getDouble("AUTON Forward Speed", 0.7), 
-    		Constants.kWallToSwitch - (Constants.kChassisLength / 2.0)
+            0.5, 
+    		Constants.kWallToSwitchRL + 20.0
         );
     	if(side == 'L'){
     		turnToSwitch.SetParam(0.31, 90*(Math.PI/180f));
@@ -73,6 +73,6 @@ public class SwitchSide extends CommandGroup {
         	turnDownField.SetParam(-0.6, -90*(Math.PI/180f));
     	}
     	intakeOut.SetParam(-0.4);
-    	driveDownField.SetParam(0.7, 70.0);
+    	driveDownField.SetParam(0.5, 70.0);
     }
 }
