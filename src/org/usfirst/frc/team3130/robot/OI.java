@@ -175,7 +175,7 @@ public class OI {
 		testTurn.setParam(90,2);
 		
 		//Bind buttons to commands
-		changeDriveMode.whenPressed(new ChangeDriveMode());
+		//changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
