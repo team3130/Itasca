@@ -8,7 +8,6 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
-import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
@@ -97,7 +96,6 @@ public class Robot extends TimedRobot {
 		
 		//Auton command to run chooser
 		chooser.addObject("Test Path", "Test Path");
-		chooser.addObject("Test MP", "Test MP");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
@@ -226,9 +224,6 @@ public class Robot extends TimedRobot {
     	switch(chosenOne){
     	case "Test Path":
     		autonomousCommand = new TestPath();
-		case "Test MP":
-			autonomousCommand = new RunMotionProfiles();
-			break;
 		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
