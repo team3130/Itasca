@@ -8,7 +8,6 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
-import org.usfirst.frc.team3130.robot.autoCommands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
@@ -222,9 +221,6 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
-		case "Test MP":
-			autonomousCommand = new RunMotionProfiles();
-			break;
 		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
