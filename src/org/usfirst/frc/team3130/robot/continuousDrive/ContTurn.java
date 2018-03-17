@@ -43,8 +43,8 @@ public abstract class ContTurn extends ContinuousDrive{
     }
 
 	@Override
-	public void SetParam(double percentVBus, double angle) {
-		super.SetParam(percentVBus, angle);
+	public void SetParam(double percentVBus, double angle, boolean shiftDown) {
+		super.SetParam(percentVBus, angle, shiftDown);
 		if(angle<0) leftOutside = false;
 		else leftOutside = true;
 	}

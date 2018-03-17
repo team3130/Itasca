@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 	
 	Command autonomousCommand;
 	private SendableChooser<String> chooser  = new SendableChooser<String>();
-	private SendableChooser<String> startPos = new SendableChooser<String>();
+	public static SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
 	//VisionServer mVisionServer = VisionServer.getInstance();
 	
@@ -88,12 +88,12 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addDefault("No Auton", null);
-		//chooser.addObject("Test MP", "Test MP");
-		chooser.addObject("Baseline", "Baseline");
+		chooser.addObject("Test MP", "Test MP");
+		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
+		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
 
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
 		Logger.logRobotDisabled();
 		CubeIntake.reset();
 		HookDeploy.reset();
-		Chassis.ResetEncoders();
+		//Chassis.ResetEncoders();
 		Chassis.ReleaseAngle();
 		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);
@@ -233,8 +233,8 @@ public class Robot extends TimedRobot {
 					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
-					autonomousCommand = new PassBaseline();
-					System.out.println("Cancelling Switch Side");
+					System.out.println("Scale Right");
+					autonomousCommand = new ScaleOnly('R');
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
@@ -250,8 +250,8 @@ public class Robot extends TimedRobot {
 					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
-					autonomousCommand = new PassBaseline();
-					System.out.println("Cancelling Switch Side");
+					System.out.println("Scale Left");
+					autonomousCommand = new ScaleOnly('L');
 				}
 			}
 			break;

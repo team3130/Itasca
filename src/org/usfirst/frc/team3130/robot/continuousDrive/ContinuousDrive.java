@@ -11,6 +11,7 @@ public abstract class ContinuousDrive extends Command {
 	double valFinal = 0;
 	
 	boolean heldAngle = false;
+	boolean shiftDown;
 	boolean done = false;
 	
 	ContinuousDrive prev = null;
@@ -32,7 +33,7 @@ public abstract class ContinuousDrive extends Command {
 		done = false;
 		heldAngle = false;
 		Chassis.ReleaseAngle();
-		Chassis.ShiftDown(true);
+		Chassis.ShiftDown(shiftDown);
 		Chassis.TalonsToCoast(false);
     	valPrev = getPos();
 	}
@@ -60,10 +61,11 @@ public abstract class ContinuousDrive extends Command {
 	 * @param percentVBus the percentVBus at which to drive
 	 * @param endVal the value to move
 	 */
-	void SetParam(double percentVBus, double endVal)
+	void SetParam(double percentVBus, double endVal, boolean shiftDown)
 	{
 		speed=percentVBus;
 		valEnd = endVal;
+		this.shiftDown=shiftDown;
 	}
 	
 	/**

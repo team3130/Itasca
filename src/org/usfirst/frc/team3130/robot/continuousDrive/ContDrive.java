@@ -19,8 +19,8 @@ public class ContDrive extends ContinuousDrive{
     }
 
 	@Override
-	public void SetParam(double percentVBus, double distance) {
-		super.SetParam(percentVBus, distance);
+	public void SetParam(double percentVBus, double distance, boolean shiftDown) {
+		super.SetParam(percentVBus, distance, shiftDown);
 	}
     
 	@Override

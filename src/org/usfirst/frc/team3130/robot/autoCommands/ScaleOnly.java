@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.Constants;
+import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
+import org.usfirst.frc.team3130.robot.commands.HeightSetter;
+import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
@@ -18,133 +21,124 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ScaleOnly extends CommandGroup {
 	
-	private ContDrive     	  driveForward;
-	private ContDrive     	  behindSwitch;
-	private ContDrive     	  toScale;
-	private ContDrive		  backUp;
-	private ContTurnDist  	  turnToScale;
-	private ContTurnDist  	  turnLeft;
-	private ContTurnDist      turnRight;
-	private ElevatorToHeight  elevatorUpSmall;
-	private ElevatorToHeight  elevatorUp;
-	private ElevatorToHeight  elevatorDown;
-	private RunIntakeIn	 	  intakeIn;
-	private RunIntakeOut  	  intakeOut;
-	private AutoDelay	 	  delay1;
-	private AutoDelay	 	  delay2;
-	private AutoDelay	 	  delay3;
-	private AutoDelay	 	  delay4;
-	private AutoDelay	 	  delay5;
-	private char		  	  start;
-	private char		  	  side;
+	private AutoDriveStraightToPoint	driveForward;
+	private AutoDriveStraightToPoint	driveBehind;
+	private AutoDriveStraightToPoint	driveToScale;
+	private AutoDriveStraightToPoint	driveBack;
+	private AutoTurn					turnToScale;
+	private AutoTurn					turnBehind;
+	private ElevatorToHeight			elevatorUp;
+	private RunIntakeIn					intakeIn;
+	private RunIntakeOut				intakeOut;
+	private char						side;
+	
+	private boolean sameSide;
 
-    public ScaleOnly(/*char start, */char side) {
-    	requires(Chassis.GetInstance());
-    	requires(Elevator.GetInstance());
-    	requires(CubeIntake.GetInstance());
-    	
-    	this.side       = side;
-    	//this.start      = start;
-    	driveForward    = new ContDrive();
-    	behindSwitch    = new ContDrive();
-    	backUp		    = new ContDrive();
-    	toScale			= new ContDrive();
-    	turnToScale     = new ContTurnDist();
-    	turnLeft        = new ContTurnDist();
-    	turnRight       = new ContTurnDist();
-    	elevatorUpSmall = new ElevatorToHeight(10.0);
-    	elevatorUp      = new ElevatorToHeight(80.0);
-    	elevatorDown    = new ElevatorToHeight(10.0);
-    	intakeIn        = new RunIntakeIn();
-    	intakeOut       = new RunIntakeOut();
-    	delay1          = new AutoDelay();
-    	delay2          = new AutoDelay();
-    	delay3          = new AutoDelay();
-    	delay4          = new AutoDelay();
-    	delay5          = new AutoDelay();
-    	
-
-		addParallel(intakeIn, 1.0);
-		addParallel(elevatorUpSmall, 1.0);
+	public ScaleOnly(char side) {/*
+		requires(Chassis.GetInstance());
+		requires(Elevator.GetInstance());
+		requires(CubeIntake.GetInstance());*/
 		
-    	//if(start == 'L'){
-    	if(side == 'L'){
-    			addSequential(driveForward, 5.0);
-    			addSequential(delay1, 0.5);
-    			addSequential(turnRight, 1.0);
-    	}/*
-    		else{
-    			addSequential(driveForward, 3.0);
-    			addSequential(delay1, 0.5);
-    			addSequential(turnRight, 1.0);
-    			addSequential(delay2, 0.5);
-    			addSequential(behindSwitch, 4.0);
-    			addSequential(delay3, 0.5);
-    			addSequential(turnLeft, 1.0);
-    			addSequential(delay4, 0.5);
-    			addSequential(toScale, 1.0);
-    			addSequential(delay5, 0.5);
-    			addSequential(turnToScale, 1.0);
-    		}*/
-    	//}
-    	else{
-    		//if(side == 'R'){
-    			addSequential(driveForward, 5.0);
-    			addSequential(delay1, 0.5);
-    			addSequential(turnLeft, 1.0);
-    		}/*
-    		else{
-    			addSequential(driveForward, 3.0);
-    			addSequential(delay1, 0.5);
-    			addSequential(turnLeft, 1.0);
-    			addSequential(delay2, 0.5);
-    			addSequential(behindSwitch, 4.0);
-    			addSequential(delay3, 0.5);
-    			addSequential(turnRight, 1.0);
-    			addSequential(delay4, 0.5);
-    			addSequential(toScale, 1.0);
-    			addSequential(delay5, 0.5);
-    			addSequential(turnToScale, 1.0);
-    		}*/
-    	//}
-
-		addSequential(elevatorUp, 3.0);
-		addSequential(intakeOut, 1.0);
-		addParallel(elevatorDown, 3.0);
-		addSequential(backUp, 1.0);
+		this.side    = side;
+		driveForward = new AutoDriveStraightToPoint();
+		driveBehind = new AutoDriveStraightToPoint();
+		driveToScale = new AutoDriveStraightToPoint();
+		driveBack    = new AutoDriveStraightToPoint();
+		turnToScale  = new AutoTurn();
+		turnBehind   = new AutoTurn();
+		elevatorUp   = new ElevatorToHeight(0);
+		intakeIn     = new RunIntakeIn();
+		intakeOut    = new RunIntakeOut();
+		
+		sameSide	 =Robot.startPos.getSelected().substring(0,1).equalsIgnoreCase(String.valueOf(side));
+		
+		addParallel(intakeIn,1);
+		addSequential(driveForward,4.1);
+		
+		if(sameSide){
+			addSequential(elevatorUp,3);
+			addSequential(turnToScale, 1);
+			addSequential(driveToScale,3);
+			addSequential(intakeOut, 1);
+		}else{
+			addSequential(turnBehind, 2);
+			addSequential(driveBehind,5);
+			addParallel(turnToScale,2);
+			addSequential(elevatorUp,3);
+			addSequential(driveToScale,3);
+			addSequential(intakeOut,1);
+			addSequential(driveBack,2);
+		}
     }
     
-    protected void intialize(){
-    	intakeIn.SetParam(0.6);
-    	intakeOut.SetParam(-0.4);
-    	turnLeft.SetParam(0.3, -Math.PI/2.0);
-    	turnRight.SetParam(0.6, Math.PI / 2.0); 
-    	behindSwitch.SetParam(0.7, Constants.kAllianceWallWidth - (Constants.kChassisBLength));
-    	toScale.SetParam(0.7, 
-    			Constants.kWallToScale - (0.5 * (Constants.kWallToSwitchRL + 
-    			Constants.kWallToSwitchBL) + Constants.kSwitchDepth + 13.0));
-    	backUp.SetParam(-0.4, 10.0);
-    	if(start == 'L'){
-    		if(side == 'L'){
-    			driveForward.SetParam(0.3, Constants.kWallToScale - (Constants.kChassisBLength/2.0));
-    		}
-    		else{
-    			driveForward.SetParam(0.7, 
-    					0.5 * (Constants.kWallToSwitchRL + Constants.kWallToSwitchBL) + 
-    					Constants.kSwitchDepth + 13.0);
-    			turnToScale.SetParam(0.6, -Math.PI/2.0);
-    		}
-    	}
-    	else{
-    		if(side == 'R'){
-    			driveForward.SetParam(0.3, Constants.kWallToScale - (Constants.kChassisLength/2.0));
-    		}
-    		else{
-    			driveForward.SetParam(0.7, 
-    					0.5 * (Constants.kWallToSwitchRR + Constants.kWallToSwitchBR) + 
-    					Constants.kSwitchDepth + 13.0);
-    			turnToScale.SetParam(0.6, Math.PI/2.0);
-    		}
-    	}
+	@Override
+    protected void initialize(){
+    	System.out.println("INIT SCALE ________________");
+    	//Always same
+		intakeIn.SetParam(0.3);
+		elevatorUp.setParam(98);
+		
+
+		
+		if(sameSide){
+			intakeOut.SetParam(-0.7);
+			driveForward.SetParam(
+					525, 
+					20, 
+					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+					false
+				);
+			driveToScale.SetParam(12, 10, 0.4, false);
+			if(side=='L'){
+				turnToScale.setParam(90, 5);
+			}else{
+				turnToScale.setParam(-95, 5);
+			}
+		}else{
+			intakeOut.SetParam(-0.5);
+			driveForward.SetParam(
+					432-50, 
+					5, 
+					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+					false
+				);
+			driveBack.SetParam(
+					-50, 
+					5, 
+					0.3, 
+					false
+				);
+			if(side=='L'){
+				turnBehind.setParam(-95, 1);
+				driveBehind.SetParam(
+						340, 
+						5, 
+						.5, 
+						false
+					);
+				turnToScale.setParam(88, 1);
+				driveToScale.SetParam(
+						50, 
+						5, 
+						0.3, 
+						false
+					);
+			}else{
+				turnBehind.setParam(90, 1);
+				driveBehind.SetParam(
+						310, 
+						5, 
+						.5, 
+						false
+					);
+				turnToScale.setParam(-102, 1);
+				driveToScale.SetParam(
+						50, 
+						5, 
+						0.3, 
+						false
+					);
+			}
+		}
     }
 }

@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
+import org.usfirst.frc.team3130.robot.autoCommands.AutoTurn;
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
 import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
@@ -129,6 +131,9 @@ public class OI {
 	public static JoystickButton testCurve;
 	
 	public static JoystickButton revClimb;
+	
+	private static AutoDriveStraightToPoint testDrive;
+	private static AutoTurn testTurn;
 
 	private OI() {
 		//~~~~~~~~~~~~~~~~~~~~~~Create Controls~~~~~~~~~~~~~~~~~~~~
@@ -163,16 +168,22 @@ public class OI {
 		
 		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
 		
+		testDrive=new AutoDriveStraightToPoint();
+		testDrive.SetParam(150, 5, 1, false);
+		
+		testTurn=new AutoTurn();
+		testTurn.setParam(90,2);
+		
 		//Bind buttons to commands
 		changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
-		testStraight.whileHeld(new TestPIDStraight());
-		testCurve.whileHeld(new TestPIDCurve());
+		testStraight.whileHeld(testDrive);
+		testCurve.whileHeld(testTurn);
 
 		//TODO: Find good defaults
-		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 90)));
+		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));
 		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
 		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
 		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));

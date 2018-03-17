@@ -50,8 +50,8 @@ public class ContTurnDist extends ContTurn{
     }
 
 	@Override
-	public void SetParam(double percentVBus, double angle) {
-		super.SetParam(percentVBus, Constants.kChassisWidth * angle);
+	public void SetParam(double percentVBus, double angle, boolean shiftDown) {
+		super.SetParam(percentVBus, Constants.kChassisWidth * angle, shiftDown);
 		valEnd = Math.abs(valEnd);
 		endAngle = angle;
 	}

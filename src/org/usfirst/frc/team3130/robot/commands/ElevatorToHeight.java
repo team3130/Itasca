@@ -16,6 +16,10 @@ public class ElevatorToHeight extends Command {
         requires(Elevator.GetInstance());
     }
 
+    public void setParam(double dist){
+    	this.dist=dist;
+    }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     	Elevator.setHeight(dist); //distance to travel in inches
@@ -27,7 +31,7 @@ public class ElevatorToHeight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Math.abs(Elevator.getHeight()-dist)<12;
     }
 
     // Called once after isFinished returns true

@@ -42,8 +42,8 @@ public class ContTurnHeading extends ContTurn{
 	}
 
 	@Override
-	public void SetParam(double percentVBus, double angle) {
-		super.SetParam(percentVBus, angle);
+	public void SetParam(double percentVBus, double angle, boolean shiftDown) {
+		super.SetParam(percentVBus, angle, shiftDown);
 	}
 
 	@Override
