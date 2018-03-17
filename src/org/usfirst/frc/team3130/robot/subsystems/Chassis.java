@@ -69,7 +69,8 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
 	
 	public static Timer timer = new Timer();
-	private static double lastTime = 0.0;
+	private static double lastTimeL = 0.0;
+	private static double lastTimeR = 0.0;
 	private static double lastLeftVelocity = 0.0;
 	private static double lastRightVelocity = 0.0;
 	
@@ -539,8 +540,8 @@ public class Chassis extends PIDSubsystem {
 		
 		//ALL PATHFINDER CONSTANTS IN METERS
         //TODO: TUNE CONSTANTS
-        public static double kp = 1.0; 
-        public static double kd = 0.0;
+        public static double kp = Preferences.getInstance().getDouble("PathP" , 2.0); 
+        public static double kd = Preferences.getInstance().getDouble("PathD" ,0.0);
         //TODO: TUNE THESE OR USE JACI's MATH
         public static double gp = 0.0375;
         public static double gd = 0.0;
@@ -551,11 +552,11 @@ public class Chassis extends PIDSubsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 4.0; //TODO: calculate
+        public static final double max_velocity = Preferences.getInstance().getDouble("Path_Velocity" ,2.5); //TODO: calculate
         public static final double kv = 1.0 / max_velocity; 
-        public static final double max_acceleration = 3.8; 
+        public static final double max_acceleration = Preferences.getInstance().getDouble("Path_Acceleration" ,1.5); 
         public static final double ka = 0.05; //0.015
-        public static final double max_jerk = 10.0;
+        public static final double max_jerk = 8.0;
         public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
         public static final double wheel_diameter_R = Constants.kRWheelDiameter * 0.0254;
 
@@ -573,8 +574,8 @@ public class Chassis extends PIDSubsystem {
 	}
 	
 	public static double GetLeftMetricAcceleration() {
-		double deltaT = timer.get() - lastTime;
-		lastTime = timer.get();
+		double deltaT = timer.get() - lastTimeL;
+		lastTimeL = timer.get();
 		double deltaV = GetLeftMetricVelocity() - lastLeftVelocity;
 		lastLeftVelocity = GetLeftMetricVelocity();
 		
@@ -582,8 +583,8 @@ public class Chassis extends PIDSubsystem {
 	}
 	
 	public static double GetRightMetricAcceleration() {
-		double deltaT = timer.get() - lastTime;
-		lastTime = timer.get();
+		double deltaT = timer.get() - lastTimeR;
+		lastTimeR = timer.get();
 		double deltaV = GetRightMetricVelocity() - lastRightVelocity;
 		lastRightVelocity = GetRightMetricVelocity();
 		

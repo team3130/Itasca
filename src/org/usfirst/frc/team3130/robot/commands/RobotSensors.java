@@ -71,7 +71,7 @@ public class RobotSensors extends Command {
     	
     	SmartDashboard.putNumber("Left m/s", Chassis.GetLeftMetricVelocity());
     	SmartDashboard.putNumber("Right m/s", Chassis.GetRightMetricVelocity());
-    	SmartDashboard.putNumber("Right m/s^2", Chassis.GetLeftMetricAcceleration());
+    	SmartDashboard.putNumber("Left m/s^2", Chassis.GetLeftMetricAcceleration());
     	SmartDashboard.putNumber("Right m/s^2", Chassis.GetRightMetricAcceleration());
     	
     	

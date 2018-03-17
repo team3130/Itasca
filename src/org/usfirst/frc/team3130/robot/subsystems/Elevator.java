@@ -48,7 +48,7 @@ public class Elevator extends PIDSubsystem {
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
-		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
+		elevator.config_kP(0, 0.07/*Preferences.getInstance().getDouble("ElevatorP",0.02)*/, 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);
@@ -84,7 +84,7 @@ public class Elevator extends PIDSubsystem {
 
     public synchronized static void setHeight(double height_inches){
     	GetInstance().getPIDController().setPID(
-    			Preferences.getInstance().getDouble("ElevatorP", 0.02),
+    			0.07,
     			0,
     			0
     		);
@@ -115,7 +115,7 @@ public class Elevator extends PIDSubsystem {
      * Hold the current height by PID closed loop
      */
     public static void holdHeight() {
-    	setHeight(getHeight());
+    	addHeight(3.0);
     }
 
     public static void outputToSmartDashboard() {

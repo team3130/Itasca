@@ -7,6 +7,6 @@ public class PathTest {
 	
 	public static Waypoint[]path = new Waypoint[] {
 			new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.0, 1.0, Pathfinder.d2r(90.0)),
+            new Waypoint(5.0, 0.0, Pathfinder.d2r(0.0)),
 	};
 }
