@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,6 +67,11 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
+	
+	public static Timer timer = new Timer();
+	private static double lastTime = 0.0;
+	private static double lastLeftVelocity = 0.0;
+	private static double lastRightVelocity = 0.0;
 	
     private Chassis() {
     	
@@ -556,5 +562,31 @@ public class Chassis extends PIDSubsystem {
         public static final double wheel_base_width = Constants.kChassisWidth * 0.0254;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; //TODO: find
+	}
+	
+	public static double GetLeftMetricVelocity() {
+		return (m_leftMotorFront.getSelectedSensorVelocity(0) * Math.PI * PathConstants.wheel_diameter_L) /  (PathConstants.ticks_per_rev) * 10;
+	}
+	
+	public static double GetRightMetricVelocity() {
+		return (m_rightMotorFront.getSelectedSensorVelocity(0) * Math.PI * PathConstants.wheel_diameter_R) /  (PathConstants.ticks_per_rev) * 10;
+	}
+	
+	public static double GetLeftMetricAcceleration() {
+		double deltaT = timer.get() - lastTime;
+		lastTime = timer.get();
+		double deltaV = GetLeftMetricVelocity() - lastLeftVelocity;
+		lastLeftVelocity = GetLeftMetricVelocity();
+		
+		return (deltaV) / (deltaT); 
+	}
+	
+	public static double GetRightMetricAcceleration() {
+		double deltaT = timer.get() - lastTime;
+		lastTime = timer.get();
+		double deltaV = GetRightMetricVelocity() - lastRightVelocity;
+		lastLeftVelocity = GetRightMetricVelocity();
+		
+		return (deltaV) / (deltaT); 
 	}
 }
