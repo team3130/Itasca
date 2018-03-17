@@ -585,7 +585,7 @@ public class Chassis extends PIDSubsystem {
 		double deltaT = timer.get() - lastTime;
 		lastTime = timer.get();
 		double deltaV = GetRightMetricVelocity() - lastRightVelocity;
-		lastLeftVelocity = GetRightMetricVelocity();
+		lastRightVelocity = GetRightMetricVelocity();
 		
 		return (deltaV) / (deltaT); 
 	}
