@@ -33,6 +33,7 @@ public class ScaleAndSwitch extends CommandGroup {
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
 	private AutoDelay					delay;
+	private AutoDelay					delay2;
 	private AutoDriveStraightToPoint	toSwitch;
 	private char						side;
 
@@ -60,6 +61,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		openIntake   = new IntakeToggle();
 		closeIntake  = new IntakeToggle();
 		delay        = new AutoDelay();
+		delay2       = new AutoDelay();
 		toSwitch     = new AutoDriveStraightToPoint();
 		
 		//addSequential(eleReleaseIntake, 1);
@@ -67,7 +69,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		addSequential(driveForward,4.1);
 		addSequential(elevatorUp,3);
 		addSequential(turnToScale, 1);
-		addSequential(driveToScale,3);
+		//addSequential(driveToScale,3);
 		addSequential(intakeOut, 1);
 		addSequential(driveBack,2);
 		addParallel(elevatorDown, 3);
@@ -77,8 +79,9 @@ public class ScaleAndSwitch extends CommandGroup {
 		addSequential(driveToCube, 3);
 		addSequential(delay, 0.5);
 		addSequential(closeIntake, 0.5);
+		addSequential(delay2, 0.5);
+		addParallel(elevatorUpAgain, 1.5);
 		addSequential(turnToSwitch, 1);
-		addSequential(elevatorUpAgain, 1.5);
 		addSequential(toSwitch, 1);
 		addSequential(depositCube, 1);
     }
@@ -96,37 +99,37 @@ public class ScaleAndSwitch extends CommandGroup {
 		elevatorUpAgain.setParam(40.0);
 		intakeOut.SetParam(-0.7);
 		driveForward.SetParam(
-			525, 
+			430, 
 			20, 
-			Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+			Preferences.getInstance().getDouble("ScaleForwardSpeed", .55), 
 			false
 		);
 		driveBack.SetParam(
-				-30, 
+				-28, 
 				5, 
 				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 				false
 		);
 		driveToCube.SetParam(
-				220, 
+				110, 
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
 				false
 		);
 		toSwitch.SetParam(
 				20, 
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
 				false
 		);
-		driveToScale.SetParam(12, 10, 0.4, false);
+		//driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){
-			turnToScale.setParam(90, 5);
-			turnToCube.setParam(50, 2);
+			turnToScale.setParam(40, 5);
+			turnToCube.setParam(100, 2);
 			//turnToSwitch.setParam(20, 3);
 		}else{
-			turnToScale.setParam(-95, 5);
-			turnToCube.setParam(-70, 2);
+			turnToScale.setParam(-40, 5);
+			turnToCube.setParam(-100, 2);
 			//turnToSwitch.setParam(-20, 3);
 		}
     }
