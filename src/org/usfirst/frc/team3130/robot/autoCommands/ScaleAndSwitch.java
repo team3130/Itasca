@@ -32,6 +32,8 @@ public class ScaleAndSwitch extends CommandGroup {
 	private AutoTurn					turnToSwitch;
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
+	private AutoDelay					delay;
+	private AutoDriveStraightToPoint	toSwitch;
 	private char						side;
 
 	public ScaleAndSwitch(char side) {
@@ -57,8 +59,10 @@ public class ScaleAndSwitch extends CommandGroup {
 		turnToSwitch = new AutoTurn();
 		openIntake   = new IntakeToggle();
 		closeIntake  = new IntakeToggle();
+		delay        = new AutoDelay();
+		toSwitch     = new AutoDriveStraightToPoint();
 		
-		addSequential(eleReleaseIntake, 1);
+		//addSequential(eleReleaseIntake, 1);
 		addParallel(intakeIn,1);
 		addSequential(driveForward,4.1);
 		addSequential(elevatorUp,3);
@@ -69,11 +73,13 @@ public class ScaleAndSwitch extends CommandGroup {
 		addParallel(elevatorDown, 3);
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 5);
+		addSequential(openIntake, 0.5);
 		addSequential(driveToCube, 3);
-		addSequential(openIntake, 1);
-		addSequential(closeIntake, 1);
+		addSequential(delay, 0.5);
+		addSequential(closeIntake, 0.5);
 		addSequential(turnToSwitch, 1);
 		addSequential(elevatorUpAgain, 1.5);
+		addSequential(toSwitch, 1);
 		addSequential(depositCube, 1);
     }
     
@@ -107,15 +113,21 @@ public class ScaleAndSwitch extends CommandGroup {
 				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 				false
 		);
+		toSwitch.SetParam(
+				20, 
+				5, 
+				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+				false
+		);
 		driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){
 			turnToScale.setParam(90, 5);
 			turnToCube.setParam(50, 2);
-			turnToSwitch.setParam(20, 3);
+			//turnToSwitch.setParam(20, 3);
 		}else{
 			turnToScale.setParam(-95, 5);
 			turnToCube.setParam(-70, 2);
-			turnToSwitch.setParam(-20, 3);
+			//turnToSwitch.setParam(-20, 3);
 		}
     }
 }

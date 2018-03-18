@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
@@ -31,6 +32,8 @@ public class SwitchFront2Cube extends CommandGroup {
 	private ElevatorToHeight			elevatorUpAgain;
 	private AutoDriveStraightToPoint	backToSwitch;
 	private RunIntakeOut				intakeOutAgain;
+	private IntakeToggle				intakeOpen;
+	private IntakeToggle				intakeClose;
 	private char						side;
 	
 	public SwitchFront2Cube(char side) {
@@ -56,23 +59,27 @@ public class SwitchFront2Cube extends CommandGroup {
 		elevatorUpAgain		= new ElevatorToHeight(0);
 		backToSwitch		= new AutoDriveStraightToPoint();
 		intakeOutAgain		= new RunIntakeOut();
+		intakeOpen			= new IntakeToggle();
+		intakeClose			= new IntakeToggle();
 		
-		addSequential(eleReleaseIntake,1);
+		//addSequential(eleReleaseIntake,1);
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 2);
-		addSequential(turnToSwitch, 1.5);
+		addSequential(turnToSwitch, 2);
 		addParallel(elevatorUp, 3);
 		addSequential(driveToSwitch, 4);
 		addSequential(intakeOut,1);
 		addSequential(driveBackward, 1.5);
 		addParallel(elevatorDown, 2);
 		addSequential(turnToCubes, 2.0);
+		addSequential(intakeOpen, 0.5);
 		addParallel(intakeCube, 2);
-		addSequential(toCubes, 2);
+		addSequential(toCubes, 1);
+		addSequential(intakeClose, 0.5);
 		addSequential(backFromCubes, 1.5);
 		addSequential(turnBack, 1.5);
 		addParallel(elevatorUpAgain, 3);
-		addSequential(backToSwitch, 2);
+		addSequential(backToSwitch, 3);
 		addSequential(intakeOutAgain, 1);
 	}
 
@@ -96,12 +103,7 @@ public class SwitchFront2Cube extends CommandGroup {
 				0.5,
 				false
 		);
-		toCubes.SetParam(
-				40, 
-				2,
-				0.5,
-				false
-		);
+		
 		backFromCubes.SetParam(
 				-40, 
 				2,
@@ -109,13 +111,13 @@ public class SwitchFront2Cube extends CommandGroup {
 				false
 		);
 		backToSwitch.SetParam(
-				80, 
+				115, 
 				2,
 				0.5,
 				false
 		);
 		if(side=='L'){
-			turnToSwitch.setParam(-40, 2);
+			turnToSwitch.setParam(-30, 2);
 			driveToSwitch.SetParam(
 					138,
 					5,
@@ -124,17 +126,28 @@ public class SwitchFront2Cube extends CommandGroup {
 				);
 			turnToCubes.setParam(60, 2);
 			turnBack.setParam(-60, 2);
+			toCubes.SetParam(
+					55, 
+					2,
+					0.5,
+					false
+			);
 		}else{
-			turnToSwitch.setParam(50,2);
+			turnToSwitch.setParam(32,2);
 			driveToSwitch.SetParam(
-					162,
+					147,
 					5,
 					0.5, 
 					false
 				);
-			turnToCubes.setParam(-60, 2);
-			turnBack.setParam(60, 2);
+			turnToCubes.setParam(-53, 2);
+			turnBack.setParam(50, 2);
+			toCubes.SetParam(
+					40, 
+					2,
+					0.5,
+					false
+			);
 		}
 	}
 }
-
