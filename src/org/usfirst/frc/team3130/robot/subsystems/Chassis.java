@@ -574,20 +574,20 @@ public class Chassis extends PIDSubsystem {
 	}
 	
 	public static double GetLeftMetricAcceleration() {
-		double deltaT = timer.get() - lastTimeL;
-		lastTimeL = timer.get();
+		//double deltaT = timer.get() - lastTimeL;
+		//lastTimeL = timer.get();
 		double deltaV = GetLeftMetricVelocity() - lastLeftVelocity;
 		lastLeftVelocity = GetLeftMetricVelocity();
 		
-		return (deltaV) / (deltaT); 
+		return (deltaV) / (0.02); 
 	}
 	
 	public static double GetRightMetricAcceleration() {
-		double deltaT = timer.get() - lastTimeR;
-		lastTimeR = timer.get();
+		//double deltaT = timer.get() - lastTimeR;
+		//lastTimeR = timer.get();
 		double deltaV = GetRightMetricVelocity() - lastRightVelocity;
 		lastRightVelocity = GetRightMetricVelocity();
 		
-		return (deltaV) / (deltaT); 
+		return (deltaV) / (0.02); 
 	}
 }
