@@ -66,9 +66,9 @@ public class ScaleOnly extends CommandGroup {
 		}else{
 			addSequential(turnBehind, 2);
 			addSequential(driveBehind,5);
-			addParallel(turnToScale,2);
+			addSequential(turnToScale,1);
 			addSequential(elevatorUp,3);
-			addSequential(driveToScale,3);
+			addSequential(driveToScale,1.5);
 			addSequential(intakeOut,1);
 			addSequential(driveBack,2);
 		}
@@ -86,7 +86,7 @@ public class ScaleOnly extends CommandGroup {
 		if(sameSide){
 			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
-					525, 
+					510, 
 					20, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -100,7 +100,7 @@ public class ScaleOnly extends CommandGroup {
 		}else{
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					432-50, 
+					380, 
 					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -112,14 +112,14 @@ public class ScaleOnly extends CommandGroup {
 					false
 				);
 			if(side=='L'){
-				turnBehind.setParam(-95, 1);
+				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
-						340, 
+						344, 
 						5, 
 						.5, 
 						false
 					);
-				turnToScale.setParam(88, 1);
+				turnToScale.setParam(82, 1);
 				driveToScale.SetParam(
 						50, 
 						5, 
@@ -129,12 +129,12 @@ public class ScaleOnly extends CommandGroup {
 			}else{
 				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
-						310, 
+						332, 
 						5, 
 						.5, 
 						false
 					);
-				turnToScale.setParam(-102, 1);
+				turnToScale.setParam(-87, 1);
 				driveToScale.SetParam(
 						50, 
 						5, 

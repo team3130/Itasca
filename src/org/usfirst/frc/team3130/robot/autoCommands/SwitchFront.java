@@ -63,7 +63,7 @@ public class SwitchFront extends CommandGroup {
 		
 		
 		if(side=='L'){
-			turnToSwitch.setParam(-40, 2);
+			turnToSwitch.setParam(-32, 2);
 			driveToSwitch.SetParam(
 					150,
 					5,
@@ -71,7 +71,7 @@ public class SwitchFront extends CommandGroup {
 					false
 				);
 		}else{
-			turnToSwitch.setParam(50,2);
+			turnToSwitch.setParam(42,2);
 			driveToSwitch.SetParam(
 					174,
 					5,

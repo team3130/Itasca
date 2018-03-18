@@ -65,7 +65,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		addSequential(eleReleaseIntake,1);
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 2);
-		addSequential(turnToSwitch, 2);
+		addSequential(turnToSwitch, 1.5);
 		addParallel(elevatorUp, 3);
 		addSequential(driveToSwitch, 4);
 		addSequential(intakeOut,1);
@@ -87,7 +87,7 @@ public class SwitchFront2Cube extends CommandGroup {
 	protected void initialize(){
 		intakeIn.SetParam(0.7);
 		intakeCube.SetParam(0.8);
-		intakeOut.SetParam(-0.7);
+		intakeOut.SetParam(-0.6);
 		intakeOutAgain.SetParam(-0.7);
 		elevatorUp.setParam(40);
 		elevatorUpAgain.setParam(40);
@@ -113,7 +113,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		backToSwitch.SetParam(
 				115, 
 				2,
-				0.5,
+				0.4,
 				false
 		);
 		if(side=='L'){
@@ -121,7 +121,7 @@ public class SwitchFront2Cube extends CommandGroup {
 			driveToSwitch.SetParam(
 					138,
 					5,
-					0.5, 
+					0.4, 
 					false
 				);
 			turnToCubes.setParam(60, 2);
@@ -133,11 +133,11 @@ public class SwitchFront2Cube extends CommandGroup {
 					false
 			);
 		}else{
-			turnToSwitch.setParam(32,2);
+			turnToSwitch.setParam(35,2);
 			driveToSwitch.SetParam(
 					147,
 					5,
-					0.5, 
+					0.4, 
 					false
 				);
 			turnToCubes.setParam(-53, 2);

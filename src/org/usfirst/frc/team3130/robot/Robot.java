@@ -268,13 +268,13 @@ public class Robot extends TimedRobot {
 			break;
 		case "Scale Switch":
 			if(start.equals("Left")){
-				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(0) == 'L')
+				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(1) == 'L')
 					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
 				else
 					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
 			}
 			else{
-				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(0) == 'R')
+				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(1) == 'R')
 					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
 				else
 					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
