@@ -462,15 +462,15 @@ public class Chassis extends PIDSubsystem {
         String pathHash = String.valueOf(generateHashCode(path));
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;// = Pathfinder.generate(path, cfg);
-        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
-        if (!trajectory.exists()) {
+        //File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        //if (!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
-            Pathfinder.writeToCSV(trajectory, toFollow);
-            System.out.println(pathHash + ".csv not found, wrote to file");
-        } else {
-            System.out.println(pathHash + ".csv read from file");
-            toFollow = Pathfinder.readFromCSV(trajectory);
-        }
+            //Pathfinder.writeToCSV(trajectory, toFollow);
+            //System.out.println(pathHash + ".csv not found, wrote to file");
+        //} else {
+            //System.out.println(pathHash + ".csv read from file");
+            //toFollow = Pathfinder.readFromCSV(trajectory);
+        //}
 
         TankModifier modifier = new TankModifier(toFollow).modify(PathConstants.wheel_base_width);
         PathConstants.last_gyro_error = 0.0;
@@ -552,9 +552,9 @@ public class Chassis extends PIDSubsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = Preferences.getInstance().getDouble("Path_Velocity" ,2.5); //TODO: calculate
+        public static final double max_velocity = 2.5; //TODO: calculate
         public static final double kv = 1.0 / max_velocity; 
-        public static final double max_acceleration = Preferences.getInstance().getDouble("Path_Acceleration" ,1.5); 
+        public static final double max_acceleration = 2.4; 
         public static final double ka = 0.05; //0.015
         public static final double max_jerk = 8.0;
         public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
