@@ -1,9 +1,12 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
+import org.usfirst.frc.team3130.robot.subsystems.Chassis;
+import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
+import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -26,12 +29,15 @@ public class ScaleAndSwitch extends CommandGroup {
 	private RunIntakeIn					intakeCube;
 	private AutoDriveStraightToPoint    driveToCube;
 	private RunIntakeOut				depositCube;
+	private AutoTurn					turnToSwitch;
+	private IntakeToggle				openIntake;
+	private IntakeToggle				closeIntake;
 	private char						side;
 
-	public ScaleAndSwitch(char side) {/*
+	public ScaleAndSwitch(char side) {
 		requires(Chassis.GetInstance());
 		requires(Elevator.GetInstance());
-		requires(CubeIntake.GetInstance());*/
+		requires(CubeIntake.GetInstance());
 		
 		this.side    = side;
 		driveForward = new AutoDriveStraightToPoint();
@@ -48,6 +54,9 @@ public class ScaleAndSwitch extends CommandGroup {
 		intakeCube   = new RunIntakeIn();
 		elevatorUpAgain = new ElevatorToHeight(0);
 		depositCube  = new RunIntakeOut();
+		turnToSwitch = new AutoTurn();
+		openIntake   = new IntakeToggle();
+		closeIntake  = new IntakeToggle();
 		
 		addSequential(eleReleaseIntake, 1);
 		addParallel(intakeIn,1);
@@ -61,6 +70,9 @@ public class ScaleAndSwitch extends CommandGroup {
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 4);
 		addSequential(driveToCube, 3);
+		addSequential(openIntake, 0.5);
+		addSequential(closeIntake, 0.5);
+		addSequential(turnToSwitch, 1);
 		addSequential(elevatorUpAgain, 1.5);
 		addSequential(depositCube, 1);
     }
@@ -90,18 +102,20 @@ public class ScaleAndSwitch extends CommandGroup {
 				false
 		);
 		driveToCube.SetParam(
-				100, 
+				200, 
 				5, 
-				0., 
+				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 				false
 		);
 		driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){
 			turnToScale.setParam(90, 5);
-			turnToCube.setParam(40, 2);
+			turnToCube.setParam(70, 2);
+			turnToSwitch.setParam(20, 3);
 		}else{
 			turnToScale.setParam(-95, 5);
-			turnToCube.setParam(-40, 2);
+			turnToCube.setParam(-70, 2);
+			turnToSwitch.setParam(-20, 3);
 		}
     }
 }
