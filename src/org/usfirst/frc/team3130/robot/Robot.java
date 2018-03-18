@@ -8,6 +8,7 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
@@ -93,6 +94,7 @@ public class Robot extends TimedRobot {
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
 		chooser.addObject("Switch x2", "Switch x2");
+		chooser.addObject("Scale Switch", "Scale Switch");
 		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -263,6 +265,20 @@ public class Robot extends TimedRobot {
 			break;
 		case "Switch x2":
 			autonomousCommand = new SwitchFront2Cube(fieldInfo.charAt(0));
+			break;
+		case "Scale Switch":
+			if(start.equals("Left")){
+				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(0) == 'L')
+					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
+				else
+					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+			}
+			else{
+				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(0) == 'R')
+					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
+				else
+					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+			}
 			break;
 		default:
 			autonomousCommand = null;

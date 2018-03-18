@@ -84,7 +84,7 @@ public class RobotMap {
 	
 	//Hook Deploy
 	public static final int PNM_HOOKACTUATE = 4;
-	public static final int BTN_HOOKACTUATE = LST_BTN_Y;
+	public static final int BTN_HOOKACTUATE = LST_BTN_LBUMPER;
 	public static final int AXS_HOOKDEPLOY = LST_AXS_LJOYSTICKY;
 	
 	//Wings
