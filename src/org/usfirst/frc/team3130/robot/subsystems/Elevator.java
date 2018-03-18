@@ -48,7 +48,7 @@ public class Elevator extends PIDSubsystem {
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
-		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.02), 0);
+		elevator.config_kP(0, Preferences.getInstance().getDouble("ElevatorP",0.07), 0);
 		elevator.config_kI(0, Constants.kElevatorI, 0);
 		elevator.config_kD(0, Constants.kElevatorD, 0);
 		elevator.config_kF(0, Constants.kElevatorF, 0);

@@ -68,10 +68,10 @@ public class ScaleAndSwitch extends CommandGroup {
 		addSequential(driveBack,2);
 		addParallel(elevatorDown, 3);
 		addSequential(turnToCube, 1.5);
-		addParallel(intakeCube, 4);
+		addParallel(intakeCube, 5);
 		addSequential(driveToCube, 3);
-		addSequential(openIntake, 0.5);
-		addSequential(closeIntake, 0.5);
+		addSequential(openIntake, 1);
+		addSequential(closeIntake, 1);
 		addSequential(turnToSwitch, 1);
 		addSequential(elevatorUpAgain, 1.5);
 		addSequential(depositCube, 1);
@@ -96,13 +96,13 @@ public class ScaleAndSwitch extends CommandGroup {
 			false
 		);
 		driveBack.SetParam(
-				-50, 
+				-30, 
 				5, 
 				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 				false
 		);
 		driveToCube.SetParam(
-				200, 
+				220, 
 				5, 
 				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 				false
@@ -110,7 +110,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){
 			turnToScale.setParam(90, 5);
-			turnToCube.setParam(70, 2);
+			turnToCube.setParam(50, 2);
 			turnToSwitch.setParam(20, 3);
 		}else{
 			turnToScale.setParam(-95, 5);

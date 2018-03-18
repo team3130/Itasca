@@ -17,6 +17,7 @@ public class IntakeToggle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	CubeIntake.toggleIntake();
+    	System.out.println("Toggling intake");
     }
 
     // Called repeatedly when this Command is scheduled to run
