@@ -23,12 +23,13 @@ public class RunPath extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Chassis.GetInstance().resetForPath();
-    	Chassis.GetInstance().pathFollow(followers, false);
+    	//Chassis.GetInstance().pathFollow(followers, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Chassis.GetInstance().pathFollow(followers, false);
+    	System.out.println("Trying to run path___________");
+    	Chassis.GetInstance().pathFollow(followers, true);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,6 +39,7 @@ public class RunPath extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("path finished_________________");
     	Chassis.DriveTank(0,0);
     }
 

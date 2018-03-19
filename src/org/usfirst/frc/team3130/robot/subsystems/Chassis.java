@@ -491,27 +491,32 @@ public class Chassis extends PIDSubsystem {
         EncoderFollower right = followers[1];
         double l;
         double r;
-        double localGp = PathConstants.gp;
-        if (!reverse) {
+        //double localGp = PathConstants.gp;
+        l = left.calculate(m_leftMotorFront.getSelectedSensorPosition(0));
+        r = right.calculate(m_rightMotorFront.getSelectedSensorPosition(0));
+        /*if (!reverse) {
             localGp *= -1;
             l = left.calculate(-m_leftMotorFront.getSelectedSensorPosition(0));
             r = right.calculate(-m_rightMotorFront.getSelectedSensorPosition(0));
         } else {
             l = left.calculate(m_leftMotorFront.getSelectedSensorPosition(0));
             r = right.calculate(m_rightMotorFront.getSelectedSensorPosition(0));
-        }
+        }*/
 
-        double gyro_heading = reverse ? GetAngle() - PathConstants.path_angle_offset : -GetAngle() + PathConstants.path_angle_offset;
+        //double gyro_heading = reverse ? GetAngle() - PathConstants.path_angle_offset : -GetAngle() + PathConstants.path_angle_offset;
+        double gyro_heading = -GetAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
         SmartDashboard.putNumber("Angle difference", angleDifference);
 
-        double turn = localGp * angleDifference + (PathConstants.gd *
-                ((angleDifference - PathConstants.last_gyro_error) / PathConstants.dt));
+        double turn = 0.8 * (1.0/80.0) * angleDifference;
+        /*double turn = localGp * angleDifference + (PathConstants.gd *
+                ((angleDifference - PathConstants.last_gyro_error) / PathConstants.dt));*/
 
         PathConstants.last_gyro_error = angleDifference;
-
+        System.out.print("error " + angleDifference);
+        System.out.println(" Gyro angle "+ gyro_heading);
         if (left != null && !left.isFinished()) {
             //SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
@@ -523,11 +528,12 @@ public class Chassis extends PIDSubsystem {
             SmartDashboard.putNumber("Path angle offset", PathConstants.path_angle_offset);
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + PathConstants.path_angle_offset);
         }
-        if (!reverse) {
+        DriveTank(l + turn,r - turn);
+        /*if (!reverse) {
             DriveTank(l + turn, r - turn);
         } else {
         	DriveTank(-l + turn, -r - turn);
-        }
+        }*/
 
         if (left.isFinished() && right.isFinished()) {
             pathFinished = true;
@@ -540,8 +546,8 @@ public class Chassis extends PIDSubsystem {
 		
 		//ALL PATHFINDER CONSTANTS IN METERS
         //TODO: TUNE CONSTANTS
-        public static double kp = Preferences.getInstance().getDouble("PathP" , 2.0); 
-        public static double kd = Preferences.getInstance().getDouble("PathD" ,0.0);
+        public static double kp = 5.0; 
+        public static double kd = 0.0;
         //TODO: TUNE THESE OR USE JACI's MATH
         public static double gp = 0.0375;
         public static double gd = 0.0;
@@ -552,11 +558,11 @@ public class Chassis extends PIDSubsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 2.5; //TODO: calculate
+        public static final double max_velocity = 1.2; //TODO: calculate
         public static final double kv = 1.0 / max_velocity; 
-        public static final double max_acceleration = 2.4; 
+        public static final double max_acceleration = 1.1; 
         public static final double ka = 0.05; //0.015
-        public static final double max_jerk = 8.0;
+        public static final double max_jerk = 10.0;
         public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
         public static final double wheel_diameter_R = Constants.kRWheelDiameter * 0.0254;
 

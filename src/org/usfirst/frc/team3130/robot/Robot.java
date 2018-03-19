@@ -155,10 +155,10 @@ public class Robot extends TimedRobot {
 		Elevator.holdHeight();
 		Chassis.ReleaseAngle();
 		
-		determineAuton();
+		//determineAuton();
 
 		//Hardcoding here
-		//autonomousCommand = new SwitchSide(fieldInfo.charAt(0));
+		autonomousCommand = new TestPath();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
