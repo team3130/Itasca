@@ -68,7 +68,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		addParallel(intakeIn,1);
 		addSequential(driveForward,4.1);
 		addSequential(elevatorUp,2);
-		addSequential(turnToScale, 1);
+		addSequential(turnToScale, 1.1);
 		//addSequential(driveToScale,3);
 		addSequential(intakeOut, 1);
 		addSequential(driveBack,2);
@@ -93,7 +93,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		intakeIn.SetParam(0.3);
 		intakeCube.SetParam(0.6);
 		intakeOut.SetParam(-0.9);
-		depositCube.SetParam(-0.7);
+		depositCube.SetParam(-0.6);
 		elevatorUp.setParam(98);
 		elevatorDown.setParam(3.0);
 		elevatorUpAgain.setParam(40.0);
@@ -128,8 +128,8 @@ public class ScaleAndSwitch extends CommandGroup {
 			turnToCube.setParam(95, 2);
 			//turnToSwitch.setParam(20, 3);
 		}else{
-			turnToScale.setParam(-45, 5);
-			turnToCube.setParam(-95, 2);
+			turnToScale.setParam(-55, 2);
+			turnToCube.setParam(-94, 2);
 			//turnToSwitch.setParam(-20, 3);
 		}
     }
