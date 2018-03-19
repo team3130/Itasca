@@ -100,7 +100,7 @@ public class ScaleOnly extends CommandGroup {
 		}else{
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					380, 
+					374, 
 					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -114,7 +114,7 @@ public class ScaleOnly extends CommandGroup {
 			if(side=='L'){
 				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
-						344, 
+						332, 
 						5, 
 						.5, 
 						false
