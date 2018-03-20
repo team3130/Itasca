@@ -51,6 +51,7 @@ public class SwitchFront extends CommandGroup {
 
 	@Override
 	protected void initialize(){
+		//Always used
 		intakeIn.SetParam(0.3);
 		intakeOut.SetParam(-0.4);
 		elevatorUp.setParam(40);
@@ -62,7 +63,7 @@ public class SwitchFront extends CommandGroup {
 			);
 		
 		
-		if(side=='L'){
+		if(side=='L'){		//Switch on left
 			turnToSwitch.setParam(-32, 2);
 			driveToSwitch.SetParam(
 					150,
@@ -70,7 +71,7 @@ public class SwitchFront extends CommandGroup {
 					0.5, 
 					false
 				);
-		}else{
+		}else{				//Switch on right
 			turnToSwitch.setParam(42,2);
 			driveToSwitch.SetParam(
 					174,

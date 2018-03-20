@@ -83,7 +83,7 @@ public class ScaleOnly extends CommandGroup {
 		
 
 		
-		if(sameSide){
+		if(sameSide){			//Scale is same side as start
 			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
 					510, 
@@ -92,12 +92,12 @@ public class ScaleOnly extends CommandGroup {
 					false
 				);
 			driveToScale.SetParam(12, 10, 0.4, false);
-			if(side=='L'){
+			if(side=='L'){			//Scale is on left
 				turnToScale.setParam(90, 5);
-			}else{
+			}else{					//Scale is on right
 				turnToScale.setParam(-95, 5);
 			}
-		}else{
+		}else{					//Scale is on opposite side of start
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
 					374, 
@@ -111,7 +111,7 @@ public class ScaleOnly extends CommandGroup {
 					0.3, 
 					false
 				);
-			if(side=='L'){
+			if(side=='L'){			//Scale is on left
 				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
 						332, 
@@ -126,7 +126,7 @@ public class ScaleOnly extends CommandGroup {
 						0.3, 
 						false
 					);
-			}else{
+			}else{					//Scale is on right
 				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
 						332, 

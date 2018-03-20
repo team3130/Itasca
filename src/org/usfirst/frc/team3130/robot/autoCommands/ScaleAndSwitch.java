@@ -123,11 +123,11 @@ public class ScaleAndSwitch extends CommandGroup {
 				false
 		);
 		//driveToScale.SetParam(12, 10, 0.4, false);
-		if(side=='L'){
+		if(side=='L'){		//Left Side Scale, Switch, and Start
 			turnToScale.setParam(45, 5);
 			turnToCube.setParam(95, 2);
 			//turnToSwitch.setParam(20, 3);
-		}else{
+		}else{				//Right Side Scale, Switch, and Start
 			turnToScale.setParam(-55, 2);
 			turnToCube.setParam(-94, 2);
 			//turnToSwitch.setParam(-20, 3);

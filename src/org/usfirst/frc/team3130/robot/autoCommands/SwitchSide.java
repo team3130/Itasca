@@ -67,9 +67,9 @@ public class SwitchSide extends CommandGroup {
 				0.5, 
 				false);
 		driveToSwitch.SetParam(40, 10, 0.4, false);
-		if(side=='L'){
+		if(side=='L'){			//Switch and Start on left
 			turnToSwitch.setParam(90, 5);
-		}else{
+		}else{					//Switch and start on right
 			turnToSwitch.setParam(-95, 5);
 		}
 	}
