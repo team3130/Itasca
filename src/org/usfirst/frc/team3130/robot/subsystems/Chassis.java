@@ -290,6 +290,7 @@ public class Chassis extends PIDSubsystem {
     
 	public static double GetAngle()
 	{
+		System.out.println("navx "+m_bNavXPresent);
 		if(m_bNavXPresent)
 		{
 			//Angle use wants a faster, more accurate, but drifting angle, for quick use.
