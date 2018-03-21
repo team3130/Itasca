@@ -294,6 +294,7 @@ public class Chassis extends PIDSubsystem {
 		if(m_bNavXPresent)
 		{
 			//Angle use wants a faster, more accurate, but drifting angle, for quick use.
+			System.out.println(m_navX.getAngle());
 			return m_navX.getAngle();
 		}else {
 			//Means that angle use wants a driftless angle measure that lasts.
