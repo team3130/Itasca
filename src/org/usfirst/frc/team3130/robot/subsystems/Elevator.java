@@ -142,9 +142,9 @@ public class Elevator extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		if(output>0){
-			output*=0.6;
+			if(output>0.6) output = 0.6;
 		}else{
-			output*=0.3;
+			if(output<-0.3) output = -0.3;
 		}
 		elevator.set(ControlMode.PercentOutput, output);
 	}
