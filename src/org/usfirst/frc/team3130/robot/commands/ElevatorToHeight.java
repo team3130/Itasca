@@ -22,7 +22,7 @@ public class ElevatorToHeight extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Elevator.setHeight(dist); //distance to travel in inches
+    	Elevator.setHeight(dist-3.0); //distance to travel in inches
     }
 
     // Called repeatedly when this Command is scheduled to run

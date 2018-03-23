@@ -93,7 +93,7 @@ public class Elevator extends PIDSubsystem {
     }
 
     public synchronized static double getHeight(){
-    	return elevator.getSensorCollection().getQuadraturePosition() / Constants.kElevatorTicksPerInch; //Returns height in inches
+    	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
     }
 
     /**
@@ -115,7 +115,7 @@ public class Elevator extends PIDSubsystem {
      * Hold the current height by PID closed loop
      */
     public static void holdHeight() {
-    	addHeight(3.0);
+    	setHeight(getHeight());
     }
 
     public static void outputToSmartDashboard() {
@@ -142,7 +142,7 @@ public class Elevator extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		if(output>0){
-			if(output>0.6) output = 0.6;
+			if(output>0.8) output = 0.8;
 		}else{
 			if(output<-0.3) output = -0.3;
 		}
