@@ -48,7 +48,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		driveBack    = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
-		eleReleaseIntake = new ElevatorToHeight(3);
+		eleReleaseIntake = new ElevatorToHeight(8);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
 		elevatorDown = new ElevatorToHeight(3);

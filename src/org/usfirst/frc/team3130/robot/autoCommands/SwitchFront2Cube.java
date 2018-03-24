@@ -47,7 +47,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		driveToSwitch		= new AutoDriveStraightToPoint();
 		intakeIn			= new RunIntakeIn();
 		elevatorUp			= new ElevatorToHeight(0);
-		eleReleaseIntake    = new ElevatorToHeight(3);
+		eleReleaseIntake    = new ElevatorToHeight(8);
 		intakeOut			= new RunIntakeOut();
 		driveBackward		= new AutoDriveStraightToPoint();
 		elevatorDown		= new ElevatorToHeight(3);
@@ -79,16 +79,17 @@ public class SwitchFront2Cube extends CommandGroup {
 		addSequential(backFromCubes, 1.5);
 		addSequential(turnBack, 1.5);
 		addParallel(elevatorUpAgain, 3);
-		addSequential(backToSwitch, 3);
+		addSequential(backToSwitch, 2.5);
 		addSequential(intakeOutAgain, 1);
 	}
 
 	@Override
 	protected void initialize(){
+
 		intakeIn.SetParam(0.7);
 		intakeCube.SetParam(0.8);
 		intakeOut.SetParam(-0.6);
-		intakeOutAgain.SetParam(-0.7);
+		intakeOutAgain.SetParam(-0.5);
 		elevatorUp.setParam(40);
 		elevatorUpAgain.setParam(40);
 		driveForward.SetParam(

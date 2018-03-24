@@ -171,7 +171,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.logTeleopInit();
-		
+		Climber.resetClimbDir();
 		Elevator.holdHeight();
 
 		// This makes sure that the autonomous stops running when

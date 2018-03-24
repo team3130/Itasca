@@ -40,7 +40,7 @@ public class BlinkinInterface extends Subsystem {
     	else if (range > 200) {
     		GetInstance().defaultPattern();
     	}
-    	else if (range > 160) {
+    	else if (range > 140) {
     		GetInstance().setPattern(0.61);
     	}
     	else {
