@@ -179,8 +179,8 @@ public class OI {
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
-		testStraight.whileHeld(testDrive);
-		testCurve.whileHeld(testTurn);
+		//testStraight.whileHeld(testDrive);
+		//testCurve.whileHeld(testTurn);
 
 		//TODO: Find good defaults
 		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));

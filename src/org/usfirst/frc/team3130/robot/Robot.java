@@ -49,9 +49,9 @@ public class Robot extends TimedRobot {
 	//VisionServer mVisionServer = VisionServer.getInstance();
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
-    Looper mEnabledLooper = new Looper();
+    //Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 10Hz whenever the robot is disabled
-    Looper mDisabledLooper = new Looper();
+    //Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
 	//public static Compressor compressor = new Compressor(1);
@@ -120,8 +120,8 @@ public class Robot extends TimedRobot {
 		Chassis.ReleaseAngle();
 		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);
-		mEnabledLooper.stop();
-        mDisabledLooper.start();
+		//mEnabledLooper.stop();
+        //mDisabledLooper.start();
 		//locationCollector.start();
 	}
 
@@ -156,8 +156,8 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+       // mDisabledLooper.stop();
+       // mEnabledLooper.start();
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+        //mDisabledLooper.stop();
+        //mEnabledLooper.start();
 	}
 
 	/**

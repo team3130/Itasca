@@ -130,7 +130,7 @@ public class Elevator extends PIDSubsystem {
     	//Zero Handling
     	if(elevator.getSensorCollection().isRevLimitSwitchClosed()){
     		elevator.getSensorCollection().setQuadraturePosition(0, 25);
-    		System.out.println("Zero!");
+    		//System.out.println("Zero!");
     	}
     }
 
