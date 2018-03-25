@@ -45,10 +45,17 @@ public class MotionProfileExample {
 	 * Instead of creating a new one every time we call getMotionProfileStatus,
 	 * keep one copy.
 	 */
-	private MotionProfileStatus _status = new MotionProfileStatus();
+	private MotionProfileStatus _statusL = new MotionProfileStatus();
+	
+	/**
+	 * The status of the motion profile executer and buffer inside the Talon.
+	 * Instead of creating a new one every time we call getMotionProfileStatus,
+	 * keep one copy.
+	 */
+	private MotionProfileStatus _statusR = new MotionProfileStatus();
 
 	/** additional cache for holding the active trajectory point */
-	double _pos=0,_vel=0;
+	double _posL=0,_velL=0, _posR = 0, _velR = 0;
 
 	/**
 	 * reference to the talon we plan on manipulating. We will not changeMode()
@@ -187,8 +194,8 @@ public class MotionProfileExample {
 	 */
 	public void control() {
 		/* Get the motion profile status every loop */
-		talonL.getMotionProfileStatus(_status);
-		talonR.getMotionProfileStatus(_status);
+		talonL.getMotionProfileStatus(_statusL);
+		talonR.getMotionProfileStatus(_statusR);
 
 		/*
 		 * track time, this is rudimentary but that's okay, we just want to make
@@ -247,7 +254,7 @@ public class MotionProfileExample {
 						 */
 					//System.out.println("Ready to start, waiting for enough points...");
 					/* do we have a minimum numberof points in Talon */
-					if (_status.btmBufferCnt > kMinPointsInTalon) {
+					if (_statusL.btmBufferCnt > kMinPointsInTalon && _statusR.btmBufferCnt > kMinPointsInTalon) {
 						/* start (once) the motion profile */
 						_setValue = SetValueMotionProfile.Enable;
 						//System.out.println("MP is enabled");
@@ -263,7 +270,7 @@ public class MotionProfileExample {
 					 * the middle of an MP and react to it.
 					 */
 					//System.out.println("MP is enabled, and simply monitoring");
-					if (_status.isUnderrun == false) {
+					if (_statusL.isUnderrun == false || _statusL.isUnderrun == false) {
 						_loopTimeout = kNumLoopsTimeout;
 						//System.out.println("Not underrun");
 					}
@@ -272,12 +279,12 @@ public class MotionProfileExample {
 					 * another. We will go into hold state so robot servo's
 					 * position.
 					 */
-					if (_status.activePointValid && _status.isLast) {
+					if ((_statusL.activePointValid && _statusL.isLast) && (_statusR.activePointValid && _statusR.isLast)){
 						/*
 						 * because we set the last point's isLast to true, we will
 						 * get here when the MP is done
 						 */
-						_setValue = SetValueMotionProfile.Hold;
+						_setValue = SetValueMotionProfile.Disable;
 						_state = 0;
 						_loopTimeout = -1;
 						//System.out.println("Last point, holding MP");
@@ -292,11 +299,14 @@ public class MotionProfileExample {
 			talonL.set(ControlMode.MotionProfile, _setValue.value);
 			talonR.set(ControlMode.MotionProfile, _setValue.value);
 			
-			_pos = talonL.getActiveTrajectoryPosition();
-			_vel = talonL.getActiveTrajectoryVelocity();
+			_posL = talonL.getActiveTrajectoryPosition();
+			_velL = talonL.getActiveTrajectoryVelocity();
+			_posR = talonR.getActiveTrajectoryPosition();
+			_velR = talonR.getActiveTrajectoryVelocity();
 
 			/* printfs and/or logging */
-			Instrumentation.process(_status, _pos, _vel);
+			Instrumentation.process(_statusL, _posL, _velR);
+			Instrumentation.process(_statusR, _posR, _velR);
 		}
 	}
 	/**
@@ -331,7 +341,7 @@ public class MotionProfileExample {
 		TrajectoryPoint pointR = new TrajectoryPoint();
 
 		/* did we get an underrun condition since last time we checked ? */
-		if (_status.hasUnderrun) {
+		if (_statusL.hasUnderrun || _statusR.hasUnderrun) {
 			/* better log it so we know about it */
 			Instrumentation.OnUnderrun();
 			/*
@@ -389,6 +399,8 @@ public class MotionProfileExample {
 			
 			System.out.println("LVel: " + pointL.velocity) ;
 			System.out.println("LDur: " + (int)profileL[i][2] + "vs." + pointL.timeDur);
+			System.out.println("RVel: " + pointR.velocity) ;
+			System.out.println("RDur: " + (int)profileL[i][2] + "vs." + pointR.timeDur);
 		}
 	}
 	/**

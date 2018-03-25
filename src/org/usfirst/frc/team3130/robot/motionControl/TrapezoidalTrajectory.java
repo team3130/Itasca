@@ -180,7 +180,13 @@ public class TrapezoidalTrajectory {
 			if(segments.get(i).getT() <= ta){
 				segments.get(i).setAcc(amax);
 				double vel = segments.get(i-1).getVel() + (amax*tStep);
-				segments.get(i).setVel(vel);
+				if(vel >= 0){
+					segments.get(i).setVel(vel);
+				}
+				else{
+					vel = 0;
+					segments.get(i).setVel(vel);
+				}
 				segments.get(i).setX(segments.get(i-1).getX() + (vel * tStep) + ((amax/2)*(tStep*tStep)));
 				//System.out.println("(if 1) Segment #" + i + ": " + segments.get(i).toString());
 			}
@@ -193,7 +199,13 @@ public class TrapezoidalTrajectory {
 			else {
 				segments.get(i).setAcc(-amax);
 				double vel = segments.get(i-1).getVel() + (-amax*tStep);
-				segments.get(i).setVel(vel);
+				if(vel >= 0){
+					segments.get(i).setVel(vel);
+				}
+				else{
+					vel = 0;
+					segments.get(i).setVel(vel);
+				}
 				segments.get(i).setX(segments.get(i-1).getX() + (vel * tStep) + ((-amax/2)*(tStep*tStep)));
 				//System.out.println("(if 3) Segment #" + i + ": " + segments.get(i).toString());
 			}

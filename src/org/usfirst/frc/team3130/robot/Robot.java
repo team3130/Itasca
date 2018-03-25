@@ -13,6 +13,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
+import org.usfirst.frc.team3130.robot.commands.RunMotionProfiles;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
@@ -87,10 +88,11 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
-		chooser.addObject("Pass Baseline", "Pass Baseline");
+		chooser.addObject("Pass Baseline", "Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
+		chooser.addObject("Test MP", "Test MP");
 		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -212,6 +214,9 @@ public class Robot extends TimedRobot {
     	switch(chosenOne){
 		case "Baseline":
 			autonomousCommand = new PassBaseline();
+			break;
+		case "Test MP":
+			autonomousCommand = new RunMotionProfiles();
 			break;
 		case "Side":
 			if(start.equals("Left")){

@@ -17,8 +17,8 @@ public class Constants extends ConstantsBase {
     public static double kChassisBLength = 38.5; //Length of robot frame in inches w/bumpers
     public static double kLWheelDiameter = 6.0; //Center wheel
     public static double kRWheelDiameter = 6.0;	//Center wheel
-    public static double kMaxVelocity = 20.0; //in/s  in high gear
-    public static double kMaxAcceleration = 20.0; //in/s^2 TODO:find
+    public static double kMaxVelocity = 2500.0; //in/s  in high gear
+    public static double kMaxAcceleration = 500.0; //in/s^2 TODO:find
     public static double kChassisLowGearF = 0.0; //TODO: find
     public static double kChassisHighGearF = 0.152;
     
