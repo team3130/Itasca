@@ -15,10 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class RobotSensors extends Command {
 
-	Timer timer = new Timer();
-	
-	boolean measuring = false;
-	
+	private Timer timer = new Timer();
 	
     public RobotSensors() {
     	this.setRunWhenDisabled(true);
@@ -28,26 +25,30 @@ public class RobotSensors extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	timer.reset();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// Time each execution cycle
+    	SmartDashboard.putNumber("Scheduler cycle", timer.get());
+    	timer.reset();
+    	timer.start();
     	
     	//Elevator
     	Elevator.outputToSmartDashboard();
 
+    	// Rangefinder readings are updated here. Do not disable this code. Do not call getDistance from anywhere else
     	Rangefinder rf = Rangefinder.GetInstance();
     	int distance = rf.getDistance();
     	rf.setStoredRange(distance);
-    	//if(distance>=0) {
-    		SmartDashboard.putNumber("Lidar range", distance);
-    	//}
-    	
+   		SmartDashboard.putNumber("Lidar range", distance);
     	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
     	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
+    	// Also let's see if LIDAR takes cpu cycles
+    	SmartDashboard.putNumber("LIDAR Time", timer.get());
     	
     	SmartDashboard.putNumber("Velocity", Chassis.GetSpeed());
-
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());

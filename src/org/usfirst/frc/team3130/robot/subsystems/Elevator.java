@@ -141,11 +141,9 @@ public class Elevator extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		if(output>0){
-			if(output>0.8) output = 0.8;
-		}else{
-			if(output<-0.3) output = -0.3;
-		}
+		double limit = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
+		if(output > limit) output = limit;
+		else if(output < -0.25) output = -0.25;
 		elevator.set(ControlMode.PercentOutput, output);
 	}
 }
