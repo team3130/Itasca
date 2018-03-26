@@ -71,6 +71,18 @@ public class CubeIntake extends Subsystem {
     	openR = open;
     }
     
+    public static void openIntake(){
+    	open = true;
+    	actuateL.set(open);
+    	actuateR.set(open);
+    }
+    
+    public static void closeIntake(){
+    	open = false;
+    	actuateL.set(open);
+    	actuateR.set(open);
+    }
+    
     public static void toggleIntakeL(){
     	openL = !openL;
     	actuateL.set(openL);

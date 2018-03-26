@@ -18,6 +18,7 @@ import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.OpenIntake;
 import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
@@ -183,15 +184,16 @@ public class OI {
 		//testCurve.whileHeld(testTurn);
 
 		//TODO: Find good defaults
-		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));
-		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
-		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
-		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));
-		elevatorLift.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
+		elevatorMax.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));
+		elevatorScaleLevel.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
+		elevatorScaleLowest.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
+		elevatorSwitch.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));
+		elevatorLift.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
 		
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
-		cubeActuate.whenPressed(new IntakeToggle());
+		//cubeActuate.whenPressed(new IntakeToggle());
+		cubeActuate.whileHeld(new OpenIntake());
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		
