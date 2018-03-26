@@ -10,7 +10,6 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
-import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
@@ -22,7 +21,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
-import org.usfirst.frc.team3130.robot.util.Logger;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -63,8 +61,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotSensors = new RobotSensors();
 		robotSensors.start();
-		Logger.logMatchInfo();
-		Logger.logRobotStartup();
 		//compressor.start();
 		
 		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
@@ -112,7 +108,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Logger.logRobotDisabled();
 		CubeIntake.reset();
 		HookDeploy.reset();
 		//Chassis.ResetEncoders();
@@ -142,7 +137,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		Logger.logAutonInit();
 
 		Elevator.holdHeight();
 		Chassis.ReleaseAngle();
@@ -169,7 +163,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		Logger.logTeleopInit();
 		Climber.resetClimbDir();
 		Elevator.holdHeight();
 
