@@ -29,7 +29,7 @@ public class ContTurnDist extends ContTurn{
     protected void initialize() {
     	super.initialize();
 
-    	System.out.println("ContTurnDist");
+    	//System.out.println("ContTurnDist");
     	endAngle += Chassis.GetAngle() * (Math.PI/180f);
     }
 

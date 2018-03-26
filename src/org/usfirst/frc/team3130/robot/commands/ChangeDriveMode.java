@@ -20,7 +20,7 @@ public class ChangeDriveMode extends Command {
     	else {
     		Chassis.setArcade(true);
     	}
-    	System.out.println("Changing drive mode...");
+    	//System.out.println("Changing drive mode...");
     }
 
     // Called repeatedly when this Command is scheduled to run

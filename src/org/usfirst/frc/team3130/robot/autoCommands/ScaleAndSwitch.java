@@ -88,7 +88,7 @@ public class ScaleAndSwitch extends CommandGroup {
     
 	@Override
     protected void initialize(){
-    	System.out.println("INIT SCALE AND SWITCH ________________");
+    	//System.out.println("INIT SCALE AND SWITCH ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
 		intakeCube.SetParam(0.6);

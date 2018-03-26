@@ -166,7 +166,7 @@ public class Rangefinder {
 			else {
 				count ++;
 			}
-			System.out.println("LIDAR Write Byte Failed " + count + " times.");
+			//System.out.println("LIDAR Write Byte Failed " + count + " times.");
 		}
 		return false;
 	}

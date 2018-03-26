@@ -81,7 +81,7 @@ public abstract class ContinuousDrive extends Command {
 	
 	@Override
 	protected void interrupted(){
-		System.out.println("interupt");
+		//System.out.println("interupt");
 		end();
 	}
 }

@@ -33,7 +33,7 @@ public class AutoDriveStraightToPoint extends PIDCommand {
      * @param shiftLow	  whether the bot is in high gear or not
      */
     public void SetParam(double setpoint, double threshold, double speed, boolean shiftLow){
-    	System.out.println("Param Set");
+    	//System.out.println("Param Set");
     	DriverStation.reportWarning("Param Set", false);
     	m_distance = setpoint;
     	m_threshold = threshold;
@@ -43,9 +43,9 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Entered Drive Straight--------------------------------------------------------------------------------");
-    	System.out.println("dist"+m_distance);
-    	System.out.println("Set Setpoint "+m_distance+Chassis.GetDistance());
+    	//System.out.println("Entered Drive Straight--------------------------------------------------------------------------------");
+    	//System.out.println("dist"+m_distance);
+    	//System.out.println("Set Setpoint "+m_distance+Chassis.GetDistance());
     	getPIDController().reset();
     	
     	Chassis.ShiftDown(m_shiftLow);
@@ -69,14 +69,14 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     	SmartDashboard.putBoolean("OnTarget", getPIDController().onTarget());
         if (getPIDController().onTarget()){
    //     		&& Math.abs(Chassis.GetSpeed()) < .25){
-        	System.out.println("FINISHED!");
+        	//System.out.println("FINISHED!");
         	return true;
         }return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("End");
+    	//System.out.println("End");
     	Chassis.ReleaseAngle();
     	Chassis.DriveTank(0, 0);
     	getPIDController().disable();
@@ -85,7 +85,7 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("Interupted");
+    	//System.out.println("Interupted");
     	end();
     }
 
@@ -97,19 +97,19 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 	@Override
 	protected void usePIDOutput(double output) {
 
-		System.out.println(output);
-		System.out.println("Setpoint"+getPIDController().getSetpoint());
+		//System.out.println(output);
+		//System.out.println("Setpoint"+getPIDController().getSetpoint());
 		if(output > m_speed) output = m_speed;
 		else if(output < -m_speed) output = -m_speed;
 		
 		Chassis.DriveStraight(output);
 		
-		System.out.println("Using PID");
+		//System.out.println("Using PID");
 	}
 	
 	private void setPID()
 	{
-		System.out.println("Set PID");
+		//System.out.println("Set PID");
 		getPIDController().setPID(
 				Preferences.getInstance().getDouble("DriveStraightP", 0.01), 
 				Preferences.getInstance().getDouble("DriveStraightI", 0),

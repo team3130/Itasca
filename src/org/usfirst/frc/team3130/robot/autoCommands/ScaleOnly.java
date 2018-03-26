@@ -76,7 +76,7 @@ public class ScaleOnly extends CommandGroup {
     
 	@Override
     protected void initialize(){
-    	System.out.println("INIT SCALE ________________");
+    	//System.out.println("INIT SCALE ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
 		elevatorUp.setParam(98);

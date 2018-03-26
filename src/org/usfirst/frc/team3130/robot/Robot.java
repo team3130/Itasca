@@ -23,7 +23,6 @@ import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
 import org.usfirst.frc.team3130.robot.util.Logger;
-import org.usfirst.frc.team3130.robot.util.Looper;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -195,7 +194,7 @@ public class Robot extends TimedRobot {
     	
     	String fieldInfo = gameData.substring(0, 2);    	
     	//find robot starting pose
-    	System.out.print(fieldInfo);
+    	//System.out.print(fieldInfo);
 
     	String start = startPos.getSelected();
     	if(start == null) {
@@ -220,36 +219,36 @@ public class Robot extends TimedRobot {
 		case "Side":
 			if(start.equals("Left")){
 				if(fieldInfo.equals(c1)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c2)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c3)){
-					System.out.println("Scale Left");
+					//System.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c4)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c1)){
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
-					System.out.println("Scale Left");
+					//mSystem.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 			}

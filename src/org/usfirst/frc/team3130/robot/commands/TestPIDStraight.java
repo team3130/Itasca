@@ -17,7 +17,7 @@ public class TestPIDStraight extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("TESTING PID STRAIGHT");
+    	//System.out.println("TESTING PID STRAIGHT");
     	Chassis.HoldAngle(Math.PI/2);
     }
     
