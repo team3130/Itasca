@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.HeightSetter;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
@@ -47,7 +46,7 @@ public class PassBaseline extends CommandGroup {
         driveForward.SetParam(0.4, 250.0, false);
     	/*driveForward.SetParam(
     		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),
-    		Constants.kWallToSwitch
+    		140
     		);
     	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));*/
     }

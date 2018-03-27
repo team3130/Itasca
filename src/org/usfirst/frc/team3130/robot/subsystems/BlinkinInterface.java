@@ -2,7 +2,6 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.LEDtest;
 
 import edu.wpi.first.wpilibj.*;
@@ -50,7 +49,7 @@ public class BlinkinInterface extends Subsystem {
 
     /*
     public static void gotCube(){
-    	for (int i = 0; i < Constants.kBlinkNumber; i++){
+    	for (int i = 0; i < 3; i++){
     		GetInstance().blinkin1.set(0.77);
 	    	try{
 	    		Thread.sleep(300);

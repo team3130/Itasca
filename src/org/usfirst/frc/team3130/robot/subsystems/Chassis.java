@@ -2,7 +2,6 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
-import org.usfirst.frc.team3130.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -49,7 +48,7 @@ public class Chassis extends PIDSubsystem {
 
 	private static double prevSpeedLimit;
 	
-	public static final double InchesPerRev = ((Constants.kLWheelDiameter + Constants.kRWheelDiameter)/ 2.0) * Math.PI;
+	public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
@@ -195,7 +194,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedL()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;
+    	return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
     }
     
     /**
@@ -205,7 +204,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedR()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;	
+    	return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;	
     }
     
     /**
@@ -298,7 +297,7 @@ public class Chassis extends PIDSubsystem {
 			return m_navX.getAngle();
 		}else {
 			//Means that angle use wants a driftless angle measure that lasts.
-			return ( GetDistanceR() - GetDistanceL() ) * 180 / (Constants.kChassisWidth * Math.PI);
+			return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
 			/*
 			 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 			 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
@@ -344,7 +343,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceL()
 	{
-		return -1*(m_leftMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev ;
+		return -1*(m_leftMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**
@@ -353,7 +352,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceR()
 	{
-		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev;
+		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
 	}
 	
 	public static double GetDistance()

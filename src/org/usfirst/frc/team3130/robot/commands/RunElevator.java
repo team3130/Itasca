@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.OI;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
@@ -27,7 +26,7 @@ public class RunElevator extends Command {
     protected void execute() {
     	double stick = OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
     	if (Math.abs(stick) >= 0.04 ){
-	    	double moveSpeed = (Constants.kElevatorSpeed) * -stick;
+	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.8)) * -stick;
 	    	Elevator.runElevator(moveSpeed);
 	    	changeHeight = true;
     	} else if (changeHeight){

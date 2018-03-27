@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.RunElevator;
 
@@ -49,9 +48,9 @@ public class Elevator extends PIDSubsystem {
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
 		elevator.config_kP(0, 0.07, 0);
-		elevator.config_kI(0, Constants.kElevatorI, 0);
-		elevator.config_kD(0, Constants.kElevatorD, 0);
-		elevator.config_kF(0, Constants.kElevatorF, 0);
+		elevator.config_kI(0, RobotMap.kElevatorI, 0);
+		elevator.config_kD(0, RobotMap.kElevatorD, 0);
+		elevator.config_kF(0, RobotMap.kElevatorF, 0);
 		elevator2.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR1);
 	}
 
@@ -64,11 +63,11 @@ public class Elevator extends PIDSubsystem {
     	boolean goingDown = percent < 0;
 
     	// Offset the power by a bias to counteract the gravity
-    	percent += Constants.kElevatorBias;
+    	percent += RobotMap.kElevatorBias;
 
     	// At the bottom (if the height is lower than the safety zone) throttle down the power
     	double height = getHeight();
-    	double zone = Constants.kElevatorZone;
+    	double zone = RobotMap.kElevatorZone;
     	if(goingDown) {
     		// Going down, so reduce the power
     		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.8);
@@ -93,7 +92,7 @@ public class Elevator extends PIDSubsystem {
     }
 
     public synchronized static double getHeight(){
-    	return elevator.getSelectedSensorPosition(0) / Constants.kElevatorTicksPerInch; //Returns height in inches
+    	return elevator.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
     }
 
     /**
@@ -103,7 +102,7 @@ public class Elevator extends PIDSubsystem {
     public static void addHeight(double offset) {
     	double newHeight = getHeight() + offset;
     	// If the elevator is (almost) at the bottom then just turn it off
-    	if(newHeight < Constants.ElevatorBottom) {
+    	if(newHeight < RobotMap.ElevatorBottom) {
     		elevator.set(ControlMode.PercentOutput, 0);
     	}
     	else {
