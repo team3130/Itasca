@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,6 +23,7 @@ public class ElevatorToHeight extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("ElevatorToHeight.java command started", false);
     	Elevator.setHeight(dist-3.0); //distance to travel in inches
     }
 

@@ -44,6 +44,7 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     	//System.out.println("Entered Drive Straight--------------------------------------------------------------------------------");
     	//System.out.println("dist"+m_distance);
     	//System.out.println("Set Setpoint "+m_distance+Chassis.GetDistance());
+    	DriverStation.reportWarning("AutoDriveStraightToPoint.java command started", false);
     	getPIDController().reset();
     	
     	Chassis.ShiftDown(m_shiftLow);

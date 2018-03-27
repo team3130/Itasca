@@ -4,6 +4,8 @@ import org.usfirst.frc.team3130.robot.OI;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,6 +20,7 @@ public class RunElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("RunElevator.java command started", false);
     	changeHeight = false;
     }
 
