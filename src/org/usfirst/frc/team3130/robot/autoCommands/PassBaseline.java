@@ -1,12 +1,11 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
-import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
+
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -14,9 +13,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class PassBaseline extends CommandGroup {
 	
-	private ContDrive				  driveForward;
-	private RunIntakeIn               runIntake;
-	private IntakeToggle			  closeIntake;
+	private AutoDriveStraightToPoint  driveForward;
 	private ElevatorToHeight          elevatorUp;
 
     public PassBaseline() {
@@ -24,13 +21,9 @@ public class PassBaseline extends CommandGroup {
        requires(CubeIntake.GetInstance());
        requires(Elevator.GetInstance());
        
-       driveForward = new ContDrive();
-       runIntake    = new RunIntakeIn();
-       closeIntake  = new IntakeToggle();
+       driveForward = new AutoDriveStraightToPoint();
        elevatorUp   = new ElevatorToHeight(4.0);
        
-       //addParallel(runIntake, 1);
-       //addParallel(closeIntake, 0.5);
        addSequential(elevatorUp, 0.5);
        addSequential(driveForward, 7);
     }
@@ -38,13 +31,12 @@ public class PassBaseline extends CommandGroup {
     @Override
 	protected void initialize() {
     	
-        //System.out.println("Running PB");
-        driveForward.SetParam(0.4, 250.0, false);
-    	/*driveForward.SetParam(
-    		Preferences.getInstance().getDouble("AUTON Forward Speed", 0.5),
-    		Constants.kWallToSwitch
-    		);
-    	runIntake.SetParam(Preferences.getInstance().getDouble("AUTON Intake Speed", 0.3));*/
+        driveForward.SetParam(
+				Preferences.getInstance().getDouble("BaseDistance", 200.0),
+				20, 
+				Preferences.getInstance().getDouble("BaseForwardSpeed", .5),
+				false);
+        elevatorUp.setParam(12);
     }
 	
 }
