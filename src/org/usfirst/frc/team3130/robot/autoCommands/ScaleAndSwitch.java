@@ -16,13 +16,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ScaleAndSwitch extends CommandGroup {
 	private AutoDriveStraightToPoint	driveForward;
-	private AutoDriveStraightToPoint	driveToScale;
 	private AutoDriveStraightToPoint	driveBack;
 	private AutoTurn					turnToScale;
 	private ElevatorToHeight			elevatorUp;
 	private ElevatorToHeight			elevatorUpAgain;
 	private ElevatorToHeight			elevatorDown;
-	private ElevatorToHeight			eleReleaseIntake;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
 	private AutoTurn					turnToCube;
@@ -44,11 +42,11 @@ public class ScaleAndSwitch extends CommandGroup {
 		
 		this.side    = side;
 		driveForward = new AutoDriveStraightToPoint();
-		driveToScale = new AutoDriveStraightToPoint();
+		new AutoDriveStraightToPoint();
 		driveBack    = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
-		eleReleaseIntake = new ElevatorToHeight(8);
+		new ElevatorToHeight(8);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
 		elevatorDown = new ElevatorToHeight(3);

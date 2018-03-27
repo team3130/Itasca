@@ -1,7 +1,6 @@
 package org.usfirst.frc.team3130.robot.continuousDrive;
 
 import org.usfirst.frc.team3130.robot.Constants;
-import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
 /**

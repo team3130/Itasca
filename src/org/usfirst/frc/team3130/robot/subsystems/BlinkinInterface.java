@@ -2,7 +2,6 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.LEDtest;
 
 import edu.wpi.first.wpilibj.*;
