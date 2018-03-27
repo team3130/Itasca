@@ -10,28 +10,17 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
 import org.usfirst.frc.team3130.robot.autoCommands.AutoTurn;
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
-import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
-import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
-import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
-import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.OpenIntake;
 import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
-import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
-import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator

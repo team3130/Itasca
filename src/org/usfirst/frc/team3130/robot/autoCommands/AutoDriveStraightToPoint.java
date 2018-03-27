@@ -4,7 +4,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,7 +33,6 @@ public class AutoDriveStraightToPoint extends PIDCommand {
      */
     public void SetParam(double setpoint, double threshold, double speed, boolean shiftLow){
     	//System.out.println("Param Set");
-    	DriverStation.reportWarning("Param Set", false);
     	m_distance = setpoint;
     	m_threshold = threshold;
     	m_speed = speed;

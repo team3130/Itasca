@@ -206,7 +206,7 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
-		case "Baseline":
+		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
 		case "Side":

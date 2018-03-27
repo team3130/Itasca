@@ -4,12 +4,6 @@ import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContTurnDist;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
-import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
