@@ -29,8 +29,8 @@ public class Elevator extends Subsystem {
 		if(m_pInstance == null) m_pInstance = new Elevator();
 		return m_pInstance;
 	}
-	private static final int MAX_VELOCITY = 17600; // 1024
-    private static final int MAX_ACCELERATION = 11000; // 1024
+	private static final int MAX_VELOCITY = 6300; // 1024
+    private static final int MAX_ACCELERATION = 6100; // 1024
     private static final int MAX_VELOCITY_DOWN = (int) (MAX_VELOCITY * 0.35); // 1024
     private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.35); // 1024
     
@@ -50,7 +50,7 @@ public class Elevator extends Subsystem {
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
-		elevator.config_kP(0, 0.07, 0);
+		elevator.config_kP(0, 0.3, 0);
 		elevator.config_kI(0, RobotMap.kElevatorI, 0);
 		elevator.config_kD(0, RobotMap.kElevatorD, 0);
 		elevator.config_kF(0, RobotMap.kElevatorF, 0);
@@ -85,6 +85,7 @@ public class Elevator extends Subsystem {
     }
 
     public synchronized static void setHeight(double height_inches){
+    	elevator.set(ControlMode.PercentOutput, 0);
     	if(elevator.getSelectedSensorPosition(0) >= RobotMap.kElevatorTicksPerInch * height_inches){
     		configMotionMagic(MAX_VELOCITY_DOWN, MAX_ACCELERATION_DOWN);
     	}else{
@@ -122,6 +123,10 @@ public class Elevator extends Subsystem {
      */
     public static void holdHeight() {
     	setHeight(getHeight());
+    }
+    public static void resetElevator(){
+    	//elevator.set(ControlMode.MotionMagic, 0.0);
+    	elevator.set(ControlMode.PercentOutput, 0.0);
     }
 
     public static void outputToSmartDashboard() {

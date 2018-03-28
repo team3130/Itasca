@@ -110,9 +110,9 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 	{
 		//System.out.println("Set PID");
 		getPIDController().setPID(
-				Preferences.getInstance().getDouble("DriveStraightP", 0.01), 
+				Preferences.getInstance().getDouble("DriveStraightP", 0.02), 
 				Preferences.getInstance().getDouble("DriveStraightI", 0),
-				Preferences.getInstance().getDouble("DriveStraightD", 0.062)
+				Preferences.getInstance().getDouble("DriveStraightD", 0.07)
 			); /*
 		if(!m_shiftHigh){
 			getPIDController().setPID(

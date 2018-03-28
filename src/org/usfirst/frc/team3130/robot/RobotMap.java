@@ -25,7 +25,7 @@ public class RobotMap {
     
 		//Elevator
 		public static double kElevatorI = 0.0;
-		public static double kElevatorD = 0.0;
+		public static double kElevatorD = 0.2;
 		public static double kElevatorF = 0.0;
 		public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.8);
 	    public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
