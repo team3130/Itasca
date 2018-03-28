@@ -12,6 +12,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.AutoTurn;
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
+import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
 import org.usfirst.frc.team3130.robot.commands.OpenIntake;
 import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;

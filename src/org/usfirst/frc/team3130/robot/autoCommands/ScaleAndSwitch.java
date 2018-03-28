@@ -97,37 +97,37 @@ public class ScaleAndSwitch extends CommandGroup {
 		elevatorUpAgain.setParam(40.0);
 		intakeOut.SetParam(-0.7);
 		driveForward.SetParam(
-			430, 
+			Preferences.getInstance().getDouble("ScaleSwitch Forward Dist", 430), 
 			20, 
-			Preferences.getInstance().getDouble("ScaleForwardSpeed", .55), 
+			0.55, 
 			false
 		);
 		driveBack.SetParam(
-				-24, 
+				Preferences.getInstance().getDouble("ScaleSwitch Back Dist", -24), 
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+				0.5, 
 				false
 		);
 		driveToCube.SetParam(
-				116, 
+				Preferences.getInstance().getDouble("ScaleSwitch ToCube Dist", 116),  
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
+				.7, 
 				false
 		);
 		toSwitch.SetParam(
-				20, 
+				Preferences.getInstance().getDouble("ScaleSwitch ToSwitch Dist", 20), 
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
+				.7, 
 				false
 		);
 		//driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){		//Left Side Scale, Switch, and Start
 			turnToScale.setParam(45, 5);
-			turnToCube.setParam(95, 2);
+			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Left Side", 95), 2);
 			//turnToSwitch.setParam(20, 3);
 		}else{				//Right Side Scale, Switch, and Start
 			turnToScale.setParam(-55, 2);
-			turnToCube.setParam(-94, 2);
+			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Right Side", -94), 2);
 			//turnToSwitch.setParam(-20, 3);
 		}
     }
