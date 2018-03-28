@@ -66,8 +66,8 @@ public class RobotSensors extends Command {
     	//SmartDashboard.putNumber("Rear Right Current", Chassis.GetRearCurrentR());
     	SmartDashboard.putBoolean("Shifted High", Chassis.GetShiftedUp());
     	SmartDashboard.putNumber("Angle", Chassis.GetAngle());
-    	SmartDashboard.putNumber("Chassis Raw L", Chassis.GetRawL());
-    	SmartDashboard.putNumber("Chassis Raw R", Chassis.GetRawR());
+    	//SmartDashboard.putNumber("Chassis Raw L", Chassis.GetRawL());
+    	//SmartDashboard.putNumber("Chassis Raw R", Chassis.GetRawR());
     	SmartDashboard.putNumber("Left Distance", Chassis.GetDistanceL());
     	SmartDashboard.putNumber("Right Distance", Chassis.GetDistanceR());
     	SmartDashboard.putNumber("Climber Direction", Climber.returnDir());
