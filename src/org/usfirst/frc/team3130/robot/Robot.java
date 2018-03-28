@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		Elevator.resetElevator();
 		CubeIntake.reset();
 		HookDeploy.reset();
 		//Chassis.ResetEncoders();
@@ -137,8 +138,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-
-		Elevator.holdHeight();
+		Elevator.resetElevator();
+		//Elevator.holdHeight();
 		Chassis.ReleaseAngle();
 		
 		determineAuton();
@@ -163,6 +164,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Elevator.resetElevator();
 		Climber.resetClimbDir();
 		Elevator.holdHeight();
 

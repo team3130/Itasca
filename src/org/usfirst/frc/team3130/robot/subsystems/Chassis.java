@@ -50,12 +50,12 @@ public class Chassis extends PIDSubsystem {
 	
 	//PID Preferences Defaults
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.1;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.062;
 
-	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.11;
 	
     private Chassis() {
     	
@@ -337,10 +337,19 @@ public class Chassis extends PIDSubsystem {
 	/**
 	 * 
 	 * @return Current distance of the front left motor in inches
+	 * 
+	 * 
 	 */
+	public static double GetRawL(){
+		return m_leftMotorFront.getSelectedSensorPosition(0);
+	}public static double GetRawR(){
+		return m_rightMotorFront.getSelectedSensorPosition(0);
+	}
+			
+	
 	public static double GetDistanceL()
 	{
-		return -1*(m_leftMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
+		return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**

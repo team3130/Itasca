@@ -11,13 +11,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This subsystem controls the power cube elevator of the robot
  */
-public class Elevator extends PIDSubsystem {
+public class Elevator extends Subsystem {
 	
 	private static WPI_TalonSRX elevator;
 	private static WPI_TalonSRX elevator2;
@@ -29,9 +29,13 @@ public class Elevator extends PIDSubsystem {
 		if(m_pInstance == null) m_pInstance = new Elevator();
 		return m_pInstance;
 	}
-	
+	private static final int MAX_VELOCITY = 6300; // 1024
+    private static final int MAX_ACCELERATION = 6100; // 1024
+    private static final int MAX_VELOCITY_DOWN = (int) (MAX_VELOCITY * 0.35); // 1024
+    private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.35); // 1024
+    
 	private Elevator() {
-		super(0,0,0);
+		
 		elevator = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
 		elevator2 = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 		elevator.setNeutralMode(NeutralMode.Brake);
@@ -46,7 +50,7 @@ public class Elevator extends PIDSubsystem {
 		//elevator.configForwardSoftLimitThreshold(Constants.kElevatorSoftMax, 0);//in ticks
 		//elevator.configReverseSoftLimitThreshold(Constants.kElevatorSoftMin, 0);//in ticks
 
-		elevator.config_kP(0, 0.07, 0);
+		elevator.config_kP(0, 0.3, 0);
 		elevator.config_kI(0, RobotMap.kElevatorI, 0);
 		elevator.config_kD(0, RobotMap.kElevatorD, 0);
 		elevator.config_kF(0, RobotMap.kElevatorF, 0);
@@ -58,7 +62,7 @@ public class Elevator extends PIDSubsystem {
     }
 
     public static void runElevator(double percent) {
-    	GetInstance().getPIDController().disable();
+    	
     	boolean goingDown = percent < 0;
 
     	// Offset the power by a bias to counteract the gravity
@@ -81,13 +85,18 @@ public class Elevator extends PIDSubsystem {
     }
 
     public synchronized static void setHeight(double height_inches){
-    	GetInstance().getPIDController().setPID(
-    			0.07,
-    			0,
-    			0
-    		);
-    	GetInstance().getPIDController().setSetpoint(height_inches);
-    	GetInstance().getPIDController().enable();
+    	elevator.set(ControlMode.PercentOutput, 0);
+    	if(elevator.getSelectedSensorPosition(0) >= RobotMap.kElevatorTicksPerInch * height_inches){
+    		configMotionMagic(MAX_VELOCITY_DOWN, MAX_ACCELERATION_DOWN);
+    	}else{
+    		configMotionMagic(MAX_VELOCITY, MAX_ACCELERATION);
+    	}
+    	elevator.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height_inches);
+    	
+    }
+    public static void configMotionMagic(int cruiseVelocity, int acceleration){
+    	elevator.configMotionCruiseVelocity(cruiseVelocity, 0);
+    	elevator.configMotionAcceleration(acceleration, 0);
     }
 
     public synchronized static double getHeight(){
@@ -115,34 +124,26 @@ public class Elevator extends PIDSubsystem {
     public static void holdHeight() {
     	setHeight(getHeight());
     }
+    public static void resetElevator(){
+    	//elevator.set(ControlMode.MotionMagic, 0.0);
+    	elevator.set(ControlMode.PercentOutput, 0.0);
+    }
 
     public static void outputToSmartDashboard() {
+    	//SmartDashboard.putNumber("elevator_velocity", elevator.getSelectedSensorVelocity(0));
     	SmartDashboard.putNumber("Elev_Height", getHeight());
     	//SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
     	//SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
-    	SmartDashboard.putNumber("elev_setpoint", GetInstance().getPIDController().getSetpoint());
-    	SmartDashboard.putBoolean("ElevPID", GetInstance().getPIDController().isEnabled());
+    	
     	SmartDashboard.putBoolean("Elev_Rev_Switch",elevator.getSensorCollection().isRevLimitSwitchClosed());
     	SmartDashboard.putBoolean("elev_Fwd_Switch", elevator.getSensorCollection().isFwdLimitSwitchClosed());
     	
     	//Zero Handling
     	if(elevator.getSensorCollection().isRevLimitSwitchClosed()){
-    		elevator.getSensorCollection().setQuadraturePosition(0, 25);
+    		elevator.setSelectedSensorPosition(0, 0, 0);
     		//System.out.println("Zero!");
     	}
     }
 
-	@Override
-	protected double returnPIDInput() {
-		return getHeight();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		double limit = Preferences.getInstance().getDouble("ElevatorSpeed", 0.6);
-		if(output > limit) output = limit;
-		else if(output < -0.25) output = -0.25;
-		elevator.set(ControlMode.PercentOutput, output);
-	}
 }
 
