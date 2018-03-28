@@ -358,7 +358,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceR()
 	{
-		return (m_rightMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
 	}
 	
 	public static double GetDistance()
