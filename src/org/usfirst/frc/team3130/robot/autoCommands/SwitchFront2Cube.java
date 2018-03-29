@@ -94,7 +94,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		elevatorUpAgain.setParam(40);
 		driveForward.SetParam(
 				30, 
-				4,
+				5,
 				0.5,
 				false
 		);
@@ -118,7 +118,7 @@ public class SwitchFront2Cube extends CommandGroup {
 				false
 		);
 		if(side=='L'){			//Switch on left
-			turnToSwitch.setParam(-30, 2);
+			turnToSwitch.setParam(-35, 2);
 			driveToSwitch.SetParam(
 					138,
 					5,
@@ -134,7 +134,7 @@ public class SwitchFront2Cube extends CommandGroup {
 					false
 			);
 		}else{					//Switch on right
-			turnToSwitch.setParam(35,2);
+			turnToSwitch.setParam(38,2);
 			driveToSwitch.SetParam(
 					147,
 					5,
