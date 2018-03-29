@@ -31,8 +31,8 @@ public class Elevator extends Subsystem {
 	}
 	private static final int MAX_VELOCITY = 6300; // 1024
     private static final int MAX_ACCELERATION = 6100; // 1024
-    private static final int MAX_VELOCITY_DOWN = (int) (MAX_VELOCITY * 0.35); // 1024
-    private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.35); // 1024
+    private static final int MAX_VELOCITY_DOWN = (int) (MAX_VELOCITY * 0.45); // 1024
+    private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.4); // 1024
     
 	private Elevator() {
 		
