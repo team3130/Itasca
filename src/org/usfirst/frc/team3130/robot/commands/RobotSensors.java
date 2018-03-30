@@ -38,13 +38,7 @@ public class RobotSensors extends Command {
     	//Elevator
     	Elevator.outputToSmartDashboard();
 
-    	// Rangefinder readings are updated here. Do not disable this code. Do not call getDistance from anywhere else
-    	Rangefinder rf = Rangefinder.GetInstance();
-    	int distance = rf.getDistance();
-    	rf.setStoredRange(distance);
-   		SmartDashboard.putNumber("Lidar range", distance);
-    	//SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
-    	//SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
+   		SmartDashboard.putNumber("Lidar range", Rangefinder.get());
     	// Also let's see if LIDAR takes cpu cycles
     	//SmartDashboard.putNumber("LIDAR Time", timer.get());
     	
