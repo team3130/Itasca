@@ -31,13 +31,15 @@ public class Rangefinder {
 	private class InterrogationLoop implements Runnable {
 		public void run() {
 			try {
-				int tempStorage = getDistance();
-				range = tempStorage;
-				if(tempStorage < 0) {
-					Thread.sleep(5000);
-					initialize();
+				while(true) {
+					int tempStorage = getDistance();
+					range = tempStorage;
+					if(tempStorage < 0) {
+						Thread.sleep(5000);
+						initialize();
+					}
+					Thread.sleep(20);
 				}
-				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				DriverStation.reportError(
 						"Thread "+Thread.currentThread().getName()+" got interrupted",
