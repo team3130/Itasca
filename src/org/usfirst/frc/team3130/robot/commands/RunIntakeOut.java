@@ -15,7 +15,7 @@ public class RunIntakeOut extends Command {
 	
     public RunIntakeOut() {
         requires(CubeIntake.GetInstance());
-        speed = Preferences.getInstance().getDouble("Cube Intake Out", -0.6);
+        speed = Preferences.getInstance().getDouble("Cube Intake Out", -0.4);
     }
     
     public void SetParam(double speed){

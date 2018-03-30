@@ -88,7 +88,7 @@ public class SwitchFront2Cube extends CommandGroup {
 
 		intakeIn.SetParam(0.7);
 		intakeCube.SetParam(0.8);
-		intakeOut.SetParam(-0.6);
+		intakeOut.SetParam(-0.4);
 		intakeOutAgain.SetParam(-0.5);
 		elevatorUp.setParam(40);
 		elevatorUpAgain.setParam(40);
@@ -118,9 +118,9 @@ public class SwitchFront2Cube extends CommandGroup {
 				false
 		);
 		if(side=='L'){			//Switch on left
-			turnToSwitch.setParam(-35, 2);
+			turnToSwitch.setParam(-33, 2);
 			driveToSwitch.SetParam(
-					138,
+					150,
 					5,
 					0.4, 
 					false
@@ -134,7 +134,7 @@ public class SwitchFront2Cube extends CommandGroup {
 					false
 			);
 		}else{					//Switch on right
-			turnToSwitch.setParam(38,2);
+			turnToSwitch.setParam(35,2);
 			driveToSwitch.SetParam(
 					147,
 					5,

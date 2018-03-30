@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class RobotSensors extends Command {
 
-	private Timer timer = new Timer();
+	//private Timer timer = new Timer();
 	
     public RobotSensors() {
     	this.setRunWhenDisabled(true);
@@ -24,16 +24,16 @@ public class RobotSensors extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.reset();
-    	timer.start();
+    	/*timer.reset();
+    	timer.start();*/
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// Time each execution cycle
-    	SmartDashboard.putNumber("Scheduler cycle", timer.get());
+    	/*SmartDashboard.putNumber("Scheduler cycle", timer.get());
     	timer.reset();
-    	timer.start();
+    	timer.start();*/
     	
     	//Elevator
     	Elevator.outputToSmartDashboard();
@@ -43,10 +43,10 @@ public class RobotSensors extends Command {
     	int distance = rf.getDistance();
     	rf.setStoredRange(distance);
    		SmartDashboard.putNumber("Lidar range", distance);
-    	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
-    	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
+    	//SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
+    	//SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
     	// Also let's see if LIDAR takes cpu cycles
-    	SmartDashboard.putNumber("LIDAR Time", timer.get());
+    	//SmartDashboard.putNumber("LIDAR Time", timer.get());
     	
     	SmartDashboard.putNumber("Velocity", Chassis.GetSpeed());
 

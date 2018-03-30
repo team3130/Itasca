@@ -91,7 +91,7 @@ public class ScaleOnly extends CommandGroup {
 		}else{					//Scale is on opposite side of start
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					374, 
+					388, 
 					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -105,7 +105,7 @@ public class ScaleOnly extends CommandGroup {
 			if(side=='L'){			//Scale is on left
 				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
-						332, 
+						340, 
 						5, 
 						.5, 
 						false
@@ -120,7 +120,7 @@ public class ScaleOnly extends CommandGroup {
 			}else{					//Scale is on right
 				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
-						332, 
+						340, 
 						5, 
 						.5, 
 						false
