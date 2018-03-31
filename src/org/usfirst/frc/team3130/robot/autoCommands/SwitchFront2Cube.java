@@ -74,7 +74,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		addSequential(turnToCubes, 2.0);
 		addSequential(intakeOpen, 0.5);
 		addParallel(intakeCube, 2);
-		addSequential(toCubes, 1);
+		addSequential(toCubes, 1.5);
 		addSequential(intakeClose, 0.5);
 		addSequential(backFromCubes, 1.5);
 		addParallel(elevatorUpAgain, 3);
@@ -128,23 +128,23 @@ public class SwitchFront2Cube extends CommandGroup {
 			turnToCubes.setParam(60, 2);
 			turnBack.setParam(-60, 2);
 			toCubes.SetParam(
-					55, 
+					58, 
 					2,
 					0.5,
 					false
 			);
 		}else{					//Switch on right
-			turnToSwitch.setParam(35,2);
+			turnToSwitch.setParam(26,2);
 			driveToSwitch.SetParam(
-					147,
+					156,
 					5,
 					0.4, 
 					false
 				);
-			turnToCubes.setParam(-53, 2);
+			turnToCubes.setParam(-45, 2);
 			turnBack.setParam(50, 2);
 			toCubes.SetParam(
-					40, 
+					58, 
 					2,
 					0.5,
 					false

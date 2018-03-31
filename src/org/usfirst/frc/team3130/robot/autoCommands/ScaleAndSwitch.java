@@ -70,7 +70,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		//addSequential(driveToScale,3);
 		addSequential(intakeOut, 1);
 		addSequential(driveBack,2);
-		addParallel(elevatorDown, 3);
+		addSequential(elevatorDown, 3);
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 5);
 		addSequential(openIntake, 0.5);
@@ -123,7 +123,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		//driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){		//Left Side Scale, Switch, and Start
 			turnToScale.setParam(45, 5);
-			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Left Side", 85), 2);
+			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Left Side", 95), 2);
 			//turnToSwitch.setParam(20, 3);
 		}else{				//Right Side Scale, Switch, and Start
 			turnToScale.setParam(-55, 2);
