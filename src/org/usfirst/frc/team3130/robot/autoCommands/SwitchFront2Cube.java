@@ -74,7 +74,7 @@ public class SwitchFront2Cube extends CommandGroup {
 		addSequential(turnToCubes, 2.0);
 		addSequential(intakeOpen, 0.5);
 		addParallel(intakeCube, 2);
-		addSequential(toCubes, 1.5);
+		addSequential(toCubes, 2);
 		addSequential(intakeClose, 0.5);
 		addSequential(backFromCubes, 1.5);
 		addParallel(elevatorUpAgain, 3);
@@ -144,7 +144,7 @@ public class SwitchFront2Cube extends CommandGroup {
 			turnToCubes.setParam(-45, 2);
 			turnBack.setParam(50, 2);
 			toCubes.SetParam(
-					58, 
+					60, 
 					2,
 					0.5,
 					false
