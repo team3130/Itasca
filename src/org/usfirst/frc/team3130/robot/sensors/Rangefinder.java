@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3130.robot.sensors;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -9,8 +10,11 @@ public class Rangefinder {
 	
     private I2C i2c;
     private int range = 0;
+    private Thread interrogator;
 	
 	private final int LIDAR_ADDR = 0x52>>1;
+
+	public static int get() { return GetInstance().getStoredRange(); }
 
 	//Instance Handling
 	private static Rangefinder m_pInstance = null;
@@ -19,8 +23,33 @@ public class Rangefinder {
 		if(m_pInstance == null) m_pInstance = new Rangefinder();
 		return m_pInstance;
 	}
-	
-	public Rangefinder() {
+
+	public int getStoredRange() {
+		return range;
+	}
+
+	private class InterrogationLoop implements Runnable {
+		public void run() {
+			try {
+				while(true) {
+					int tempStorage = getDistance();
+					range = tempStorage;
+					if(tempStorage < 0) {
+						Thread.sleep(5000);
+						initialize();
+					}
+					Thread.sleep(20);
+				}
+			} catch (InterruptedException e) {
+				DriverStation.reportError(
+						"Thread "+Thread.currentThread().getName()+" got interrupted",
+						true);
+				return;
+			}
+		}
+	}
+
+	private Rangefinder() {
 		i2c = new I2C(I2C.Port.kOnboard, LIDAR_ADDR);
 		// Mandatory : private registers
 		writeByte(0x0207, 0x01);
@@ -30,13 +59,16 @@ public class Rangefinder {
 			initialize();
 		}
 		else {
-			System.out.println("LIDAR Already Initialized! Skipping I2C Writes!");
+			DriverStation.reportWarning("LIDAR Already Initialized! Skipping I2C Writes!", false);
 		}
 
-		System.out.println("LIDAR Init complete");
+        interrogator = new Thread(new InterrogationLoop(), "LIDAR interrogator");
+        interrogator.start();
+
+        DriverStation.reportWarning("LIDAR Init complete", false);
 	}
 
-	public void initialize() {
+	private void initialize() {
 		writeByte(0x0208, 0x01);
 		writeByte(0x0096, 0x00);
 		writeByte(0x0097, 0xfd);
@@ -88,7 +120,7 @@ public class Rangefinder {
 	}
 
 	// Distance in mm
-	public int getDistance() {
+	private int getDistance() {
 		int reg = 0x0062;
 		byte[] buffer = new byte[1];
 		
@@ -117,7 +149,7 @@ public class Rangefinder {
 	}
 	
 	// RESULT_RANGE_STATUS register
-	public int getDistanceStatus() {
+	private int getDistanceStatus() {
 		byte[] buffer = new byte[1];
 		if( !i2c.read(0x4D, 1, buffer) ) {
 			int num = (buffer[0]>>4)&0x0F;
@@ -129,7 +161,7 @@ public class Rangefinder {
 	}
 		
 	// Range Ready register
-	public boolean getDistanceReady() {
+	private boolean getDistanceReady() {
 		int reg = 0x004F;
 		byte[] buffer = new byte[1];
 		
@@ -166,7 +198,7 @@ public class Rangefinder {
 			else {
 				count ++;
 			}
-			System.out.println("LIDAR Write Byte Failed " + count + " times.");
+			//System.out.println("LIDAR Write Byte Failed " + count + " times.");
 		}
 		return false;
 	}
@@ -193,14 +225,6 @@ public class Rangefinder {
 			}
 		}
 		return -1;
-	}
-
-	public int getStoredRange() {
-		return range;
-	}
-
-	public void setStoredRange(int range) {
-		this.range = range;
 	}
 }
 

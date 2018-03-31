@@ -15,10 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class RobotSensors extends Command {
 
-	Timer timer = new Timer();
-	
-	boolean measuring = false;
-	
+	//private Timer timer = new Timer();
 	
     public RobotSensors() {
     	this.setRunWhenDisabled(true);
@@ -27,27 +24,25 @@ public class RobotSensors extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.reset();
+    	/*timer.reset();
+    	timer.start();*/
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	// Time each execution cycle
+    	/*SmartDashboard.putNumber("Scheduler cycle", timer.get());
+    	timer.reset();
+    	timer.start();*/
     	
     	//Elevator
     	Elevator.outputToSmartDashboard();
 
-    	Rangefinder rf = Rangefinder.GetInstance();
-    	int distance = rf.getDistance();
-    	rf.setStoredRange(distance);
-    	//if(distance>=0) {
-    		SmartDashboard.putNumber("Lidar range", distance);
-    	//}
-    	
-    	SmartDashboard.putBoolean("LIDAR Ready", rf.getDistanceReady());
-    	SmartDashboard.putNumber("LIDAR status", rf.getDistanceStatus());
+   		SmartDashboard.putNumber("Lidar range", Rangefinder.get());
+    	// Also let's see if LIDAR takes cpu cycles
+    	//SmartDashboard.putNumber("LIDAR Time", timer.get());
     	
     	SmartDashboard.putNumber("Velocity", Chassis.GetSpeed());
-
 
     	//SmartDashboard.putNumber("Left Index Current", Robot.btLeftIndex.getCurrent());
     	//SmartDashboard.putNumber("Right Index Current", Robot.btRightIndex.getCurrent());
@@ -65,6 +60,8 @@ public class RobotSensors extends Command {
     	//SmartDashboard.putNumber("Rear Right Current", Chassis.GetRearCurrentR());
     	SmartDashboard.putBoolean("Shifted High", Chassis.GetShiftedUp());
     	SmartDashboard.putNumber("Angle", Chassis.GetAngle());
+    	//SmartDashboard.putNumber("Chassis Raw L", Chassis.GetRawL());
+    	//SmartDashboard.putNumber("Chassis Raw R", Chassis.GetRawR());
     	SmartDashboard.putNumber("Left Distance", Chassis.GetDistanceL());
     	SmartDashboard.putNumber("Right Distance", Chassis.GetDistanceR());
     	SmartDashboard.putNumber("Climber Direction", Climber.returnDir());

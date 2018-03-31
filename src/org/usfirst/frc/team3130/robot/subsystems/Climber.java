@@ -48,14 +48,15 @@ public class Climber extends Subsystem {
     }
     
     public static void climb(double w1, double w2){
-    	winchL1.set(w1);//climbDirection * w1);
-    	winchR1.set(w2);//climbDirection * w2);
+    	winchL1.set(climbDirection * w1);
+    	winchR1.set(climbDirection * w2);
     	//System.out.println("Running L winch at: " + w1);
     	//System.out.println("Running R winch at: " + w2);
     }
     
     public static void reverseDir(){
-    	climbDirection = -climbDirection;
+    	
+    		climbDirection = -climbDirection;
     }
     
     public static int returnDir(){

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.continuousDrive;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
@@ -29,7 +28,7 @@ public class ContTurnDist extends ContTurn{
     protected void initialize() {
     	super.initialize();
 
-    	System.out.println("ContTurnDist");
+    	//System.out.println("ContTurnDist");
     	endAngle += Chassis.GetAngle() * (Math.PI/180f);
     }
 
@@ -51,7 +50,7 @@ public class ContTurnDist extends ContTurn{
 
 	@Override
 	public void SetParam(double percentVBus, double angle, boolean shiftDown) {
-		super.SetParam(percentVBus, Constants.kChassisWidth * angle, shiftDown);
+		super.SetParam(percentVBus, RobotMap.kChassisWidth * angle, shiftDown);
 		valEnd = Math.abs(valEnd);
 		endAngle = angle;
 	}

@@ -10,7 +10,6 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
-import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
@@ -22,8 +21,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
-import org.usfirst.frc.team3130.robot.util.Logger;
-import org.usfirst.frc.team3130.robot.util.Looper;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -49,9 +46,9 @@ public class Robot extends TimedRobot {
 	//VisionServer mVisionServer = VisionServer.getInstance();
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
-    Looper mEnabledLooper = new Looper();
+    //Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 10Hz whenever the robot is disabled
-    Looper mDisabledLooper = new Looper();
+    //Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
 	//public static Compressor compressor = new Compressor(1);
@@ -64,8 +61,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotSensors = new RobotSensors();
 		robotSensors.start();
-		Logger.logMatchInfo();
-		Logger.logRobotStartup();
 		//compressor.start();
 		
 		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
@@ -113,15 +108,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Logger.logRobotDisabled();
+		Elevator.resetElevator();
 		CubeIntake.reset();
 		HookDeploy.reset();
 		//Chassis.ResetEncoders();
 		Chassis.ReleaseAngle();
 		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);
-		mEnabledLooper.stop();
-        mDisabledLooper.start();
+		//mEnabledLooper.stop();
+        //mDisabledLooper.start();
 		//locationCollector.start();
 	}
 
@@ -143,9 +138,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		Logger.logAutonInit();
-
-		Elevator.holdHeight();
+		Elevator.resetElevator();
+		//Elevator.holdHeight();
 		Chassis.ReleaseAngle();
 		
 		determineAuton();
@@ -156,8 +150,8 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+       // mDisabledLooper.stop();
+       // mEnabledLooper.start();
 	}
 
 	/**
@@ -170,10 +164,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		Logger.logTeleopInit();
-		
-		Elevator.holdHeight();
-
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -181,8 +171,11 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+		Elevator.resetElevator();
+		Climber.resetClimbDir();
+		Elevator.holdHeight();
+        //mDisabledLooper.stop();
+        //mEnabledLooper.start();
 	}
 
 	/**
@@ -195,7 +188,7 @@ public class Robot extends TimedRobot {
     	
     	String fieldInfo = gameData.substring(0, 2);    	
     	//find robot starting pose
-    	System.out.print(fieldInfo);
+    	//System.out.print(fieldInfo);
 
     	String start = startPos.getSelected();
     	if(start == null) {
@@ -214,42 +207,42 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
-		case "Baseline":
+		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
 		case "Side":
 			if(start.equals("Left")){
 				if(fieldInfo.equals(c1)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c2)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c3)){
-					System.out.println("Scale Left");
+					//System.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c4)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c1)){
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
-					System.out.println("Scale Left");
+					//mSystem.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 			}

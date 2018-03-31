@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,6 +19,7 @@ public class BasicActuate extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("BasicActuate.java command started", false);
     	cylinder.toggleState();
     }
 

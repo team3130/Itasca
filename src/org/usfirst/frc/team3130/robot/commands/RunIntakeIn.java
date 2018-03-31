@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -23,6 +24,7 @@ public class RunIntakeIn extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("RunIntakeIn.java command started", false);
     	CubeIntake.runIntake(speed);
     }
 

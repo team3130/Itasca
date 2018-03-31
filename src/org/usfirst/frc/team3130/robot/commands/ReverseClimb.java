@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Climber;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,6 +16,7 @@ public class ReverseClimb extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("ReverseClimb.java command started", false);
     	Climber.reverseDir();
     }
 

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3130.robot.commands;
 import org.usfirst.frc.team3130.robot.sensors.Rangefinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,6 +19,7 @@ public class LEDtest extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("LEDTest.java command started", false);
     }
 
     // Called repeatedly when this Command is scheduled to run

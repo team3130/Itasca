@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.autoCommands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -28,6 +29,7 @@ public class AutoTurn extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("AutoTurn.java command started", false);
     	Chassis.ReleaseAngle();
     	Chassis.HoldAngle(angle);
     	Chassis.GetInstance().setAbsoluteTolerance(thresh);

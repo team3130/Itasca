@@ -1,10 +1,10 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.OI;
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,6 +20,7 @@ public class RunElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("RunElevator.java command started", false);
     	changeHeight = false;
     }
 
@@ -27,7 +28,7 @@ public class RunElevator extends Command {
     protected void execute() {
     	double stick = OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
     	if (Math.abs(stick) >= 0.04 ){
-	    	double moveSpeed = (Constants.kElevatorSpeed) * -stick;
+	    	double moveSpeed = (Preferences.getInstance().getDouble("ElevatorSpeed", 0.8)) * -stick;
 	    	Elevator.runElevator(moveSpeed);
 	    	changeHeight = true;
     	} else if (changeHeight){
@@ -43,7 +44,7 @@ public class RunElevator extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-		Elevator.holdHeight();
+		Elevator.resetElevator();
     }
 
     // Called when another command which requires one or more of the same

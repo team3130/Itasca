@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,7 +23,8 @@ public class ElevatorToHeight extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Elevator.setHeight(dist); //distance to travel in inches
+    	DriverStation.reportWarning("ElevatorToHeight.java command started", false);
+    	Elevator.setHeight(dist-3.0); //distance to travel in inches
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +38,6 @@ public class ElevatorToHeight extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
     }
 
     // Called when another command which requires one or more of the same

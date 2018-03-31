@@ -16,13 +16,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ScaleAndSwitch extends CommandGroup {
 	private AutoDriveStraightToPoint	driveForward;
-	private AutoDriveStraightToPoint	driveToScale;
 	private AutoDriveStraightToPoint	driveBack;
 	private AutoTurn					turnToScale;
 	private ElevatorToHeight			elevatorUp;
 	private ElevatorToHeight			elevatorUpAgain;
 	private ElevatorToHeight			elevatorDown;
-	private ElevatorToHeight			eleReleaseIntake;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
 	private AutoTurn					turnToCube;
@@ -44,11 +42,11 @@ public class ScaleAndSwitch extends CommandGroup {
 		
 		this.side    = side;
 		driveForward = new AutoDriveStraightToPoint();
-		driveToScale = new AutoDriveStraightToPoint();
+		new AutoDriveStraightToPoint();
 		driveBack    = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
-		eleReleaseIntake = new ElevatorToHeight(3);
+		new ElevatorToHeight(8);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
 		elevatorDown = new ElevatorToHeight(3);
@@ -72,7 +70,7 @@ public class ScaleAndSwitch extends CommandGroup {
 		//addSequential(driveToScale,3);
 		addSequential(intakeOut, 1);
 		addSequential(driveBack,2);
-		addParallel(elevatorDown, 3);
+		addSequential(elevatorDown, 3);
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 5);
 		addSequential(openIntake, 0.5);
@@ -88,7 +86,7 @@ public class ScaleAndSwitch extends CommandGroup {
     
 	@Override
     protected void initialize(){
-    	System.out.println("INIT SCALE AND SWITCH ________________");
+    	//System.out.println("INIT SCALE AND SWITCH ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
 		intakeCube.SetParam(0.6);
@@ -99,37 +97,37 @@ public class ScaleAndSwitch extends CommandGroup {
 		elevatorUpAgain.setParam(40.0);
 		intakeOut.SetParam(-0.7);
 		driveForward.SetParam(
-			430, 
+			Preferences.getInstance().getDouble("ScaleSwitch Forward Dist", 430), 
 			20, 
-			Preferences.getInstance().getDouble("ScaleForwardSpeed", .55), 
+			0.55, 
 			false
 		);
 		driveBack.SetParam(
-				-24, 
+				Preferences.getInstance().getDouble("ScaleSwitch Back Dist", -24), 
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+				0.5, 
 				false
 		);
 		driveToCube.SetParam(
-				116, 
+				Preferences.getInstance().getDouble("ScaleSwitch ToCube Dist", 116),  
 				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
+				.7, 
 				false
 		);
 		toSwitch.SetParam(
-				20, 
-				5, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .7), 
+				Preferences.getInstance().getDouble("ScaleSwitch ToSwitch Dist", 20), 
+				14, 
+				.7, 
 				false
 		);
 		//driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){		//Left Side Scale, Switch, and Start
 			turnToScale.setParam(45, 5);
-			turnToCube.setParam(95, 2);
+			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Left Side", 95), 2);
 			//turnToSwitch.setParam(20, 3);
 		}else{				//Right Side Scale, Switch, and Start
 			turnToScale.setParam(-55, 2);
-			turnToCube.setParam(-94, 2);
+			turnToCube.setParam(Preferences.getInstance().getDouble("ScaleSwitch turnToCube Right Side", -84), 2);
 			//turnToSwitch.setParam(-20, 3);
 		}
     }

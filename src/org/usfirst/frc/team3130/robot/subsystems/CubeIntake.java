@@ -1,8 +1,6 @@
 package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
-import org.usfirst.frc.team3130.robot.commands.ContinuousIntake;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -69,6 +67,18 @@ public class CubeIntake extends Subsystem {
     	actuateR.set(open);
     	openL = open;
     	openR = open;
+    }
+    
+    public static void openIntake(){
+    	open = true;
+    	actuateL.set(open);
+    	actuateR.set(open);
+    }
+    
+    public static void closeIntake(){
+    	open = false;
+    	actuateL.set(open);
+    	actuateR.set(open);
     }
     
     public static void toggleIntakeL(){

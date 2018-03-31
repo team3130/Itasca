@@ -1,18 +1,9 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContDrive;
-import org.usfirst.frc.team3130.robot.continuousDrive.ContTurnDist;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
-import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -76,7 +67,7 @@ public class ScaleOnly extends CommandGroup {
     
 	@Override
     protected void initialize(){
-    	System.out.println("INIT SCALE ________________");
+    	//System.out.println("INIT SCALE ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
 		elevatorUp.setParam(98);
@@ -100,7 +91,7 @@ public class ScaleOnly extends CommandGroup {
 		}else{					//Scale is on opposite side of start
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					374, 
+					388, 
 					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -114,7 +105,7 @@ public class ScaleOnly extends CommandGroup {
 			if(side=='L'){			//Scale is on left
 				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
-						332, 
+						340, 
 						5, 
 						.5, 
 						false
@@ -129,7 +120,7 @@ public class ScaleOnly extends CommandGroup {
 			}else{					//Scale is on right
 				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
-						332, 
+						340, 
 						5, 
 						.5, 
 						false
