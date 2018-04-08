@@ -2,7 +2,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
-
+import java.io.File;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -11,8 +11,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  *
@@ -56,6 +63,12 @@ public class Chassis extends PIDSubsystem {
 	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.11;
+	
+	public static Timer timer = new Timer();
+	private static double lastTimeL = 0.0;
+	private static double lastTimeR = 0.0;
+	private static double lastLeftVelocity = 0.0;
+	private static double lastRightVelocity = 0.0;
 	
     private Chassis() {
     	
@@ -423,5 +436,171 @@ public class Chassis extends PIDSubsystem {
 	
 	public static void toMotionProfileMode(){
 		
+	}
+	
+	public void resetGyro() {
+		m_navX.reset();
+	}
+	
+	private boolean pathFinished = false;
+	
+	public void resetForPath() {
+		pathFinished = false;
+		ResetEncoders();
+		resetGyro();
+	}
+	public boolean isPathFinished() {
+		return pathFinished;
+	}
+	
+	 public double generateHashCode(Waypoint[] path) {
+	        double hash = 1.0;
+	        for (int i = 0; i < path.length; i++) {
+	            hash += ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+	        }
+	        return (int) Math.abs(hash * 1000) * path.length;
+	    }
+	 
+	public EncoderFollower[] pathSetup(Waypoint[] path) {
+        EncoderFollower left = new EncoderFollower();
+        EncoderFollower right = new EncoderFollower();
+        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
+                PathConstants.dt, PathConstants.max_velocity, PathConstants.max_acceleration, PathConstants.max_jerk);
+        String pathHash = String.valueOf(generateHashCode(path));
+        SmartDashboard.putString("Path Hash", pathHash);
+        Trajectory toFollow;// = Pathfinder.generate(path, cfg);
+        //File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        //if (!trajectory.exists()) {
+            toFollow = Pathfinder.generate(path, cfg);
+            //Pathfinder.writeToCSV(trajectory, toFollow);
+            //System.out.println(pathHash + ".csv not found, wrote to file");
+        //} else {
+            //System.out.println(pathHash + ".csv read from file");
+            //toFollow = Pathfinder.readFromCSV(trajectory);
+        //}
+
+        TankModifier modifier = new TankModifier(toFollow).modify(PathConstants.wheel_base_width);
+        PathConstants.last_gyro_error = 0.0;
+        left = new EncoderFollower(modifier.getLeftTrajectory());
+        right = new EncoderFollower(modifier.getRightTrajectory());
+        left.configureEncoder(m_leftMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_L);
+        right.configureEncoder(m_rightMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_R);
+        left.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
+        right.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
+        return new EncoderFollower[]{
+                left, // 0
+                right, // 1
+        };
+    }
+	
+	public void pathFollow(EncoderFollower[] followers, boolean reverse) {
+        EncoderFollower left = followers[0];
+        EncoderFollower right = followers[1];
+        double l;
+        double r;
+        //double localGp = PathConstants.gp;
+        l = left.calculate(m_leftMotorFront.getSelectedSensorPosition(0));
+        r = right.calculate(m_rightMotorFront.getSelectedSensorPosition(0));
+        /*if (!reverse) {
+            localGp *= -1;
+            l = left.calculate(-m_leftMotorFront.getSelectedSensorPosition(0));
+            r = right.calculate(-m_rightMotorFront.getSelectedSensorPosition(0));
+        } else {
+            l = left.calculate(m_leftMotorFront.getSelectedSensorPosition(0));
+            r = right.calculate(m_rightMotorFront.getSelectedSensorPosition(0));
+        }*/
+
+        //double gyro_heading = reverse ? GetAngle() - PathConstants.path_angle_offset : -GetAngle() + PathConstants.path_angle_offset;
+        double gyro_heading = -GetAngle();
+        double angle_setpoint = Pathfinder.r2d(left.getHeading());
+        SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
+        double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
+        SmartDashboard.putNumber("Angle difference", angleDifference);
+
+        double turn = 0.8 * (1.0/80.0) * angleDifference;
+        /*double turn = localGp * angleDifference + (PathConstants.gd *
+                ((angleDifference - PathConstants.last_gyro_error) / PathConstants.dt));*/
+
+        PathConstants.last_gyro_error = angleDifference;
+        System.out.print("error " + angleDifference);
+        System.out.println(" Gyro angle "+ gyro_heading);
+        if (left != null && !left.isFinished()) {
+            //SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
+            SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
+            SmartDashboard.putNumber("Left set pos", left.getSegment().x);
+            SmartDashboard.putNumber("Left calc voltage", l);
+            SmartDashboard.putNumber("Commanded seg heading", left.getHeading());
+            SmartDashboard.putNumber("Left + turn", l + turn);
+            SmartDashboard.putNumber("Left seg acceleration", left.getSegment().acceleration);
+            SmartDashboard.putNumber("Path angle offset", PathConstants.path_angle_offset);
+            SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + PathConstants.path_angle_offset);
+        }
+        DriveTank(l + turn,r - turn);
+        /*if (!reverse) {
+            DriveTank(l + turn, r - turn);
+        } else {
+        	DriveTank(-l + turn, -r - turn);
+        }*/
+
+        if (left.isFinished() && right.isFinished()) {
+            pathFinished = true;
+            PathConstants.path_angle_offset = 0.0;
+        }
+    }
+	
+	
+	public static class PathConstants {
+		
+		//ALL PATHFINDER CONSTANTS IN METERS
+        //TODO: TUNE CONSTANTS
+        public static double kp = 5.0; 
+        public static double kd = 0.0;
+        //TODO: TUNE THESE OR USE JACI's MATH
+        public static double gp = 0.0375;
+        public static double gd = 0.0;
+        
+        public static double ki = 0.0;
+
+        //Gyro logging for motion profiling
+        public static double last_gyro_error = 0.0;
+
+        public static double path_angle_offset = 0.0;
+        public static final double max_velocity = 1.2; //TODO: calculate
+        public static final double kv = 1.0 / max_velocity; 
+        public static final double max_acceleration = 1.1; 
+        public static final double ka = 0.05; //0.015
+        public static final double max_jerk = 10.0;
+        public static final double wheel_diameter_L = RobotMap.kLWheelDiameter * 0.0254;
+        public static final double wheel_diameter_R = RobotMap.kRWheelDiameter * 0.0254;
+
+        public static final double wheel_base_width = RobotMap.kChassisWidth * 0.0254;
+        public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
+        public static final double dt = 0.02; //Control loop of Roborio
+	}
+	
+	public static double GetLeftMetricVelocity() {
+		return (m_leftMotorFront.getSelectedSensorVelocity(0) * Math.PI * PathConstants.wheel_diameter_L) /  (PathConstants.ticks_per_rev) * 10;
+	}
+	
+	public static double GetRightMetricVelocity() {
+		return (m_rightMotorFront.getSelectedSensorVelocity(0) * Math.PI * PathConstants.wheel_diameter_R) /  (PathConstants.ticks_per_rev) * 10;
+	}
+	
+	public static double GetLeftMetricAcceleration() {
+		//double deltaT = timer.get() - lastTimeL;
+		//lastTimeL = timer.get();
+		double deltaV = GetLeftMetricVelocity() - lastLeftVelocity;
+		lastLeftVelocity = GetLeftMetricVelocity();
+		
+		return (deltaV) / (0.02); 
+	}
+	
+	public static double GetRightMetricAcceleration() {
+		//double deltaT = timer.get() - lastTimeR;
+		//lastTimeR = timer.get();
+		double deltaV = GetRightMetricVelocity() - lastRightVelocity;
+		lastRightVelocity = GetRightMetricVelocity();
+		
+		return (deltaV) / (0.02); 
 	}
 }

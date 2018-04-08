@@ -122,7 +122,7 @@ public class Elevator extends Subsystem {
      * Hold the current height by PID closed loop
      */
     public static void holdHeight() {
-    	setHeight(getHeight());
+    	addHeight(3.0);
     }
     public static void resetElevator(){
     	//elevator.set(ControlMode.MotionMagic, 0.0);

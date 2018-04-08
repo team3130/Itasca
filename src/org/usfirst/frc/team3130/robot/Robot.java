@@ -13,6 +13,7 @@ import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
+import org.usfirst.frc.team3130.robot.autoCommands.autoPaths.TestPath;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
 //		mEnabledLooper.register(VisionProcessor.getInstance());
 		
 		//Auton command to run chooser
+		chooser.addObject("Test Path", "Test Path");
 		chooser.addObject("Pass Baseline", "Pass Baseline");
 		chooser.addObject("Side", "Side");
 		chooser.addObject("Switch Front", "Switch Front");
@@ -142,10 +144,10 @@ public class Robot extends TimedRobot {
 		//Elevator.holdHeight();
 		Chassis.ReleaseAngle();
 		
-		determineAuton();
+		//determineAuton();
 
 		//Hardcoding here
-		//autonomousCommand = new SwitchSide(fieldInfo.charAt(0));
+		autonomousCommand = new TestPath();
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
@@ -207,6 +209,9 @@ public class Robot extends TimedRobot {
     	String c4 = "RR";
 
     	switch(chosenOne){
+    	case "Test Path":
+    		autonomousCommand = new TestPath();
+    		break;
 		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
