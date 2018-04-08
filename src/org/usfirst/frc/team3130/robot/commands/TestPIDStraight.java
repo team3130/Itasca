@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.commands;
 
-import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,15 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TestPIDStraight extends Command {
 
-	private AutoDriveStraightToPoint drive;
-	
 	public TestPIDStraight() {
         requires(Chassis.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("TESTING PID STRAIGHT");
+    	//System.out.println("TESTING PID STRAIGHT");
     	Chassis.HoldAngle(Math.PI/2);
     }
     

@@ -2,11 +2,7 @@ package org.usfirst.frc.team3130.robot.subsystems;
 
 import org.usfirst.frc.team3130.robot.RobotMap;
 import org.usfirst.frc.team3130.robot.commands.DefaultDrive;
-
 import java.io.File;
-
-import org.usfirst.frc.team3130.robot.Constants;
-
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -56,17 +52,17 @@ public class Chassis extends PIDSubsystem {
 
 	private static double prevSpeedLimit;
 	
-	public static final double InchesPerRev = ((Constants.kLWheelDiameter + Constants.kRWheelDiameter)/ 2.0) * Math.PI;
+	public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0.0;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0;
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.062;
 
-	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.018;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0.001;
-	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.1;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
+	private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.11;
 	
 	public static Timer timer = new Timer();
 	private static double lastTimeL = 0.0;
@@ -208,7 +204,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedL()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;
+    	return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
     }
     
     /**
@@ -218,7 +214,7 @@ public class Chassis extends PIDSubsystem {
     public static double GetSpeedR()
     {
     	// The speed units will be in the sensor's native ticks per 100ms.
-    	return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / Constants.kDriveCodesPerRev;	
+    	return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;	
     }
     
     /**
@@ -303,13 +299,15 @@ public class Chassis extends PIDSubsystem {
     
 	public static double GetAngle()
 	{
+		//System.out.println("navx "+m_bNavXPresent);
 		if(m_bNavXPresent)
 		{
 			//Angle use wants a faster, more accurate, but drifting angle, for quick use.
+			//System.out.println(m_navX.getAngle());
 			return m_navX.getAngle();
 		}else {
 			//Means that angle use wants a driftless angle measure that lasts.
-			return ( GetDistanceR() - GetDistanceL() ) * 180 / (Constants.kChassisWidth * Math.PI);
+			return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
 			/*
 			 *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
 			 *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
@@ -352,10 +350,19 @@ public class Chassis extends PIDSubsystem {
 	/**
 	 * 
 	 * @return Current distance of the front left motor in inches
+	 * 
+	 * 
 	 */
+	public static double GetRawL(){
+		return m_leftMotorFront.getSelectedSensorPosition(0);
+	}public static double GetRawR(){
+		return m_rightMotorFront.getSelectedSensorPosition(0);
+	}
+			
+	
 	public static double GetDistanceL()
 	{
-		return -1*(m_leftMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev ;
+		return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
 	}
 	
 	/**
@@ -364,7 +371,7 @@ public class Chassis extends PIDSubsystem {
 	 */
 	public static double GetDistanceR()
 	{
-		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/Constants.kDriveCodesPerRev) * InchesPerRev;
+		return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
 	}
 	
 	public static double GetDistance()
@@ -408,7 +415,7 @@ public class Chassis extends PIDSubsystem {
 		GetInstance().getPIDController().setSetpoint(GetAngle() + workingAngle);
 		GetInstance().getPIDController().enable();
 		
-		System.out.println("Holding Angle");
+		//System.out.println("Holding Angle");
 	}
 	
 	/**
@@ -563,10 +570,10 @@ public class Chassis extends PIDSubsystem {
         public static final double max_acceleration = 1.1; 
         public static final double ka = 0.05; //0.015
         public static final double max_jerk = 10.0;
-        public static final double wheel_diameter_L = Constants.kLWheelDiameter * 0.0254;
-        public static final double wheel_diameter_R = Constants.kRWheelDiameter * 0.0254;
+        public static final double wheel_diameter_L = RobotMap.kLWheelDiameter * 0.0254;
+        public static final double wheel_diameter_R = RobotMap.kRWheelDiameter * 0.0254;
 
-        public static final double wheel_base_width = Constants.kChassisWidth * 0.0254;
+        public static final double wheel_base_width = RobotMap.kChassisWidth * 0.0254;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; //Control loop of Roborio
 	}

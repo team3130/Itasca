@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team3130.robot;
 
+import edu.wpi.first.wpilibj.Preferences;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -14,16 +16,22 @@ package org.usfirst.frc.team3130.robot;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
-	
+	//Constants
+		//Chassis
+		public static double kChassisWidth = 25.125; //Distance between the left and right middle wheels
+		public static double kLWheelDiameter = 6.0; //Center wheel
+		public static double kRWheelDiameter = 6.0;	//Center wheel
+		public static double kDriveCodesPerRev = 2048.0;
+    
+		//Elevator
+		public static double kElevatorI = 0.0;
+		public static double kElevatorD = 0.2;
+		public static double kElevatorF = 0.0;
+		public static double kElevatorSpeed = Preferences.getInstance().getDouble("ElevatorSpeed", 0.8);
+	    public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI);
+	    public static double kElevatorBias = Preferences.getInstance().getDouble("ElevatorBias", 0.2);
+	    public static double kElevatorZone = Preferences.getInstance().getDouble("ElevatorZone", 16);
+	    public static final double ElevatorBottom = 2.0;
 
 	//Motors-CAN
 	public static final int CAN_PNMMODULE = 1;
@@ -84,7 +92,7 @@ public class RobotMap {
 	
 	//Hook Deploy
 	public static final int PNM_HOOKACTUATE = 4;
-	public static final int BTN_HOOKACTUATE = LST_BTN_Y;
+	public static final int BTN_HOOKACTUATE = LST_BTN_LBUMPER;
 	public static final int AXS_HOOKDEPLOY = LST_AXS_LJOYSTICKY;
 	
 	//Wings

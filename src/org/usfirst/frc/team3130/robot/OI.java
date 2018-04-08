@@ -10,44 +10,24 @@ package org.usfirst.frc.team3130.robot;
 import org.usfirst.frc.team3130.robot.autoCommands.AutoDriveStraightToPoint;
 import org.usfirst.frc.team3130.robot.autoCommands.AutoTurn;
 import org.usfirst.frc.team3130.robot.commands.BasicActuate;
-import org.usfirst.frc.team3130.robot.commands.ChangeDriveMode;
-import org.usfirst.frc.team3130.robot.commands.DriveShiftDown;
-import org.usfirst.frc.team3130.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.HookToggle;
 import org.usfirst.frc.team3130.robot.commands.IntakeToggle;
+import org.usfirst.frc.team3130.robot.commands.OpenIntake;
 import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
-import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
-import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
 	@SuppressWarnings("unused")
 	private class JoystickTrigger extends Trigger{
 
@@ -169,29 +149,30 @@ public class OI {
 		revClimb = new JoystickButton(stickL, RobotMap.BTN_REV_CLIMB);
 		
 		testDrive=new AutoDriveStraightToPoint();
-		testDrive.SetParam(150, 5, 1, false);
+		testDrive.SetParam(6, 1, 1, false);
 		
 		testTurn=new AutoTurn();
 		testTurn.setParam(90,2);
 		
 		//Bind buttons to commands
-		changeDriveMode.whenPressed(new ChangeDriveMode());
+		//changeDriveMode.whenPressed(new ChangeDriveMode());
 		shift.whenPressed(new Shift());
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
-		testStraight.whileHeld(testDrive);
-		testCurve.whileHeld(testTurn);
+		//testStraight.whileHeld(testDrive);
+		//testCurve.whileHeld(testTurn);
 
 		//TODO: Find good defaults
-		elevatorMax.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));
-		elevatorScaleLevel.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
-		elevatorScaleLowest.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
-		elevatorSwitch.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));
-		elevatorLift.whileActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
+		elevatorMax.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));
+		elevatorScaleLevel.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Level", 82)));
+		elevatorScaleLowest.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Scale Lowest", 66)));
+		elevatorSwitch.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Switch", 32)));
+		elevatorLift.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Lift", 11.5)));
 		
 		cubeIn.whileHeld(new RunIntakeIn());
 		cubeOut.whileHeld(new RunIntakeOut());
-		cubeActuate.whenPressed(new IntakeToggle());
+		//cubeActuate.whenPressed(new IntakeToggle());
+		cubeActuate.whileHeld(new OpenIntake());
 		//cubeActuateL.whenPressed(new IntakeToggleL());
 		//cubeActuateR.whenPressed(new IntakeToggleR());
 		

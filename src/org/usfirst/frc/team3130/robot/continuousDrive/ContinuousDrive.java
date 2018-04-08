@@ -36,8 +36,6 @@ public abstract class ContinuousDrive extends Command {
 		Chassis.ShiftDown(shiftDown);
 		Chassis.TalonsToCoast(false);
     	valPrev = getPos();
-    	System.out.println(valPrev);
-    	System.out.println(valEnd);
 	}
 	
 	@Override
@@ -83,7 +81,7 @@ public abstract class ContinuousDrive extends Command {
 	
 	@Override
 	protected void interrupted(){
-		System.out.println("interupt");
+		//System.out.println("interupt");
 		end();
 	}
 }

@@ -29,6 +29,7 @@ public class HookDeploy extends Subsystem {
 	private HookDeploy(){
 		winch = new WPI_TalonSRX(RobotMap.CAN_HDWINCH);
 		winch.setNeutralMode(NeutralMode.Brake);
+		//winch.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 		actuator = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_HOOKACTUATE);
 		actuated = false;
 	}

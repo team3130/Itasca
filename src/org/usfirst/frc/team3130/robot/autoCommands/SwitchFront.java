@@ -1,6 +1,5 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
@@ -8,7 +7,6 @@ import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -51,6 +49,7 @@ public class SwitchFront extends CommandGroup {
 
 	@Override
 	protected void initialize(){
+		//Always used
 		intakeIn.SetParam(0.3);
 		intakeOut.SetParam(-0.4);
 		elevatorUp.setParam(40);
@@ -62,16 +61,16 @@ public class SwitchFront extends CommandGroup {
 			);
 		
 		
-		if(side=='L'){
-			turnToSwitch.setParam(-40, 2);
+		if(side=='L'){		//Switch on left
+			turnToSwitch.setParam(-32, 2);
 			driveToSwitch.SetParam(
 					150,
 					5,
 					0.5, 
 					false
 				);
-		}else{
-			turnToSwitch.setParam(50,2);
+		}else{				//Switch on right
+			turnToSwitch.setParam(42,2);
 			driveToSwitch.SetParam(
 					174,
 					5,

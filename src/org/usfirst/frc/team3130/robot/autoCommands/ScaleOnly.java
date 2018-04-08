@@ -1,16 +1,9 @@
 package org.usfirst.frc.team3130.robot.autoCommands;
 
-import org.usfirst.frc.team3130.robot.Constants;
 import org.usfirst.frc.team3130.robot.Robot;
 import org.usfirst.frc.team3130.robot.commands.ElevatorToHeight;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter;
-import org.usfirst.frc.team3130.robot.commands.HeightSetter.Direction;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
-import org.usfirst.frc.team3130.robot.subsystems.Chassis;
-import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
-import org.usfirst.frc.team3130.robot.subsystems.Elevator;
-
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -64,9 +57,9 @@ public class ScaleOnly extends CommandGroup {
 		}else{
 			addSequential(turnBehind, 2);
 			addSequential(driveBehind,5);
-			addParallel(turnToScale,2);
+			addSequential(turnToScale,1);
 			addSequential(elevatorUp,3);
-			addSequential(driveToScale,3);
+			addSequential(driveToScale,1.5);
 			addSequential(intakeOut,1);
 			addSequential(driveBack,2);
 		}
@@ -74,31 +67,31 @@ public class ScaleOnly extends CommandGroup {
     
 	@Override
     protected void initialize(){
-    	System.out.println("INIT SCALE ________________");
+    	//System.out.println("INIT SCALE ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
 		elevatorUp.setParam(98);
 		
 
 		
-		if(sameSide){
+		if(sameSide){			//Scale is same side as start
 			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
-					525, 
+					510, 
 					20, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
 				);
 			driveToScale.SetParam(12, 10, 0.4, false);
-			if(side=='L'){
+			if(side=='L'){			//Scale is on left
 				turnToScale.setParam(90, 5);
-			}else{
+			}else{					//Scale is on right
 				turnToScale.setParam(-95, 5);
 			}
-		}else{
+		}else{					//Scale is on opposite side of start
 			intakeOut.SetParam(-0.5);
 			driveForward.SetParam(
-					432-50, 
+					388, 
 					5, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
 					false
@@ -109,30 +102,30 @@ public class ScaleOnly extends CommandGroup {
 					0.3, 
 					false
 				);
-			if(side=='L'){
-				turnBehind.setParam(-95, 1);
+			if(side=='L'){			//Scale is on left
+				turnBehind.setParam(-90, 1);
 				driveBehind.SetParam(
 						340, 
 						5, 
 						.5, 
 						false
 					);
-				turnToScale.setParam(88, 1);
+				turnToScale.setParam(82, 1);
 				driveToScale.SetParam(
 						50, 
 						5, 
 						0.3, 
 						false
 					);
-			}else{
+			}else{					//Scale is on right
 				turnBehind.setParam(90, 1);
 				driveBehind.SetParam(
-						310, 
+						340, 
 						5, 
 						.5, 
 						false
 					);
-				turnToScale.setParam(-102, 1);
+				turnToScale.setParam(-87, 1);
 				driveToScale.SetParam(
 						50, 
 						5, 

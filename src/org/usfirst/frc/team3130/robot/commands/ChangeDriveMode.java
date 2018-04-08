@@ -2,6 +2,7 @@ package org.usfirst.frc.team3130.robot.commands;
 
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -14,13 +15,14 @@ public class ChangeDriveMode extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	DriverStation.reportWarning("ChangeDriveMode.java command started", false);
 		if (Chassis.getArcade()){
     		Chassis.setArcade(false);
     	}
     	else {
     		Chassis.setArcade(true);
     	}
-    	System.out.println("Changing drive mode...");
+    	//System.out.println("Changing drive mode...");
     }
 
     // Called repeatedly when this Command is scheduled to run

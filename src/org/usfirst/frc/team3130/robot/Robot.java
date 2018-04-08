@@ -8,17 +8,13 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchSide;
 import org.usfirst.frc.team3130.robot.autoCommands.autoPaths.TestPath;
-import org.usfirst.frc.team3130.robot.commands.LocationCollector;
 import org.usfirst.frc.team3130.robot.commands.RobotSensors;
-import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
-import org.usfirst.frc.team3130.robot.commands.TestPIDStraight;
-import org.usfirst.frc.team3130.robot.sensors.LocationCamera.Location;
-import org.usfirst.frc.team3130.robot.subsystems.AndroidInterface;
 import org.usfirst.frc.team3130.robot.subsystems.BasicCylinder;
 import org.usfirst.frc.team3130.robot.subsystems.BlinkinInterface;
 import org.usfirst.frc.team3130.robot.subsystems.Chassis;
@@ -26,11 +22,8 @@ import org.usfirst.frc.team3130.robot.subsystems.Climber;
 import org.usfirst.frc.team3130.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team3130.robot.subsystems.Elevator;
 import org.usfirst.frc.team3130.robot.subsystems.HookDeploy;
-import org.usfirst.frc.team3130.robot.vision.VisionProcessor;
-import org.usfirst.frc.team3130.robot.vision.VisionServer;
-import org.usfirst.frc.team3130.robot.util.Logger;
-import org.usfirst.frc.team3130.robot.util.Looper;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -51,14 +44,12 @@ public class Robot extends TimedRobot {
 	private SendableChooser<String> chooser  = new SendableChooser<String>();
 	public static SendableChooser<String> startPos = new SendableChooser<String>();
 	RobotSensors robotSensors;
-	private Location robotLocation;
 	//VisionServer mVisionServer = VisionServer.getInstance();
-	Command locationCollector = new LocationCollector(robotLocation);
 	
 	// Enabled looper is called at 10Hz whenever the robot is enabled, frequency can be changed in Constants.java: kLooperDt
-    Looper mEnabledLooper = new Looper();
+    //Looper mEnabledLooper = new Looper();
     // Disabled looper is called at 10Hz whenever the robot is disabled
-    Looper mDisabledLooper = new Looper();
+    //Looper mDisabledLooper = new Looper();
     
     public static BasicCylinder bcWingsDeploy;
 	//public static Compressor compressor = new Compressor(1);
@@ -71,8 +62,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		robotSensors = new RobotSensors();
 		robotSensors.start();
-		Logger.logMatchInfo();
-		Logger.logRobotStartup();
 		//compressor.start();
 		
 		bcWingsDeploy = new BasicCylinder(RobotMap.PNM_WINGSDEPLOY, "Wings", "Wings Deploy");
@@ -84,6 +73,7 @@ public class Robot extends TimedRobot {
 		Climber.GetInstance();
 		BlinkinInterface.GetInstance();
 		HookDeploy.GetInstance();
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		//Vision operation
 //		AndroidInterface.GetInstance();
@@ -101,15 +91,16 @@ public class Robot extends TimedRobot {
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
 		chooser.addObject("Switch x2", "Switch x2");
+		chooser.addObject("Scale Switch", "Scale Switch");
 		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
 
 		//Starting configuration for autons
 		//If hardcoding required, manually choose fieldSide below
-		startPos.addDefault("Left Starting Position", "Left");
-		startPos.addObject("Right Starting Position", "Right");
-		SmartDashboard.putData("Starting Position", startPos);
+		startPos.addDefault("Left Start Pos", "Left");
+		startPos.addObject("Right Start Pos", "Right");
+		SmartDashboard.putData("Start Pos", startPos);
 	}
 
 	/**
@@ -119,15 +110,15 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Logger.logRobotDisabled();
+		Elevator.resetElevator();
 		CubeIntake.reset();
 		HookDeploy.reset();
 		//Chassis.ResetEncoders();
 		Chassis.ReleaseAngle();
 		Climber.resetClimbDir();
 		bcWingsDeploy.actuate(false);
-		mEnabledLooper.stop();
-        mDisabledLooper.start();
+		//mEnabledLooper.stop();
+        //mDisabledLooper.start();
 		//locationCollector.start();
 	}
 
@@ -149,10 +140,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		Logger.logAutonInit();
-		locationCollector.cancel();
-
-		Elevator.holdHeight();
+		Elevator.resetElevator();
+		//Elevator.holdHeight();
 		Chassis.ReleaseAngle();
 		
 		//determineAuton();
@@ -163,8 +152,8 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+       // mDisabledLooper.stop();
+       // mEnabledLooper.start();
 	}
 
 	/**
@@ -177,11 +166,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		Logger.logTeleopInit();
-		locationCollector.cancel();
-		
-		Elevator.holdHeight();
-
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -189,8 +173,11 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-        mDisabledLooper.stop();
-        mEnabledLooper.start();
+		Elevator.resetElevator();
+		Climber.resetClimbDir();
+		Elevator.holdHeight();
+        //mDisabledLooper.stop();
+        //mEnabledLooper.start();
 	}
 
 	/**
@@ -203,7 +190,7 @@ public class Robot extends TimedRobot {
     	
     	String fieldInfo = gameData.substring(0, 2);    	
     	//find robot starting pose
-    	System.out.print(fieldInfo);
+    	//System.out.print(fieldInfo);
 
     	String start = startPos.getSelected();
     	if(start == null) {
@@ -224,42 +211,43 @@ public class Robot extends TimedRobot {
     	switch(chosenOne){
     	case "Test Path":
     		autonomousCommand = new TestPath();
+    		break;
 		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
 			break;
 		case "Side":
 			if(start.equals("Left")){
 				if(fieldInfo.equals(c1)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c2)){
-					System.out.println("Switch Side Left");
+					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
 				}
 				else if(fieldInfo.equals(c3)){
-					System.out.println("Scale Left");
+					//System.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 				else{
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c4)){
-					System.out.println("Switch Side Right");
+					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
 				}
 				else if(fieldInfo.equals(c1)){
-					System.out.println("Scale Right");
+					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
 				}
 				else{
-					System.out.println("Scale Left");
+					//mSystem.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
 				}
 			}
@@ -275,6 +263,20 @@ public class Robot extends TimedRobot {
 			break;
 		case "Switch x2":
 			autonomousCommand = new SwitchFront2Cube(fieldInfo.charAt(0));
+			break;
+		case "Scale Switch":
+			if(start.equals("Left")){
+				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(1) == 'L')
+					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
+				else
+					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+			}
+			else{
+				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(1) == 'R')
+					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
+				else
+					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+			}
 			break;
 		default:
 			autonomousCommand = null;
