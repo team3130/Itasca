@@ -468,16 +468,16 @@ public class Chassis extends PIDSubsystem {
                 PathConstants.dt, PathConstants.max_velocity, PathConstants.max_acceleration, PathConstants.max_jerk);
         String pathHash = String.valueOf(generateHashCode(path));
         SmartDashboard.putString("Path Hash", pathHash);
-        Trajectory toFollow;// = Pathfinder.generate(path, cfg);
-        //File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
-        //if (!trajectory.exists()) {
+        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        if (!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
-            //Pathfinder.writeToCSV(trajectory, toFollow);
-            //System.out.println(pathHash + ".csv not found, wrote to file");
-        //} else {
-            //System.out.println(pathHash + ".csv read from file");
-            //toFollow = Pathfinder.readFromCSV(trajectory);
-        //}
+            Pathfinder.writeToCSV(trajectory, toFollow);
+            System.out.println(pathHash + ".csv not found, wrote to file");
+        } else {
+            System.out.println(pathHash + ".csv read from file");
+            toFollow = Pathfinder.readFromCSV(trajectory);
+        }
 
         TankModifier modifier = new TankModifier(toFollow).modify(PathConstants.wheel_base_width);
         PathConstants.last_gyro_error = 0.0;
@@ -535,7 +535,7 @@ public class Chassis extends PIDSubsystem {
             SmartDashboard.putNumber("Path angle offset", PathConstants.path_angle_offset);
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + PathConstants.path_angle_offset);
         }
-        DriveTank(l + turn,r - turn);
+        DriveTank(l/* + turn*/,r /*- turn*/);
         /*if (!reverse) {
             DriveTank(l + turn, r - turn);
         } else {
@@ -556,7 +556,7 @@ public class Chassis extends PIDSubsystem {
         public static double kp = 1.0; 
         public static double kd = 0.0;
         //TODO: TUNE THESE OR USE JACI's MATH
-        public static double gp = 0.1;//0.0375
+        public static double gp = 0.01;//0.0375
         public static double gd = 0.0;
         
         public static double ki = 0.0;
