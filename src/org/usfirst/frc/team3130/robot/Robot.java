@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
 		Climber.GetInstance();
 		BlinkinInterface.GetInstance();
 		HookDeploy.GetInstance();
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 		
 		//Vision operation
 //		AndroidInterface.GetInstance();
@@ -211,75 +211,94 @@ public class Robot extends TimedRobot {
     	switch(chosenOne){
     	case "Test Path":
     		autonomousCommand = new TestPath();
+    		System.out.println("Test Path");
     		break;
 		case "Pass Baseline":
 			autonomousCommand = new PassBaseline();
+    		System.out.println("PB");
 			break;
 		case "Side":
 			if(start.equals("Left")){
 				if(fieldInfo.equals(c1)){
 					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
+		    		System.out.println("Switch Side");
 				}
 				else if(fieldInfo.equals(c2)){
 					//System.out.println("Switch Side Left");
 					autonomousCommand = new SwitchSide('L');
+		    		System.out.println("Switch Side");
 				}
 				else if(fieldInfo.equals(c3)){
 					//System.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
+		    		System.out.println("Scale Only");
 				}
 				else{
 					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
+					System.out.println("Scale Only");
 				}
 			}else{
 				if(fieldInfo.equals(c3)){
 					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
+					System.out.println("Switch Side");
 				}
 				else if(fieldInfo.equals(c4)){
 					//System.out.println("Switch Side Right");
 					autonomousCommand = new SwitchSide('R');
+					System.out.println("Switch Side");
 				}
 				else if(fieldInfo.equals(c1)){
 					//System.out.println("Scale Right");
 					autonomousCommand = new ScaleOnly('R');
+					System.out.println("Scale Only");
 				}
 				else{
 					//mSystem.out.println("Scale Left");
 					autonomousCommand = new ScaleOnly('L');
+					System.out.println("Scale Only");
 				}
 			}
 			break;
 		case "Switch Front":
 			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
+			System.out.println("Switch Front");
 			break;
 		case "No Auto":
 			autonomousCommand = null;
+			System.out.println("No Auto");
 			break;
 		case "Scale":
 			autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+			System.out.println("Scale Only");
 			break;
 		case "Switch x2":
 			autonomousCommand = new SwitchFront2Cube(fieldInfo.charAt(0));
+			System.out.println("Switch Front 2");
 			break;
 		case "Scale Switch":
 			if(start.equals("Left")){
-				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(1) == 'L')
+				if(fieldInfo.charAt(0) == 'L' && fieldInfo.charAt(1) == 'L'){
 					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
-				else
+				System.out.println("Scale and Switch");}
+				else{
 					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+				System.out.println("Scale Only");}
 			}
 			else{
-				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(1) == 'R')
+				if(fieldInfo.charAt(0) == 'R' && fieldInfo.charAt(1) == 'R'){
 					autonomousCommand = new ScaleAndSwitch(fieldInfo.charAt(0));
-				else
+				System.out.println("Scale and Switch");}
+				else{
 					autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
+					System.out.println("Scale Only");}
 			}
 			break;
 		default:
 			autonomousCommand = null;
+			System.out.println("Null");
 		}
 	}
 

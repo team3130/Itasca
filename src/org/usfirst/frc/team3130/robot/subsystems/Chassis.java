@@ -553,10 +553,10 @@ public class Chassis extends PIDSubsystem {
 		
 		//ALL PATHFINDER CONSTANTS IN METERS
         //TODO: TUNE CONSTANTS
-        public static double kp = 5.0; 
+        public static double kp = 1.0; 
         public static double kd = 0.0;
         //TODO: TUNE THESE OR USE JACI's MATH
-        public static double gp = 0.0375;
+        public static double gp = 0.1;//0.0375
         public static double gd = 0.0;
         
         public static double ki = 0.0;
@@ -565,10 +565,10 @@ public class Chassis extends PIDSubsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 1.2; //TODO: calculate
+        public static final double max_velocity = 3.2; //TODO: calculate //4.0 measured at high gear
         public static final double kv = 1.0 / max_velocity; 
-        public static final double max_acceleration = 1.1; 
-        public static final double ka = 0.05; //0.015
+        public static final double max_acceleration = 0.5; //3.0 measured at high gear
+        public static final double ka = 0.0; //0.05
         public static final double max_jerk = 10.0;
         public static final double wheel_diameter_L = RobotMap.kLWheelDiameter * 0.0254;
         public static final double wheel_diameter_R = RobotMap.kRWheelDiameter * 0.0254;
