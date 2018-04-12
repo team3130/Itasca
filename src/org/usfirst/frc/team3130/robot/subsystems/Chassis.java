@@ -453,22 +453,38 @@ public class Chassis extends PIDSubsystem {
 		return pathFinished;
 	}
 	
-	 public double generateHashCode(Waypoint[] path) {
+	 public double generateHashCode(Waypoint[] path, double v, double a, double j) {
 	        double hash = 1.0;
 	        for (int i = 0; i < path.length; i++) {
-	            hash += ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+	            hash += ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11)) + (3*v) + (5*a) + (7*j);
 	        }
 	        return (int) Math.abs(hash * 1000) * path.length;
 	    }
 	 
 	public EncoderFollower[] pathSetup(Waypoint[] path) {
+		Timer timer = new Timer();
+		timer.reset();
+		timer.start();
         EncoderFollower left = new EncoderFollower();
+        System.out.println("left created, timer: " + timer.get());
         EncoderFollower right = new EncoderFollower();
-        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
-                PathConstants.dt, PathConstants.max_velocity, PathConstants.max_acceleration, PathConstants.max_jerk);
-        String pathHash = String.valueOf(generateHashCode(path));
-        SmartDashboard.putString("Path Hash", pathHash);
-        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        System.out.println("right created, timer: " + timer.get());
+        double vel = Preferences.getInstance().getDouble("maxV", PathConstants.max_velocity);
+        double acc = Preferences.getInstance().getDouble("maxA", PathConstants.max_acceleration);
+        double jerk = Preferences.getInstance().getDouble("maxJ", PathConstants.max_jerk);
+        Trajectory.Config cfg = new Trajectory.Config(
+        		Trajectory.FitMethod.HERMITE_QUINTIC, 
+        		Trajectory.Config.SAMPLES_HIGH,
+                PathConstants.dt, 
+                vel, 
+                acc, 
+                jerk);
+        System.out.println("Trajectory configured, timer: " + timer.get());
+        String pathHash = String.valueOf(generateHashCode(path, vel, acc, jerk));
+        //SmartDashboard.putString("Path Hash", pathHash);
+        Trajectory toFollow;
+        System.out.println("Hash code generated, timer: " + timer.get());
+        System.out.println("File creation started, timer: " + timer.get());
         File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
         if (!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
@@ -477,6 +493,7 @@ public class Chassis extends PIDSubsystem {
         } else {
             System.out.println(pathHash + ".csv read from file");
             toFollow = Pathfinder.readFromCSV(trajectory);
+            System.out.println("file read from, timer: " + timer.get());
         }
 
         TankModifier modifier = new TankModifier(toFollow).modify(PathConstants.wheel_base_width);
@@ -485,8 +502,19 @@ public class Chassis extends PIDSubsystem {
         right = new EncoderFollower(modifier.getRightTrajectory());
         left.configureEncoder(m_leftMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_L);
         right.configureEncoder(m_rightMotorFront.getSelectedSensorPosition(0), PathConstants.ticks_per_rev, PathConstants.wheel_diameter_R);
-        left.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
-        right.configurePIDVA(PathConstants.kp, PathConstants.ki, PathConstants.kd, PathConstants.kv, PathConstants.ka);
+        left.configurePIDVA(
+        		Preferences.getInstance().getDouble("kP", PathConstants.kp), 
+        		PathConstants.ki, 
+        		Preferences.getInstance().getDouble("kD", PathConstants.kd), 
+        		PathConstants.kv, 
+        		Preferences.getInstance().getDouble("kA", PathConstants.ka));
+        right.configurePIDVA(
+        		Preferences.getInstance().getDouble("kP", PathConstants.kp), 
+        		PathConstants.ki, 
+        		Preferences.getInstance().getDouble("kD", PathConstants.kd), 
+        		PathConstants.kv, 
+        		Preferences.getInstance().getDouble("kA", PathConstants.ka));
+        System.out.println("Path Setup complete, timer: " + timer.get());
         return new EncoderFollower[]{
                 left, // 0
                 right, // 1
@@ -513,19 +541,19 @@ public class Chassis extends PIDSubsystem {
         //double gyro_heading = reverse ? GetAngle() - PathConstants.path_angle_offset : -GetAngle() + PathConstants.path_angle_offset;
         double gyro_heading = -GetAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
-        SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
+        //SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
-        SmartDashboard.putNumber("Angle difference", angleDifference);
+        //SmartDashboard.putNumber("Angle difference", angleDifference);
 
         double turn = 0.8 * (1.0/80.0) * angleDifference;
         /*double turn = localGp * angleDifference + (PathConstants.gd *
                 ((angleDifference - PathConstants.last_gyro_error) / PathConstants.dt));*/
 
         PathConstants.last_gyro_error = angleDifference;
-        System.out.print("error " + angleDifference);
-        System.out.println(" Gyro angle "+ gyro_heading);
+        //System.out.print("error " + angleDifference);
+        //System.out.println(" Gyro angle "+ gyro_heading);
         if (left != null && !left.isFinished()) {
-            //SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
+            SmartDashboard.putNumber("Left diff", left.getSegment().x - this.GetLeftMetricPosition());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
             SmartDashboard.putNumber("Left set pos", left.getSegment().x);
             SmartDashboard.putNumber("Left calc voltage", l);
@@ -602,5 +630,9 @@ public class Chassis extends PIDSubsystem {
 		lastRightVelocity = GetRightMetricVelocity();
 		
 		return (deltaV) / (0.02); 
+	}
+	
+	public static double GetLeftMetricPosition(){
+		return (m_rightMotorFront.getSelectedSensorPosition(0) * Math.PI * PathConstants.wheel_diameter_L) / PathConstants.ticks_per_rev;
 	}
 }

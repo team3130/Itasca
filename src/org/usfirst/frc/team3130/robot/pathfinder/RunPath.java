@@ -28,7 +28,7 @@ public class RunPath extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Trying to run path___________");
+    	//System.out.println("Trying to run path___________");
     	Chassis.GetInstance().pathFollow(followers, true);
     }
 
