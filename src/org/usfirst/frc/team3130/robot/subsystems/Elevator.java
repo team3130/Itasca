@@ -132,8 +132,8 @@ public class Elevator extends Subsystem {
     public static void outputToSmartDashboard() {
     	//SmartDashboard.putNumber("elevator_velocity", elevator.getSelectedSensorVelocity(0));
     	SmartDashboard.putNumber("Elev_Height", getHeight());
-    	//SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
-    	//SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_m1current", elevator.getOutputCurrent() );
+    	SmartDashboard.putNumber("elev_m2current", elevator2.getOutputCurrent() );
     	
     	SmartDashboard.putBoolean("Elev_Rev_Switch",elevator.getSensorCollection().isRevLimitSwitchClosed());
     	SmartDashboard.putBoolean("elev_Fwd_Switch", elevator.getSensorCollection().isFwdLimitSwitchClosed());
