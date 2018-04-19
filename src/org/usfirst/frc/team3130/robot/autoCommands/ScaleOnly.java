@@ -70,16 +70,15 @@ public class ScaleOnly extends CommandGroup {
     	//System.out.println("INIT SCALE ________________");
     	//Always same
 		intakeIn.SetParam(0.3);
+		intakeOut.SetParam(-0.5);
 		elevatorUp.setParam(98);
-		
-
 		
 		if(sameSide){			//Scale is same side as start
 			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
-					510, 
+					460, 
 					20, 
-					Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
+					Preferences.getInstance().getDouble("ScaleForwardSpeed", .85), 
 					false
 				);
 			driveToScale.SetParam(12, 10, 0.4, false);
