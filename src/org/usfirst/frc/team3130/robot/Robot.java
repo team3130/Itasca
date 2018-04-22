@@ -8,6 +8,8 @@
 package org.usfirst.frc.team3130.robot;
 
 import org.usfirst.frc.team3130.robot.autoCommands.PassBaseline;
+import org.usfirst.frc.team3130.robot.autoCommands.Scale2CubeOpp;
+import org.usfirst.frc.team3130.robot.autoCommands.Scale2CubeSame;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
@@ -90,6 +92,7 @@ public class Robot extends TimedRobot {
 		chooser.addObject("Scale", "Scale");
 		chooser.addObject("Switch x2", "Switch x2");
 		chooser.addObject("Scale Switch", "Scale Switch");
+		chooser.addObject("Scale x2", "Scale x2");
 		chooser.addDefault("No Auton", null);
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -261,6 +264,16 @@ public class Robot extends TimedRobot {
 			break;
 		case "Scale Switch":
 			autonomousCommand = new ScaleAndSwitch(start, fieldInfo);
+			break;
+		case "Scale x2":
+			boolean sameSide = (start.equals("Left") && fieldInfo.charAt(1) == 'L') ||
+							   (start.equals("Right") && fieldInfo.charAt(1) == 'R');
+			if(sameSide){
+				autonomousCommand = new Scale2CubeSame(fieldInfo.charAt(1));
+			}
+			else {
+				autonomousCommand = new Scale2CubeOpp(fieldInfo.charAt(1));
+			}
 			break;
 		default:
 			autonomousCommand = null;

@@ -18,6 +18,8 @@ import org.usfirst.frc.team3130.robot.commands.ReverseClimb;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeIn;
 import org.usfirst.frc.team3130.robot.commands.RunIntakeOut;
 import org.usfirst.frc.team3130.robot.commands.Shift;
+import org.usfirst.frc.team3130.robot.commands.TestPIDCurve;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -160,7 +162,7 @@ public class OI {
 		//shiftUp.whenPressed(new DriveShiftUp());
 		//shiftDown.whenPressed(new DriveShiftDown());
 		//testStraight.whileHeld(testDrive);
-		//testCurve.whileHeld(testTurn);
+		//testCurve.whenPressed(new TestPIDCurve());//testTurn);
 
 		//TODO: Find good defaults
 		elevatorMax.whenActive(new ElevatorToHeight(Preferences.getInstance().getDouble("Preset Elevator Max", 98)));

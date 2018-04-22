@@ -19,7 +19,7 @@ public class ScaleOnly extends CommandGroup {
 	private AutoTurn					turnToScale;
 	private AutoTurn					turnBehind;
 	private ElevatorToHeight			elevatorUp;
-	private ElevatorToHeight			eleReleaseIntake;
+	private ElevatorToHeight			eleUp;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
 	private char						side;
@@ -39,22 +39,22 @@ public class ScaleOnly extends CommandGroup {
 		turnToScale  = new AutoTurn();
 		turnBehind   = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
-		eleReleaseIntake = new ElevatorToHeight(3);
+		eleUp = new ElevatorToHeight(3);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
 		
 		sameSide	 =Robot.startPos.getSelected().substring(0,1).equalsIgnoreCase(String.valueOf(side));
 		
-		addSequential(eleReleaseIntake, 1);
 		addParallel(intakeIn,1);
-		addSequential(driveForward,4.1);
 		
 		if(sameSide){
-			addSequential(elevatorUp,3);
+			addParallel(elevatorUp,3);
+			addSequential(driveForward,4);
 			addSequential(turnToScale, 1);
 			addSequential(driveToScale,3);
 			addSequential(intakeOut, 1);
 		}else{
+			addSequential(driveForward,4);
 			addSequential(turnBehind, 2);
 			addSequential(driveBehind,5);
 			addSequential(turnToScale,1);
@@ -76,16 +76,16 @@ public class ScaleOnly extends CommandGroup {
 		if(sameSide){			//Scale is same side as start
 			intakeOut.SetParam(-0.7);
 			driveForward.SetParam(
-					460, 
-					20, 
+					388, 
+					10, 
 					Preferences.getInstance().getDouble("ScaleForwardSpeed", .85), 
 					false
 				);
 			driveToScale.SetParam(12, 10, 0.4, false);
 			if(side=='L'){			//Scale is on left
-				turnToScale.setParam(90, 5);
+				turnToScale.setParam(45, 5);
 			}else{					//Scale is on right
-				turnToScale.setParam(-95, 5);
+				turnToScale.setParam(-55, 5);
 			}
 		}else{					//Scale is on opposite side of start
 			intakeOut.SetParam(-0.5);

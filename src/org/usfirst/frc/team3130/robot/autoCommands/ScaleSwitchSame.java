@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Deposits a cube into the scale then the switch
+ * Auton to run scale switch when they are both on the same side
  */
-public class ScaleAndSwitch extends CommandGroup {
+public class ScaleSwitchSame extends CommandGroup {
+
 	private AutoDriveStraightToPoint	driveForward;
 	private AutoDriveStraightToPoint	driveBack;
 	private AutoTurn					turnToScale;
@@ -46,7 +47,6 @@ public class ScaleAndSwitch extends CommandGroup {
 	private AutoDriveStraightToPoint	toSwitch;
 	private AutoDriveStraightToPoint	toSwitchLast;
 	private AutoDriveStraightToPoint	back;
-	private AutoDriveStraightToPoint	back2;
 	private AutoDriveStraightToPoint	backLast;
 	private AutoDriveStraightToPoint	straight;
 	private AutoDriveStraightToPoint	straightAgain;
@@ -58,22 +58,17 @@ public class ScaleAndSwitch extends CommandGroup {
 	private AutoTurn					turnLast;
 	private AutoTurn					turnBehind;
 	private String						start;
-	private char						scale;
-	private char						switcH;
-	private boolean						sameScale;
-	private boolean						sameSwitch;
+	private char						side;
 
-	public ScaleAndSwitch(String start, String gameData) {
+	public ScaleSwitchSame(String start, char side) {
 		requires(Chassis.GetInstance());
 		requires(Elevator.GetInstance());
 		requires(CubeIntake.GetInstance());
 		
 		this.start    = start;
-		this.switcH	  = gameData.charAt(0);
-		this.scale    = gameData.charAt(1);
-		this.sameScale = (start.equals("Right") && scale == 'R') || (start.equals("Left") && scale == 'L');
-		this.sameSwitch = (scale == 'R' && switcH == 'R') || (scale == 'L' && switcH == 'L');
+		this.side	  = side;
 		driveForward = new AutoDriveStraightToPoint();
+		new AutoDriveStraightToPoint();
 		driveBack    = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
@@ -104,7 +99,6 @@ public class ScaleAndSwitch extends CommandGroup {
 		delay3       = new AutoDelay();
 		toSwitch     = new AutoDriveStraightToPoint();
 		back         = new AutoDriveStraightToPoint();
-		back2         = new AutoDriveStraightToPoint();
 		turnSecond	 = new AutoTurn();
 		straight     = new AutoDriveStraightToPoint();
 		turnLast	 = new AutoTurn();
@@ -120,10 +114,10 @@ public class ScaleAndSwitch extends CommandGroup {
 		//beginning of auton
 		addParallel(elevatorUp,3);
 		addParallel(intakeIn,1);
-		
+		/*
 		//scale is on same side as start
 		if(sameScale){
-			addSequential(driveForward,4.5);
+			addSequential(driveForward,4.1);
 			addSequential(turnToScale, 1.1);
 			addSequential(intakeOut, 1);
 			//switch is on the same side as the scale
@@ -133,7 +127,7 @@ public class ScaleAndSwitch extends CommandGroup {
 				addSequential(turnAway, 1.5);
 				addSequential(driveABit, 1.5);
 				addSequential(openIntake, 0.5);
-				addSequential(turnToCube, 1);
+				addSequential(turnToCube, 1.5);
 				addParallel(intakeCube, 3);
 				addSequential(driveToCube, 0.75);
 				addSequential(closeIntake, 0.5);
@@ -146,14 +140,13 @@ public class ScaleAndSwitch extends CommandGroup {
 				addSequential(turnSecond, 1);
 				//addParallel(openIntakeAgain, 1);
 				addParallel(intakeAgain, 2.5);
-				addSequential(straight, 1.25);
-				//addSequential(delay, 0.5);
-				addSequential(back2, 1);
+				addSequential(straight, 1.5);
 				addParallel(eleUpAgain, 2);
+				addSequential(delay, 0.5);
 				addSequential(turnLast, 1);
 				//addSequential(straightAgain, 0.5);
 				//addSequential(closeIntakeAgain, 0.3);
-				addSequential(toSwitchLast, 1);
+				//addSequential(toSwitchLast, 1);
 				addSequential(cubeSpit, 1);
 			}
 		}
@@ -194,8 +187,8 @@ public class ScaleAndSwitch extends CommandGroup {
 			//switch is opposite the scale
 			else{
 				
-			}//*/
-		}
+			}
+		}*/
 	}
     
 	@Override
@@ -207,8 +200,8 @@ public class ScaleAndSwitch extends CommandGroup {
 		intakeCube.SetParam(0.8);
 		depositCube.SetParam(-0.6);
 		cubeSpit.SetParam(-0.6);
-		elevatorDown.setParam(0);
-		eleDownAgain.setParam(0.0);
+		elevatorDown.setParam(3.0);
+		eleDownAgain.setParam(5.0);
 		elevatorUpAgain.setParam(40.0);
 		eleUpAgain.setParam(40.0);
 		eleRaise.setParam(98);
@@ -219,7 +212,7 @@ public class ScaleAndSwitch extends CommandGroup {
 				false
 		);
 		driveToCube.SetParam(//106
-				30,  
+				Preferences.getInstance().getDouble("ScaleSwitch ToCube Dist", 40),  
 				3, 
 				.85, 
 				false
@@ -248,16 +241,10 @@ public class ScaleAndSwitch extends CommandGroup {
 				.7, 
 				false
 		);
-		back2.SetParam(
-				-24, 
-				0.5, 
-				.7, 
-				false
-		);
 		straight.SetParam(
 				50, 
 				4, 
-				.5, 
+				.7, 
 				false
 		);
 		straightAgain.SetParam(
@@ -271,14 +258,14 @@ public class ScaleAndSwitch extends CommandGroup {
 				8, 
 				.7, 
 				false
-		);
+		);/*
 		if(sameScale){
 			elevatorUp.setParam(98);
-			intakeOut.SetParam(-0.6);
+			intakeOut.SetParam(-0.9);
 			driveForward.SetParam(
-					Preferences.getInstance().getDouble("ScaleSwitch Forward Dist", 406), //404
+					Preferences.getInstance().getDouble("ScaleSwitch Forward Dist", 388), //404
 					10, 
-					0.95, 
+					1.00, 
 					false
 			);
 			if(scale =='L'){		//Left Side Scale, Switch, and Start
@@ -346,6 +333,6 @@ public class ScaleAndSwitch extends CommandGroup {
 					turnLast.setParam(-70, 3);
 				}
 			}
-		}
+		}*/
     }
 }

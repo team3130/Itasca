@@ -49,9 +49,9 @@ public class Chassis extends PIDSubsystem {
 	public static double moveSpeed;
 	
 	//PID Preferences Defaults
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.018;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.02; //0.018
 	private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0;
-	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.062;
+	private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.07; //0.062
 
 	private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
 	private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
