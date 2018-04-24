@@ -40,10 +40,9 @@ public class SwitchSide extends CommandGroup {
 		intakeIn		= new RunIntakeIn();
 		intakeOut		= new RunIntakeOut();
 		
-		addSequential(eleReleaseIntake, 1);
+		addParallel(elevatorUp, 3);
 		addParallel(intakeIn, 1);
 		addSequential(driveForward, 3);
-		addSequential(elevatorUp, 3);
 		addSequential(turnToSwitch, 2);
 		addSequential(driveToSwitch, 2);
 		addSequential(intakeOut, 1);
@@ -57,20 +56,26 @@ public class SwitchSide extends CommandGroup {
 		intakeOut.SetParam(-0.7);
 		driveForward.SetParam(
 				224, 
-				20, 
-				Preferences.getInstance().getDouble("ScaleForwardSpeed", .5), 
-				false
-			);
-		driveBack.SetParam(
-				-24, 
 				5, 
-				0.5, 
-				false);
-		driveToSwitch.SetParam(40, 10, 0.4, false);
+				.85, 
+				false
+		);
+		driveBack.SetParam(
+				-40, 
+				2, 
+				0.6, 
+				false
+		);
+		driveToSwitch.SetParam(
+				40, 
+				2, 
+				0.6, 
+				false
+		);
 		if(side=='L'){			//Switch and Start on left
-			turnToSwitch.setParam(90, 5);
+			turnToSwitch.setParam(90, 1);
 		}else{					//Switch and start on right
-			turnToSwitch.setParam(-95, 5);
+			turnToSwitch.setParam(-90, 1);
 		}
 	}
 }

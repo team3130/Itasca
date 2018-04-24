@@ -16,26 +16,31 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class Scale2CubeSame extends CommandGroup {
 
-	private AutoDriveStraightToPoint	drive;
-	private AutoDriveStraightToPoint	drive2;
+	private ScaleOnly					scale;
 	private AutoDriveStraightToPoint	back;
 	private AutoDriveStraightToPoint	back2;
-	private AutoDriveStraightToPoint	back3;
 	private AutoDriveStraightToPoint	driveToCube;
+	private AutoDriveStraightToPoint	driveToCube2;
+	private AutoDriveStraightToPoint	toScale;
+	private AutoDriveStraightToPoint	toScale2;
 	private AutoTurn					turnToScale;
 	private AutoTurn					turnToScale2;
-	private AutoTurn					turnAway;
-	private AutoTurn					turnFromSwitch;
 	private AutoTurn					turnToCube;
+	private AutoTurn					turnToCube2;
 	private ElevatorToHeight			eleUp;
 	private ElevatorToHeight			eleUp2;
 	private ElevatorToHeight			eleDown;
-	private RunIntakeIn					intakeIn;
+	private ElevatorToHeight			eleDown2;
 	private RunIntakeIn					intakeCube;
+	private RunIntakeIn					intakeCube2;
 	private RunIntakeOut				intakeOut;
 	private RunIntakeOut				intakeOut2;
 	private IntakeToggle				openIntake;
+	private IntakeToggle				openIntake2;
 	private IntakeToggle				closeIntake;
+	private IntakeToggle				closeIntake2;
+	private AutoDelay					delay;
+	private AutoDelay					delay2;
 	private char						side;
 	
     public Scale2CubeSame(char side) {
@@ -44,104 +49,116 @@ public class Scale2CubeSame extends CommandGroup {
 		requires(CubeIntake.GetInstance());
 		
 		this.side    = side;
-		eleUp   	 = new ElevatorToHeight(0);
-		intakeIn     = new RunIntakeIn();
-		drive 		 = new AutoDriveStraightToPoint();
-		back	     = new AutoDriveStraightToPoint();
-		turnToScale  = new AutoTurn();
-		intakeOut    = new RunIntakeOut();
+		scale		 = new ScaleOnly(side);
 		eleDown 	 = new ElevatorToHeight(3);
-		turnAway     = new AutoTurn();
-		drive2 		 = new AutoDriveStraightToPoint();
-		openIntake	 = new IntakeToggle();
 		turnToCube   = new AutoTurn();
 		intakeCube   = new RunIntakeIn();
+		openIntake   = new IntakeToggle();
 		driveToCube  = new AutoDriveStraightToPoint();
-		closeIntake	 = new IntakeToggle();
+		delay		 = new AutoDelay();
+		closeIntake  = new IntakeToggle();
+		back	     = new AutoDriveStraightToPoint();
+		eleUp    	 = new ElevatorToHeight(0);
 		back2	     = new AutoDriveStraightToPoint();
-		turnFromSwitch= new AutoTurn();
-		eleUp2   	 = new ElevatorToHeight(0);
-		back3	     = new AutoDriveStraightToPoint();
+		turnToScale  = new AutoTurn();
+		intakeOut    = new RunIntakeOut();
+		eleDown2 	 = new ElevatorToHeight(3);
+		turnToCube2  = new AutoTurn();
+		intakeCube2  = new RunIntakeIn();
+		openIntake2  = new IntakeToggle();
+		driveToCube2 = new AutoDriveStraightToPoint();
+		delay2		 = new AutoDelay();
+		closeIntake2 = new IntakeToggle();
+		//back3	     = new AutoDriveStraightToPoint();
+		eleUp2    	 = new ElevatorToHeight(0);
+		//back4	     = new AutoDriveStraightToPoint();
 		turnToScale2 = new AutoTurn();
 		intakeOut2   = new RunIntakeOut();
+		toScale		 = new AutoDriveStraightToPoint();
+		toScale2	 = new AutoDriveStraightToPoint();
 		
-    	addParallel(eleUp,3);
-		addParallel(intakeIn,1);
-		addSequential(drive,4.5);
-		addSequential(turnToScale, 1.5);
-		addSequential(intakeOut, 1);
-		addSequential(back, 2);
+		addSequential(scale);
 		addParallel(eleDown, 3);
-		//addSequential(turnAway, 1.5);
-		//addSequential(drive2, 1.5);
-		//addSequential(openIntake, 0.5);
-		addSequential(turnToCube, 2);
+		addSequential(toScale, 1);
+		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 6);
-		addSequential(driveToCube, 3);
-		//addSequential(closeIntake, 1);
+		addSequential(openIntake, 0.5);
+		addSequential(driveToCube, 2);
+		//addSequential(delay, 0.25);
+		addSequential(closeIntake, 0.5);
+		addParallel(eleUp, 3);
+		addSequential(back, 3);
+		addSequential(turnToScale, 1.5);
+		addSequential(toScale2, 1);
+		addSequential(intakeOut, 1);
+		addParallel(eleDown2, 3);
+		addSequential(turnToCube2, 2);
+		addParallel(intakeCube2, 6);
+		addSequential(openIntake2, 0.5);
+		addSequential(driveToCube2, 2);
+		addSequential(delay2, 0.25);
+		addSequential(closeIntake2, 0.5);
 		addParallel(eleUp2, 3);
 		addSequential(back2, 3);
-		//addSequential(turnFromSwitch, 1.5);
-		//addSequential(back3, 3);
 		addSequential(turnToScale2, 2);
 		addSequential(intakeOut2, 1);
     }
     
     @Override
     protected void initialize(){
-    	intakeIn.SetParam(0.3);
-    	intakeOut.SetParam(-0.6);
 		intakeCube.SetParam(0.8);
+		intakeOut.SetParam(-0.6);
+		intakeCube2.SetParam(0.8);
+		intakeOut2.SetParam(-0.6);
 		eleDown.setParam(3.0);
+		eleDown2.setParam(3.0);
 		eleUp.setParam(98.0);
 		eleUp2.setParam(98.0);
-		drive.SetParam(
-				406,
-				10, 
-				0.95, 
-				false
-		);
-		back.SetParam(
-				-22, 
-				4, 
-				0.55, 
-				false
-		);
-		drive2.SetParam(
-				84, 
-				14, 
-				.7, 
-				false
-		);
 		driveToCube.SetParam(
 				140,  
 				3, 
-				.6, 
+				.4, 
+				false
+		);
+		driveToCube2.SetParam(
+				180,  
+				3, 
+				.7, 
+				false
+		);
+		back.SetParam(
+				-102, 
+				4, 
+				0.55, 
 				false
 		);
 		back2.SetParam(
-				-85, 
+				-130, 
 				4, 
-				0.55, 
+				0.7, 
 				false
 		);
-		back3.SetParam(
-				-66, 
+		toScale.SetParam(
+				20, 
 				4, 
-				0.55, 
+				0.7, 
+				false
+		);
+		toScale2.SetParam(
+				20, 
+				4, 
+				0.7, 
 				false
 		);
 		if(side == 'L'){ //Left Side Scale
-			turnToScale.setParam(45, 5);
-			turnAway.setParam(80, 3);
-			turnToCube.setParam(100, 2);
-			turnFromSwitch.setParam(-10, 2);
+			turnToCube.setParam(110, 2);
+			turnToScale.setParam(-110, 2);
+			turnToCube2.setParam(90, 2);
 			turnToScale2.setParam(-90, 2);
 		}else{	//Right Side Scale
-			turnToScale.setParam(-55, 2);
-			turnAway.setParam(-80, 3);
-			turnToCube.setParam(-100, 2);
-			turnFromSwitch.setParam(10, 2);
+			turnToCube.setParam(-110, 2);
+			turnToScale.setParam(110, 2);
+			turnToCube2.setParam(-90, 2);
 			turnToScale2.setParam(90, 2);
 		}
     }
