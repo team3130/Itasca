@@ -69,6 +69,8 @@ public class ScaleSwitchSame extends CommandGroup {
 		drive2     	  = new AutoDriveStraightToPoint();
 		eleUp2 		  = new ElevatorToHeight(40);
 		delay2        = new AutoDelay();
+		toSwitch2     = new AutoDriveStraightToPoint();
+		depositCube2  = new RunIntakeOut();
 		
 		addSequential(scale);
 		addSequential(back, 2);

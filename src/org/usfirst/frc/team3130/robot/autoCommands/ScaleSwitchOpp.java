@@ -105,7 +105,7 @@ public class ScaleSwitchOpp extends CommandGroup {
         addParallel(intakeOut, 0.5);
         addParallel(eleDown2, 3);
         addSequential(back2, 2);
-        addSequential(turnToCube, 1.5);
+        addSequential(turnToCube2, 1.5);
         addParallel(openIntake, 0.5);
         addParallel(intake2, 4);
         addSequential(toCube2, 3);
@@ -156,18 +156,24 @@ public class ScaleSwitchOpp extends CommandGroup {
 				0.7, 
 				false
 		);
+    	toCube2.SetParam(
+				126, 
+				3,
+				0.7, 
+				false
+		);
     	if(swSide == 'L'){
     		turnAway.setParam(-90, 1);
     		turnBehind.setParam(90, 1);
     		turnToCube.setParam(140, 3);
-    		turnToCube2.setParam(140, 3);
+    		turnToCube2.setParam(-110, 3);
     		turnToScale.setParam(95, 2);
     	}
     	else{
     		turnAway.setParam(90, 1);
     		turnBehind.setParam(-90, 1);
     		turnToCube.setParam(-140, 3);
-    		turnToCube2.setParam(-140, 3);
+    		turnToCube2.setParam(110, 3);
     		turnToScale.setParam(-95, 2);
     	}
     }
