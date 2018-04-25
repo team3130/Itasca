@@ -13,6 +13,9 @@ import org.usfirst.frc.team3130.robot.autoCommands.Scale2CubeSame;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndBackUp;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleAndSwitch;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleOnly;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleSwitchOpp;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleSwitchOppSame;
+import org.usfirst.frc.team3130.robot.autoCommands.ScaleSwitchSame;
 import org.usfirst.frc.team3130.robot.autoCommands.ScaleSwitchSameOpp;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront;
 import org.usfirst.frc.team3130.robot.autoCommands.SwitchFront2Cube;
@@ -93,6 +96,7 @@ public class Robot extends TimedRobot {
 		chooser.addObject("Switch Front", "Switch Front");
 		chooser.addObject("Scale", "Scale");
 		chooser.addObject("Switch x2", "Switch x2");
+		chooser.addObject("Switch x3", "Switch x3");
 		chooser.addObject("Scale Switch", "Scale Switch");
 		chooser.addObject("Scale x2", "Scale x2");
 		chooser.addObject("Scale Back", "Scale Back");
@@ -256,42 +260,42 @@ public class Robot extends TimedRobot {
 				}
 			}
 			break;
-		case "Switch Front":
-			autonomousCommand = new SwitchFront(fieldInfo.charAt(0));
-			break;
-		case "No Auto":
-			autonomousCommand = null;
-			break;
-		case "Scale":
+		/*case "Switch Front":
+			autonomousCommand = new SwitchFront(switcH);
+			break;*/
+		/* "Scale":
 			autonomousCommand = new ScaleOnly(String.valueOf(gameData).charAt(1));
-			break;
+			break;*/
 		case "Switch x2":
-			autonomousCommand = new SwitchFront2Cube(fieldInfo.charAt(0));
+			autonomousCommand = new SwitchFront2Cube(switcH);
+			break;
+		case "Switch x3":
+			autonomousCommand = new SwitchFront2Cube(switcH);
 			break;
 		case "Scale Switch":
 			if(start.equals("Left") && scale == 'L' && switcH == 'L'){
-				autonomousCommand = new ScaleAndSwitch("Left", "LL");
+				autonomousCommand = new ScaleSwitchSame(scale);
 			}
 			else if(start.equals("Left") && scale == 'L' && switcH == 'R'){
 				autonomousCommand = new ScaleSwitchSameOpp('R', 'L');
 			}
 			else if(start.equals("Left") && scale == 'R' && switcH == 'R'){
-				
+				autonomousCommand = new ScaleSwitchOppSame(scale);
 			}
 			else if(start.equals("Left") && scale == 'R' && switcH == 'L'){
-				
+				autonomousCommand = new ScaleSwitchOpp(scale);
 			}
 			else if(start.equals("Right") && scale == 'R' && switcH == 'R'){
-				autonomousCommand = new ScaleAndSwitch("Right", "RR");
+				autonomousCommand = new ScaleSwitchSame(scale);
 			}
 			else if(start.equals("Right") && scale == 'R' && switcH == 'L'){
 				autonomousCommand = new ScaleSwitchSameOpp('L', 'R');
 			}
 			else if(start.equals("Right") && scale == 'L' && switcH == 'R'){
-				
+				autonomousCommand = new ScaleSwitchOpp(scale);
 			}
 			else if(start.equals("Right") && scale == 'L' && switcH == 'L'){
-				
+				autonomousCommand = new ScaleSwitchOppSame(scale);
 			}
 			//autonomousCommand = new ScaleAndSwitch(start, fieldInfo);
 			break;
@@ -307,6 +311,9 @@ public class Robot extends TimedRobot {
 			break;
 		case "Scale Back":
 			autonomousCommand = new ScaleAndBackUp(fieldInfo.charAt(1));
+			break;
+		case "No Auto":
+			autonomousCommand = null;
 			break;
 		default:
 			autonomousCommand = null;

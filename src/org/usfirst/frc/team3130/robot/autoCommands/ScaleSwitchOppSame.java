@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ScaleSwitchOppSame extends CommandGroup {
 
-    public ScaleSwitchOppSame() {
+    public ScaleSwitchOppSame(char side) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

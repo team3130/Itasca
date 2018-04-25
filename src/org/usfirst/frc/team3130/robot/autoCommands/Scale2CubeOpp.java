@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * 2 cube scale
+ * 2 cube scale for when scale is opposite from start
  */
 public class Scale2CubeOpp extends CommandGroup {
 
@@ -20,7 +20,9 @@ public class Scale2CubeOpp extends CommandGroup {
 	private AutoDriveStraightToPoint	back;
 	private AutoDriveStraightToPoint	back2;
 	private AutoDriveStraightToPoint	back3;
+	private AutoDriveStraightToPoint	back4;
 	private AutoDriveStraightToPoint	toScale;
+	private AutoDriveStraightToPoint	toScale2;
 	private AutoDriveStraightToPoint	toCube;
 	private AutoDriveStraightToPoint	toCube2;
 	private AutoTurn					turnToScale;
@@ -28,6 +30,7 @@ public class Scale2CubeOpp extends CommandGroup {
 	private AutoTurn					turnToCube;
 	private AutoTurn					turnToCube2;
 	private ElevatorToHeight			eleUp;
+	private ElevatorToHeight			eleUp2;
 	private ElevatorToHeight			eleDown;
 	private RunIntakeIn					intakeCube;
 	private RunIntakeIn					intakeCube2;
@@ -36,7 +39,6 @@ public class Scale2CubeOpp extends CommandGroup {
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
 	private AutoDelay					delay;
-	private AutoDelay					delay2;
 	private char						side;
 	
     public Scale2CubeOpp(char side) {
@@ -64,38 +66,35 @@ public class Scale2CubeOpp extends CommandGroup {
 		intakeCube2  = new RunIntakeIn();
 		turnToCube2  = new AutoTurn();
 		toCube2		 = new AutoDriveStraightToPoint();
-		delay2		 = new AutoDelay();
-		/*back4	     = new AutoDriveStraightToPoint();
-		turnToScale32 = new AutoTurn();
+		back4	     = new AutoDriveStraightToPoint();
+		turnToScale2 = new AutoTurn();
 		eleUp2       = new ElevatorToHeight(0);
-		toScale2      = new AutoDriveStraightToPoint();*/
+		toScale2      = new AutoDriveStraightToPoint();
 		intakeOut2   = new RunIntakeOut();
 		
     	addSequential(scale);
 		addParallel(eleDown, 3);
-		addSequential(back,1.5);
+		addSequential(back, 1.5);
 		addParallel(intakeCube, 6);
 		addSequential(turnToCube, 1.5);
 		addParallel(openIntake, 0.5);
 		addSequential(toCube, 3);
-		//addSequential(delay, 0.5);
-		addSequential(closeIntake, 0.5);
+		addParallel(closeIntake, 0.5);
 		addSequential(back2, 1.5);
 		addParallel(eleUp, 3);
 		addSequential(turnToScale, 1);
 		addSequential(toScale, 1.5);
-		addSequential(delay, 0.5);
-		addSequential(intakeOut, 0.5);
+		//addSequential(delay, 0.5);
+		addParallel(intakeOut, 0.5);
 		addSequential(back3,2);
 		addParallel(intakeCube2, 4);
 		addSequential(turnToCube2, 2);
 		addSequential(toCube2, 2.0);
-		//addSequential(delay2, 0.5);
-		/*addSequential(back4, 2);
+		addSequential(back4, 2);
 		addSequential(turnToScale2, 1);
 		addParallel(eleUp2, 3);
-		addSequential(toScale2, 1.5);*/
-		addSequential(intakeOut2, 1);
+		addSequential(toScale2, 1.5);
+		addParallel(intakeOut2, 1);
     }
     
     @Override
