@@ -17,15 +17,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ScaleAndBackUp extends CommandGroup {
 	
 	private AutoDriveStraightToPoint	driveForward;
-	private AutoDriveStraightToPoint	driveBehind;
-	private AutoDriveStraightToPoint	driveToScale;
-	private AutoDriveStraightToPoint	driveBack;
 	private AutoDriveStraightToPoint	backUp;
 	private AutoTurn					turnToScale;
-	private AutoTurn					turnBehind;
 	private AutoTurn					turnAway;
 	private ElevatorToHeight			elevatorUp;
-	private ElevatorToHeight			eleUp;
 	private ElevatorToHeight			eleDown;
 	private RunIntakeIn					intakeIn;
 	private RunIntakeOut				intakeOut;
@@ -38,15 +33,10 @@ public class ScaleAndBackUp extends CommandGroup {
 		
 		this.side    = side; //side of scale
 		driveForward = new AutoDriveStraightToPoint();
-		driveBehind  = new AutoDriveStraightToPoint();
-		driveToScale = new AutoDriveStraightToPoint();
-		driveBack    = new AutoDriveStraightToPoint();
 		backUp	     = new AutoDriveStraightToPoint();
 		turnToScale  = new AutoTurn();
-		turnBehind   = new AutoTurn();
 		turnAway     = new AutoTurn();
 		elevatorUp   = new ElevatorToHeight(0);
-		eleUp 		 = new ElevatorToHeight(0);
 		eleDown 	 = new ElevatorToHeight(0);
 		intakeIn     = new RunIntakeIn();
 		intakeOut    = new RunIntakeOut();
@@ -57,8 +47,8 @@ public class ScaleAndBackUp extends CommandGroup {
 		addSequential(turnToScale, 1);
 		addSequential(intakeOut, 1);
 		addParallel(eleDown, 3);
-		addSequential(turnAway, 2);
-		addSequential(backUp, 2);
+		addSequential(turnAway, 1.5);
+		addSequential(backUp, 3);
     }
     
 	@Override
@@ -66,7 +56,6 @@ public class ScaleAndBackUp extends CommandGroup {
     	//Always same
 		intakeIn.SetParam(0.5);
 		elevatorUp.setParam(98);
-		eleUp.setParam(6);
 		eleDown.setParam(0);
 		intakeOut.SetParam(-0.7);
 		driveForward.SetParam(
@@ -76,12 +65,11 @@ public class ScaleAndBackUp extends CommandGroup {
 				false
 		);
 		backUp.SetParam(
-				-130, 
+				-150, 
 				10, 
 				0.75, 
 				false
 		);
-		driveToScale.SetParam(12, 10, 0.4, false);
 		if(side=='L'){			//Scale is on left
 			turnToScale.setParam(45, 5);
 			turnAway.setParam(-45, 5);

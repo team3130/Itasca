@@ -28,7 +28,6 @@ public class ScaleSwitchSame extends CommandGroup {
 	private AutoDriveStraightToPoint    driveToCube;
 	private AutoDriveStraightToPoint	drive;
 	private RunIntakeOut				depositCube;
-	private AutoTurn					turnToSwitch;
 	private AutoTurn					turnAway;
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
@@ -40,6 +39,7 @@ public class ScaleSwitchSame extends CommandGroup {
 	private AutoDriveStraightToPoint	back2;
 	private AutoDriveStraightToPoint	drive2;
 	private AutoTurn					turnAway2;
+	private AutoTurn					turnToSwitch;
 	private char						side;
 
 	public ScaleSwitchSame(char side) {
@@ -69,7 +69,7 @@ public class ScaleSwitchSame extends CommandGroup {
 		drive2     	  = new AutoDriveStraightToPoint();
 		eleUp2 		  = new ElevatorToHeight(40);
 		delay2        = new AutoDelay();
-		toSwitch2     = new AutoDriveStraightToPoint();
+		turnToSwitch  = new AutoTurn();
 		depositCube2  = new RunIntakeOut();
 		
 		addSequential(scale);
@@ -93,7 +93,7 @@ public class ScaleSwitchSame extends CommandGroup {
 		addSequential(drive2, 1.5);
 		addParallel(eleUp2, 2);
 		addSequential(delay2, 0.5);
-		addSequential(toSwitch2, 1);
+		addSequential(turnToSwitch, 1);
 		addSequential(depositCube2, 1);
 	}
     
@@ -114,19 +114,13 @@ public class ScaleSwitchSame extends CommandGroup {
 				false
 		);
 		drive.SetParam(
-				76, 
+				100, 
 				8, 
 				.7, 
 				false
 		);
 		toSwitch.SetParam(
 				16, 
-				4, 
-				.7, 
-				false
-		);
-		toSwitch2.SetParam(
-				26, 
 				4, 
 				.7, 
 				false
@@ -144,7 +138,7 @@ public class ScaleSwitchSame extends CommandGroup {
 				false
 		);
 		drive2.SetParam(
-				50, 
+				46, 
 				4, 
 				.7, 
 				false
@@ -152,13 +146,13 @@ public class ScaleSwitchSame extends CommandGroup {
 		if(side =='L'){		//Left Side Scale, Switch, and Start
 			turnAway.setParam(80, 3);
 			turnToCube.setParam(45, 2);
-			turnToSwitch.setParam(20, 3);
 			turnAway2.setParam(-45, 3);
+			turnToSwitch.setParam(30, 5);
 		}else{				//Right Side Scale, Switch, and Start
 			turnAway.setParam(-80, 3);
 			turnToCube.setParam(-45, 2);
-			turnToSwitch.setParam(-20, 3);
 			turnAway2.setParam(45, 3);
+			turnToSwitch.setParam(-30, 5);
 		}
 		
     }

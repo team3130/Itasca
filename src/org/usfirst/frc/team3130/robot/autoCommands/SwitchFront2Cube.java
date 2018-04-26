@@ -134,7 +134,7 @@ public class SwitchFront2Cube extends CommandGroup {
 					false
 			);
 		}else{					//Switch on right
-			turnToSwitch.setParam(36,2);
+			turnToSwitch.setParam(26,2);
 			driveToSwitch.SetParam(
 					156,
 					5,

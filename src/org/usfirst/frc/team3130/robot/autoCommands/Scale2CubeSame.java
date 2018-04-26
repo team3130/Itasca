@@ -79,7 +79,6 @@ public class Scale2CubeSame extends CommandGroup {
 		
 		addSequential(scale);
 		addParallel(eleDown, 3);
-		addSequential(toScale, 1);
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 6);
 		addParallel(openIntake, 0.5);
@@ -89,7 +88,7 @@ public class Scale2CubeSame extends CommandGroup {
 		addParallel(eleUp, 3);
 		addSequential(back, 3);
 		addSequential(turnToScale, 1.5);
-		addSequential(toScale2, 1);
+		//addSequential(toScale2, 1);
 		addParallel(intakeOut, 1);
 		addSequential(delay2, 0.25);
 		addParallel(eleDown2, 3);
@@ -102,6 +101,7 @@ public class Scale2CubeSame extends CommandGroup {
 		addParallel(eleUp2, 3);
 		addSequential(back2, 3);
 		addSequential(turnToScale2, 2);
+		addSequential(toScale, 1);
 		addParallel(intakeOut2, 1);
     }
     
@@ -116,7 +116,7 @@ public class Scale2CubeSame extends CommandGroup {
 		eleUp.setParam(98.0);
 		eleUp2.setParam(98.0);
 		driveToCube.SetParam(
-				140,  
+				130,  
 				3, 
 				.6, 
 				false
@@ -153,12 +153,12 @@ public class Scale2CubeSame extends CommandGroup {
 		);
 		if(side == 'L'){ //Left Side Scale
 			turnToCube.setParam(110, 2);
-			turnToScale.setParam(-110, 2);
+			turnToScale.setParam(-70, 2);
 			turnToCube2.setParam(90, 2);
 			turnToScale2.setParam(-90, 2);
 		}else{	//Right Side Scale
 			turnToCube.setParam(-110, 2);
-			turnToScale.setParam(110, 2);
+			turnToScale.setParam(70, 2);
 			turnToCube2.setParam(-90, 2);
 			turnToScale2.setParam(90, 2);
 		}

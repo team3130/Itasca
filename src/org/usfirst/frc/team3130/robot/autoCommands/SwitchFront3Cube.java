@@ -139,25 +139,25 @@ public class SwitchFront3Cube extends CommandGroup {
 		driveBackward.SetParam(
 				-80, 
 				6,
-				0.85,
+				0.7,
 				false
 		);
 		back.SetParam(
 				-80, 
 				6,
-				0.85,
+				0.7,
 				false
 		);
 		backFromCubes.SetParam(
 				-40, 
 				6,
-				0.85,
+				0.8,
 				false
 		);
 		backFromCubes2.SetParam(
 				-40, 
 				6,
-				0.85,
+				0.8,
 				false
 		);
 		backToSwitch.SetParam(
@@ -180,20 +180,20 @@ public class SwitchFront3Cube extends CommandGroup {
 					false
 			);
 			toCubes.SetParam(
-					58, 
+					66, 
 					4,
 					0.7,
 					false
 			);
 			toCubes2.SetParam(
-					58, 
+					70, 
 					4,
 					0.7,
 					false
 			);
 			turnToSwitch.setParam(-33, 2);
 			turnToCubes.setParam(60, 2);
-			turnToCubes2.setParam(50, 2);
+			turnToCubes2.setParam(40, 2);
 			turnBack.setParam(-60, 2);
 			turnBack.setParam(-50, 2);
 		}else{					//Switch on right
