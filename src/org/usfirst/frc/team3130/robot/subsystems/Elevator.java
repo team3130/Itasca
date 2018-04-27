@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +22,7 @@ public class Elevator extends Subsystem {
 	
 	private static WPI_TalonSRX elevator;
 	private static WPI_TalonSRX elevator2;
+	private static boolean zeroed;
 	
 	//Instance Handling
 	private static Elevator m_pInstance;
@@ -35,6 +37,8 @@ public class Elevator extends Subsystem {
     private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.4); // 1024
     
 	private Elevator() {
+		
+		zeroed = false;
 		
 		elevator = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
 		elevator2 = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
@@ -140,8 +144,16 @@ public class Elevator extends Subsystem {
     	
     	//Zero Handling
     	if(elevator.getSensorCollection().isRevLimitSwitchClosed()){
-    		elevator.setSelectedSensorPosition(0, 0, 0);
-    		//System.out.println("Zero!");
+    		if(!zeroed){
+        		elevator.setSelectedSensorPosition(0, 0, 0);
+        		setHeight(0.0);
+        		DriverStation.reportWarning("Elevator is Zero!", false);
+        		zeroed = true;
+    		}
+    	}
+    	else{
+    		if(zeroed)
+    			zeroed = false;
     	}
     }
 

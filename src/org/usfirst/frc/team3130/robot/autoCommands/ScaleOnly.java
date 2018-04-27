@@ -64,7 +64,7 @@ public class ScaleOnly extends CommandGroup {
 			addParallel(elevatorUp,3);
 			addSequential(turnToScale, 1);
 			addSequential(driveToScale,1.5);
-			addParallel(intakeOut,0.5);
+			addSequential(intakeOut,0.5);
 		}
     }
     
@@ -77,7 +77,7 @@ public class ScaleOnly extends CommandGroup {
 		eleUp.setParam(6);
 		
 		if(sameSide){			//Scale is same side as start
-			intakeOut.SetParam(-0.65);
+			intakeOut.SetParam(-0.55);
 			driveForward.SetParam(
 					410, 
 					10, 
@@ -91,7 +91,7 @@ public class ScaleOnly extends CommandGroup {
 				turnToScale.setParam(-45, 2);
 			}
 		}else{					//Scale is on opposite side of start
-			intakeOut.SetParam(-0.6);
+			intakeOut.SetParam(-0.45);
 			driveForward.SetParam(
 					344, 
 					8, 
@@ -99,9 +99,9 @@ public class ScaleOnly extends CommandGroup {
 					false
 			);
 			driveBehind.SetParam(
-					390, 
+					440, 
 					6, 
-					.8, 
+					.7, 
 					false
 			);
 			driveToScale.SetParam(

@@ -84,11 +84,13 @@ public class Scale2CubeSame extends CommandGroup {
 		addParallel(openIntake, 0.5);
 		addSequential(driveToCube, 2);
 		addParallel(closeIntake, 0.5);
-		addSequential(delay, 0.25);
+		addSequential(delay, 0.75);
 		addParallel(eleUp, 3);
 		addSequential(back, 3);
 		addSequential(turnToScale, 1.5);
-		//addSequential(toScale2, 1);
+		if(side == 'L'){
+			addSequential(toScale2, 2);
+		}
 		addParallel(intakeOut, 1);
 		addSequential(delay2, 0.25);
 		addParallel(eleDown2, 3);
@@ -115,50 +117,89 @@ public class Scale2CubeSame extends CommandGroup {
 		eleDown2.setParam(3.0);
 		eleUp.setParam(98.0);
 		eleUp2.setParam(98.0);
-		driveToCube.SetParam(
-				130,  
-				3, 
-				.6, 
-				false
-		);
-		driveToCube2.SetParam(
-				180,  
-				10, 
-				.8, 
-				false
-		);
-		back.SetParam(
-				-102, 
-				8, 
-				0.8, 
-				false
-		);
-		back2.SetParam(
-				-130, 
-				8, 
-				0.8, 
-				false
-		);
-		toScale.SetParam(
-				20, 
-				4, 
-				0.7, 
-				false
-		);
-		toScale2.SetParam(
-				20, 
-				4, 
-				0.7, 
-				false
-		);
+		
 		if(side == 'L'){ //Left Side Scale
+			driveToCube.SetParam(
+					135,  
+					3, 
+					.55, 
+					false
+			);
+			driveToCube2.SetParam(
+					180,  
+					10, 
+					.8, 
+					false
+			);
+			back.SetParam(
+					-102, 
+					8, 
+					0.8, 
+					false
+			);
+			back2.SetParam(
+					-130, 
+					8, 
+					0.8, 
+					false
+			);
+			toScale.SetParam(
+					20, 
+					4, 
+					0.7, 
+					false
+			);
+			toScale2.SetParam(
+					24, 
+					4, 
+					0.7, 
+					false
+			);
 			turnToCube.setParam(110, 2);
-			turnToScale.setParam(-70, 2);
-			turnToCube2.setParam(90, 2);
-			turnToScale2.setParam(-90, 2);
+			turnToScale.setParam(-85, 2);
+			turnToCube2.setParam(70, 2);
+			turnToScale2.setParam(-70, 2);
+			
+			
 		}else{	//Right Side Scale
-			turnToCube.setParam(-110, 2);
-			turnToScale.setParam(70, 2);
+			driveToCube.SetParam(
+					135,  
+					3, 
+					.55, 
+					false
+			);
+			driveToCube2.SetParam(
+					180,  
+					10, 
+					.8, 
+					false
+			);
+			back.SetParam(
+					-102, 
+					8, 
+					0.8, 
+					false
+			);
+			back2.SetParam(
+					-130, 
+					8, 
+					0.8, 
+					false
+			);
+			toScale.SetParam(
+					20, 
+					4, 
+					0.7, 
+					false
+			);
+			toScale2.SetParam(
+					24, 
+					4, 
+					0.7, 
+					false
+			);
+			turnToCube.setParam(-102, 2);
+			turnToScale.setParam(90, 2);
 			turnToCube2.setParam(-90, 2);
 			turnToScale2.setParam(90, 2);
 		}

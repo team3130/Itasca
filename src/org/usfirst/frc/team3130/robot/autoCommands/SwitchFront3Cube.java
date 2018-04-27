@@ -180,22 +180,22 @@ public class SwitchFront3Cube extends CommandGroup {
 					false
 			);
 			toCubes.SetParam(
-					66, 
+					90, 
 					4,
 					0.7,
 					false
 			);
 			toCubes2.SetParam(
-					70, 
+					98, 
 					4,
 					0.7,
 					false
 			);
 			turnToSwitch.setParam(-33, 2);
-			turnToCubes.setParam(60, 2);
-			turnToCubes2.setParam(40, 2);
+			turnToCubes.setParam(50, 2);
+			turnToCubes2.setParam(35, 2);
 			turnBack.setParam(-60, 2);
-			turnBack.setParam(-50, 2);
+			turnBack2.setParam(-40, 2);
 		}else{					//Switch on right
 			driveToSwitch.SetParam(
 					156,
@@ -215,11 +215,11 @@ public class SwitchFront3Cube extends CommandGroup {
 					0.7,
 					false
 			);
-			turnToSwitch.setParam(36,2);
+			turnToSwitch.setParam(26,2);
 			turnToCubes.setParam(-45, 2);
 			turnToCubes2.setParam(-35, 2);
 			turnBack.setParam(50, 2);
-			turnBack.setParam(40, 2);
+			turnBack2.setParam(40, 2);
 		}
 	}
 }

@@ -104,50 +104,89 @@ public class Scale2CubeOpp extends CommandGroup {
 		intakeCube2.SetParam(0.8);
 		eleDown.setParam(0.0);
 		eleUp.setParam(98.0);
-		back.SetParam(
-				-24, 
-				4, 
-				0.7, 
-				false
-		);
-		back2.SetParam(
-				-72, 
-				4, 
-				0.7, 
-				false
-		);
-		toScale.SetParam(
-				36, 
-				4, 
-				0.7, 
-				false
-		);
-		toCube.SetParam(
-				120, 
-				3,
-				0.9, 
-				false
-		);
-		back3.SetParam(
-				-24, 
-				4, 
-				0.55, 
-				false
-		);
-		toCube2.SetParam(
-				100, 
-				3,
-				0.7, 
-				false
-		);
+		
 		if(side == 'L'){ //Left Side Scale
+			back.SetParam(
+					-24, 
+					4, 
+					0.7, 
+					false
+			);
+			back2.SetParam(
+					-72, 
+					4, 
+					0.7, 
+					false
+			);
+			toScale.SetParam(
+					36, 
+					4, 
+					0.7, 
+					false
+			);
+			toCube.SetParam(
+					120, 
+					3,
+					0.9, 
+					false
+			);
+			back3.SetParam(
+					-24, 
+					4, 
+					0.55, 
+					false
+			);
+			toCube2.SetParam(
+					100, 
+					3,
+					0.7, 
+					false
+			);
 			turnToScale.setParam(-95, 2);
 			turnToCube.setParam(125, 2);
 			turnToCube2.setParam(110, 2);
+			
+			
 		}else{	//Right Side Scale
-			turnToScale.setParam(95, 2);
-			turnToCube.setParam(-125, 2);
-			turnToCube2.setParam(-110, 2);
+			back.SetParam(
+					-24, 
+					4, 
+					0.7, 
+					false
+			);
+			back2.SetParam(
+					-72, 
+					4, 
+					0.7, 
+					false
+			);
+			toScale.SetParam(
+					60, 
+					4, 
+					0.7, 
+					false
+			);
+			toCube.SetParam(
+					120, 
+					3,
+					0.9, 
+					false
+			);
+			back3.SetParam(
+					-24, 
+					4, 
+					0.55, 
+					false
+			);
+			toCube2.SetParam(
+					100, 
+					3,
+					0.7, 
+					false
+			);
+			turnToScale.setParam(80, 2);
+			turnToCube.setParam(-90, 2);
+			turnToCube2.setParam(-70, 2);
 		}
     }
 }
