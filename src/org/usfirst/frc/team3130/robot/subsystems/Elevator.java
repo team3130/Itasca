@@ -77,7 +77,7 @@ public class Elevator extends Subsystem {
     	double zone = RobotMap.kElevatorZone;
     	if(goingDown) {
     		// Going down, so reduce the power
-    		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.8);
+    		percent *= Preferences.getInstance().getDouble("ElevatorDown", 0.9);
     		if(height < zone) {
     			// And at the bottom reduce the power even more, aggressively squared
     			double ratio = Math.abs(height / zone);

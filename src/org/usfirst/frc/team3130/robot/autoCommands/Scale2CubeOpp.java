@@ -40,6 +40,7 @@ public class Scale2CubeOpp extends CommandGroup {
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
 	private AutoDelay					delay;
+	private AutoDelay					delay2;
 	private char						side;
 	
     public Scale2CubeOpp(char side) {
@@ -61,7 +62,7 @@ public class Scale2CubeOpp extends CommandGroup {
 		turnToScale  = new AutoTurn();
 		eleUp        = new ElevatorToHeight(0);
 		toScale      = new AutoDriveStraightToPoint();
-		//delay2		 = new AutoDelay();
+		delay2		 = new AutoDelay();
 		intakeOut    = new RunIntakeOut();
 		back3		 = new AutoDriveStraightToPoint();
 		intakeCube2  = new RunIntakeIn();
@@ -93,6 +94,7 @@ public class Scale2CubeOpp extends CommandGroup {
 		addParallel(intakeCube2, 4);
 		addSequential(turnToCube2, 2);
 		addSequential(toCube2, 2.0);
+		addSequential(delay2, 0.25);
 		addSequential(back4, 2);
 		addSequential(turnToScale2, 1);
 		addParallel(eleUp2, 3);
@@ -142,7 +144,7 @@ public class Scale2CubeOpp extends CommandGroup {
 			toCube2.SetParam(
 					100, 
 					3,
-					0.7, 
+					0.65, 
 					false
 			);
 			turnToScale.setParam(-85, 2);

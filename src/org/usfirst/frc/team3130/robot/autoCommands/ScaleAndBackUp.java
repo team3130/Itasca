@@ -65,7 +65,7 @@ public class ScaleAndBackUp extends CommandGroup {
 				false
 		);
 		backUp.SetParam(
-				-150, 
+				-160, 
 				10, 
 				0.75, 
 				false

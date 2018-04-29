@@ -307,17 +307,17 @@ public class Robot extends TimedRobot {
 					   			(start.equals("Right") && switcH == 'R');
 			if(sameSideSC){
 				autonomousCommand = new Scale2CubeSame(fieldInfo.charAt(1));
-			}
+			}/*
 			else{
 				autonomousCommand = new Scale2CubeOpp(fieldInfo.charAt(1));
-			}/*
+			}*/
 			else if(sameSideSW){
 				autonomousCommand = new SwitchSide(switcH);
 			}
 			else {
 				autonomousCommand = new PassBaseline();
 				//autonomousCommand = new Scale2CubeOpp(fieldInfo.charAt(1));
-			}*/
+			}
 			break;
 		case "Scale Back":
 			boolean sameSideSc = (start.equals("Left") && scale == 'L') ||

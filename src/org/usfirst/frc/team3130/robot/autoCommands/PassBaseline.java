@@ -24,8 +24,8 @@ public class PassBaseline extends CommandGroup {
        driveForward = new AutoDriveStraightToPoint();
        elevatorUp   = new ElevatorToHeight(4.0);
        
-       addSequential(elevatorUp, 0.5);
-       addSequential(driveForward, 7);
+       addSequential(elevatorUp, 2);
+       addSequential(driveForward, 5);
     }
     
     @Override
@@ -36,7 +36,7 @@ public class PassBaseline extends CommandGroup {
 				20, 
 				Preferences.getInstance().getDouble("BaseForwardSpeed", .5),
 				false);
-        elevatorUp.setParam(12);
+        elevatorUp.setParam(32);
     }
 	
 }
