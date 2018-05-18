@@ -120,7 +120,7 @@ public class Scale2CubeSame extends CommandGroup {
 		
 		if(side == 'L'){ //Left Side Scale
 			driveToCube.SetParam(
-					135,  
+					145,  
 					3, 
 					.55, 
 					false
@@ -132,7 +132,7 @@ public class Scale2CubeSame extends CommandGroup {
 					false
 			);
 			back.SetParam(
-					-102, 
+					-112, 
 					8, 
 					0.8, 
 					false
@@ -155,15 +155,15 @@ public class Scale2CubeSame extends CommandGroup {
 					0.7, 
 					false
 			);
-			turnToCube.setParam(110, 2);
+			turnToCube.setParam(109, 2);
 			turnToScale.setParam(-85, 2);
-			turnToCube2.setParam(70, 2);
-			turnToScale2.setParam(-70, 2);
+			turnToCube2.setParam(75, 2);
+			turnToScale2.setParam(-75, 2);
 			
 			
 		}else{	//Right Side Scale
 			driveToCube.SetParam(
-					135,  
+					145,  
 					3, 
 					.55, 
 					false
@@ -175,7 +175,7 @@ public class Scale2CubeSame extends CommandGroup {
 					false
 			);
 			back.SetParam(
-					-102, 
+					-112, 
 					8, 
 					0.8, 
 					false
@@ -198,10 +198,10 @@ public class Scale2CubeSame extends CommandGroup {
 					0.7, 
 					false
 			);
-			turnToCube.setParam(-102, 2);
-			turnToScale.setParam(90, 2);
-			turnToCube2.setParam(-90, 2);
-			turnToScale2.setParam(90, 2);
+			turnToCube.setParam(-109, 2);
+			turnToScale.setParam(85, 2);
+			turnToCube2.setParam(-75, 2);
+			turnToScale2.setParam(75, 2);
 		}
     }
 }

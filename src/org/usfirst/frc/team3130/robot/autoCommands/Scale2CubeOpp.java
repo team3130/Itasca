@@ -92,7 +92,7 @@ public class Scale2CubeOpp extends CommandGroup {
 		addParallel(eleDown2, 3);
 		addSequential(back3,2);
 		addParallel(intakeCube2, 4);
-		addSequential(turnToCube2, 2);
+		addSequential(turnToCube2, 2.5);
 		addSequential(toCube2, 2.0);
 		addSequential(delay2, 0.25);
 		addSequential(back4, 2);
@@ -104,7 +104,7 @@ public class Scale2CubeOpp extends CommandGroup {
     
     @Override
     protected void initialize(){
-    	intakeOut.SetParam(-0.55);
+    	intakeOut.SetParam(-0.45);
 		intakeCube.SetParam(0.8);
 		intakeCube2.SetParam(0.8);
 		eleDown.setParam(0.0);
@@ -130,7 +130,7 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube.SetParam(
-					110, 
+					105, 
 					3,
 					0.9, 
 					false
@@ -147,8 +147,8 @@ public class Scale2CubeOpp extends CommandGroup {
 					0.65, 
 					false
 			);
-			turnToScale.setParam(-85, 2);
-			turnToCube.setParam(130, 2);
+			turnToScale.setParam(-110, 2);
+			turnToCube.setParam(110, 2);
 			turnToCube2.setParam(110, 2);
 			
 			
@@ -172,7 +172,7 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube.SetParam(
-					134, 
+					95, 
 					3,
 					0.9, 
 					false
@@ -189,9 +189,9 @@ public class Scale2CubeOpp extends CommandGroup {
 					0.7, 
 					false
 			);
-			turnToScale.setParam(90, 2);
-			turnToCube.setParam(-90, 2);
-			turnToCube2.setParam(-70, 2);
+			turnToScale.setParam(110, 2);
+			turnToCube.setParam(-110, 2);
+			turnToCube2.setParam(-110, 2);
 		}
     }
 }

@@ -278,7 +278,7 @@ public class Robot extends TimedRobot {
 				autonomousCommand = new ScaleSwitchSame(scale);
 			}
 			else if(start.equals("Left") && scale == 'L' && switcH == 'R'){
-				autonomousCommand = new Scale2CubeSame(scale);//new ScaleSwitchSameOpp('R', 'L');
+				autonomousCommand = new ScaleSwitchSameOpp(switcH, scale);//new ScaleSwitchSameOpp('R', 'L');
 			}
 			else if(start.equals("Left") && scale == 'R' && switcH == 'R'){
 				autonomousCommand = new ScaleOnly(scale);
@@ -290,7 +290,7 @@ public class Robot extends TimedRobot {
 				autonomousCommand = new ScaleSwitchSame(scale);
 			}
 			else if(start.equals("Right") && scale == 'R' && switcH == 'L'){
-				autonomousCommand = new Scale2CubeSame(scale);
+				autonomousCommand = new ScaleSwitchSameOpp(switcH, scale);
 			}
 			else if(start.equals("Right") && scale == 'L' && switcH == 'R'){
 				autonomousCommand = new SwitchSide(switcH);
@@ -298,7 +298,6 @@ public class Robot extends TimedRobot {
 			else if(start.equals("Right") && scale == 'L' && switcH == 'L'){
 				autonomousCommand = new ScaleOnly(scale);
 			}
-			//autonomousCommand = new ScaleAndSwitch(start, fieldInfo);
 			break;
 		case "Scale x2":
 			boolean sameSideSC = (start.equals("Left") && fieldInfo.charAt(1) == 'L') ||
@@ -307,17 +306,17 @@ public class Robot extends TimedRobot {
 					   			(start.equals("Right") && switcH == 'R');
 			if(sameSideSC){
 				autonomousCommand = new Scale2CubeSame(fieldInfo.charAt(1));
-			}/*
+			}
 			else{
 				autonomousCommand = new Scale2CubeOpp(fieldInfo.charAt(1));
-			}*/
+			}/*
 			else if(sameSideSW){
 				autonomousCommand = new SwitchSide(switcH);
 			}
 			else {
 				autonomousCommand = new PassBaseline();
 				//autonomousCommand = new Scale2CubeOpp(fieldInfo.charAt(1));
-			}
+			}*/
 			break;
 		case "Scale Back":
 			boolean sameSideSc = (start.equals("Left") && scale == 'L') ||

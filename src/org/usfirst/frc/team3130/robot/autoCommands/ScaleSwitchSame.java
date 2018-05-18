@@ -76,8 +76,8 @@ public class ScaleSwitchSame extends CommandGroup {
 		addSequential(back, 2);
 		addParallel(eleDown, 3);
 		addSequential(turnAway, 1.5);
-		addSequential(drive, 1.5);
 		addParallel(openIntake, 0.5);
+		addSequential(drive, 1.5);
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 3);
 		addSequential(driveToCube, 0.75);
@@ -114,9 +114,9 @@ public class ScaleSwitchSame extends CommandGroup {
 				false
 		);
 		drive.SetParam(
-				100, 
+				95, 
 				8, 
-				.7, 
+				.65, 
 				false
 		);
 		toSwitch.SetParam(
@@ -144,14 +144,14 @@ public class ScaleSwitchSame extends CommandGroup {
 				false
 		);
 		if(side =='L'){		//Left Side Scale, Switch, and Start
-			turnAway.setParam(80, 3);
-			turnToCube.setParam(45, 2);
-			turnAway2.setParam(-45, 3);
+			turnAway.setParam(82, 3);
+			turnToCube.setParam(50, 2);
+			turnAway2.setParam(-50, 3);
 			turnToSwitch.setParam(30, 5);
 		}else{				//Right Side Scale, Switch, and Start
-			turnAway.setParam(-80, 3);
-			turnToCube.setParam(-45, 2);
-			turnAway2.setParam(45, 3);
+			turnAway.setParam(-82, 3);
+			turnToCube.setParam(-50, 2);
+			turnAway2.setParam(50, 3);
 			turnToSwitch.setParam(-30, 5);
 		}
 		

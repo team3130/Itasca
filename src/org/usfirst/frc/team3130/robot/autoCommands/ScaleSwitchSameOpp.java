@@ -80,32 +80,38 @@ public class ScaleSwitchSameOpp extends CommandGroup {
     	intake.SetParam(0.6);
     	intakeOut.SetParam(-0.5);
     	back.SetParam(
-				-60, 
+				-56, 
 				4, 
 				.6, 
 				false
 		);
     	driveBehind.SetParam(
-				250, 
+				244, 
 				5, 
-				.75, 
+				.7, 
 				false
 		);
     	toSwitch.SetParam(
-				12, 
+				18, 
+				2, 
+				.5, 
+				false
+		);
+    	toCube.SetParam(
+				18, 
 				2, 
 				.5, 
 				false
 		);
     	if(swSide == 'R'){
     		turnAway.setParam(-45, 2);
-    		turnDown.setParam(92, 2);
+    		turnDown.setParam(86, 2);
     		turnToCube.setParam(90, 2);
     		turnToSwitch.setParam(-15, 3);
     	}
     	else{
     		turnAway.setParam(-45, 2);
-    		turnDown.setParam(-92, 2);
+    		turnDown.setParam(-86, 2);
     		turnToCube.setParam(-90, 2);
     		turnToSwitch.setParam(15, 3);
     	}

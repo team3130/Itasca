@@ -72,7 +72,7 @@ public class ScaleOnly extends CommandGroup {
     protected void initialize(){
     	//Always same
 		intakeIn.SetParam(0.5);
-		intakeOut.SetParam(-0.4);
+		intakeOut.SetParam(-0.35);
 		elevatorUp.setParam(98);
 		eleUp.setParam(6);
 		
@@ -99,7 +99,7 @@ public class ScaleOnly extends CommandGroup {
 					false
 			);
 			driveBehind.SetParam(
-					408, 
+					384, 
 					6, 
 					.7, 
 					false
@@ -112,10 +112,10 @@ public class ScaleOnly extends CommandGroup {
 			);
 			if(side=='L'){			//Scale is on left
 				turnBehind.setParam(-90, 0.5);
-				turnToScale.setParam(126, 0.5);
+				turnToScale.setParam(130, 0.5);
 			}else{					//Scale is on right
 				turnBehind.setParam(90, 1);
-				turnToScale.setParam(-126, 1);
+				turnToScale.setParam(-130, 1);
 			}
 		}
     }
