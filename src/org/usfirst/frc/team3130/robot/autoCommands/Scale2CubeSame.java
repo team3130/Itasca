@@ -82,7 +82,7 @@ public class Scale2CubeSame extends CommandGroup {
 		addSequential(turnToCube, 1.5);
 		addParallel(intakeCube, 6);
 		addParallel(openIntake, 0.5);
-		addSequential(driveToCube, 2);
+		addSequential(driveToCube, 2.5);
 		addParallel(closeIntake, 0.5);
 		addSequential(delay, 0.75);
 		addParallel(eleUp, 3);
@@ -120,7 +120,7 @@ public class Scale2CubeSame extends CommandGroup {
 		
 		if(side == 'L'){ //Left Side Scale
 			driveToCube.SetParam(
-					145,  
+					149,  
 					3, 
 					.55, 
 					false
@@ -132,7 +132,7 @@ public class Scale2CubeSame extends CommandGroup {
 					false
 			);
 			back.SetParam(
-					-112, 
+					-104, 
 					8, 
 					0.8, 
 					false
@@ -163,7 +163,7 @@ public class Scale2CubeSame extends CommandGroup {
 			
 		}else{	//Right Side Scale
 			driveToCube.SetParam(
-					145,  
+					149,  
 					3, 
 					.55, 
 					false

@@ -144,7 +144,7 @@ public class SwitchFront2Cube extends CommandGroup {
 			turnToCubes.setParam(-45, 2);
 			turnBack.setParam(50, 2);
 			toCubes.SetParam(
-					60, 
+					68, 
 					2,
 					0.5,
 					false

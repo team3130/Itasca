@@ -39,6 +39,8 @@ public class Scale2CubeOpp extends CommandGroup {
 	private RunIntakeOut				intakeOut2;
 	private IntakeToggle				openIntake;
 	private IntakeToggle				closeIntake;
+	private IntakeToggle				openIntake2;
+	private IntakeToggle				closeIntake2;
 	private AutoDelay					delay;
 	private AutoDelay					delay2;
 	private char						side;
@@ -67,7 +69,9 @@ public class Scale2CubeOpp extends CommandGroup {
 		back3		 = new AutoDriveStraightToPoint();
 		intakeCube2  = new RunIntakeIn();
 		turnToCube2  = new AutoTurn();
+		openIntake2	 = new IntakeToggle();
 		toCube2		 = new AutoDriveStraightToPoint();
+		closeIntake2 = new IntakeToggle();
 		back4	     = new AutoDriveStraightToPoint();
 		turnToScale2 = new AutoTurn();
 		eleUp2       = new ElevatorToHeight(0);
@@ -93,7 +97,9 @@ public class Scale2CubeOpp extends CommandGroup {
 		addSequential(back3,2);
 		addParallel(intakeCube2, 4);
 		addSequential(turnToCube2, 2.5);
+		addParallel(openIntake2, 0.5);
 		addSequential(toCube2, 2.0);
+		addParallel(closeIntake2, 0.5);
 		addSequential(delay2, 0.25);
 		addSequential(back4, 2);
 		addSequential(turnToScale2, 1);
@@ -104,7 +110,7 @@ public class Scale2CubeOpp extends CommandGroup {
     
     @Override
     protected void initialize(){
-    	intakeOut.SetParam(-0.45);
+    	intakeOut.SetParam(-0.4);
 		intakeCube.SetParam(0.8);
 		intakeCube2.SetParam(0.8);
 		eleDown.setParam(0.0);
@@ -130,7 +136,7 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube.SetParam(
-					105, 
+					117, 
 					3,
 					0.9, 
 					false
@@ -142,13 +148,13 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube2.SetParam(
-					100, 
+					124, 
 					3,
 					0.65, 
 					false
 			);
-			turnToScale.setParam(-110, 2);
-			turnToCube.setParam(110, 2);
+			turnToScale.setParam(-130, 2);
+			turnToCube.setParam(115, 2);
 			turnToCube2.setParam(110, 2);
 			
 			
@@ -172,7 +178,7 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube.SetParam(
-					95, 
+					117, 
 					3,
 					0.9, 
 					false
@@ -184,13 +190,13 @@ public class Scale2CubeOpp extends CommandGroup {
 					false
 			);
 			toCube2.SetParam(
-					100, 
+					124, 
 					3,
 					0.7, 
 					false
 			);
-			turnToScale.setParam(110, 2);
-			turnToCube.setParam(-110, 2);
+			turnToScale.setParam(130, 2);
+			turnToCube.setParam(-115, 2);
 			turnToCube2.setParam(-110, 2);
 		}
     }
